@@ -1,6 +1,6 @@
 # BedrockClans
-The .phar can be found on <a href="https://poggit.pmmp.io/ci/Wertzui123/BedrockClans/BedrockClans/">poggit.</a>
 This plugin let you create, delete, and manage clans!
+<br>The .phar can be found on <a href="https://poggit.pmmp.io/ci/Wertzui123/BedrockClans/BedrockClans/">poggit.</a>
 # Commands
 /clan subcommand/help - Manage clans
 # Permissions
