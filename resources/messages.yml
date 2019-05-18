@@ -1,0 +1,138 @@
+---
+# BedrockClans - Copyright 2019 Wertzui123
+
+# Here you can edit the messages of BedrockClans to adjust them to your server.
+# Note: No & for colors!
+
+# /clan create
+
+create_provide_name: "§cPlease provide a clan name!"
+
+create_name_is_banned: "§cThis clan name is banned. You can't use it!"
+
+create_create_succes: "§aClan created succesfully."
+
+create_already_exist: "§cThere is already a clan by that name! Please try with another."
+
+create_already_in_clan: "§cYou're already in a clan. You must leave it first!"
+
+# /clan info
+
+info_not_in_clan: "§cYou're not in a clan!"
+
+info_info_about_your_clan: "§eInfo about {clanname}:\n§bLeader: §c{leader}\n§bMembers: §c{members}"
+
+info_clan_does_not_exist: "§cThere is no clan by that name!"
+
+info_info_about_an_other_clan: "§eInfo about {clanname}:\n§bLeader: §c{leader}\n§bMembers: §c{members}"
+
+# /clan join
+
+join_clan_does_not_exist: "§cThere is no clan by that name!"
+
+join_joined_clan: "§aYou joined the clan {clan}"
+
+join_already_in_clan: "§cYou're already in a clan. You must leave it first!"
+
+join_player_joined_clan: "§6{playername} §ajoined your clan!"
+
+join_provide_clan: "§cYou must provide a clan to join!"
+
+# /clan leave
+
+leave_leaved_clan: "§aYou leaved your clan"
+
+leave_cannot_leave: "§cYou're leader, so you can't leave. Please delete the clan with §e/clan delete §cfirst!"
+
+leave_not_in_clan: "§cYou're not in a clan!"
+
+leave_player_leaved_clan: "§6{player} §cleaved your clan!"
+
+# /clan leader
+
+leader_promoted_to_leader: "§aYou promoted {player} to the new clan leader!"
+
+leader_now_leader: "§aYou're now leader of you're clan!"
+
+leader_not_in_your_clan: "§c{player} isn't in your clan!"
+
+leader_provide_player: "§cPlease provide a new player as leader!"
+
+leader_not_leader: "§cYou're not leader, so you can't promote!"
+
+leader_not_in_clan: "§cYou're not in a clan!"
+
+# /clan chat
+
+chat_not_in_clan: "§cYou're not in a clan!"
+
+chat_provide_message: "§cPlease provide a message to send to your clan!"
+
+# /clan  kick
+
+kick_cannot_kick_leader: "§cYou can't kick the leader of your clan!"
+
+kick_kicked: "§cYou were kicked out of you're clan by §e{player}§c!"
+
+kick_player_not_exists: "§cThe given player is not in your clan!"
+
+kick_not_leader: "§cYou aren't leader, so you can't kick."
+
+kick_not_in_clan: "§cYou're not in a clan!"
+
+kick_provide_player: "§cPlease provide a player to kick!"
+
+kick_kicked_sender: "§aYou kicked §6{player} §aout of your clan!"
+
+# /clan delete
+
+delete_clan_deleted: "§aYou deleted your clan"
+
+delete_not_leader: "§cYou're not leader, so you can't delet the clan!"
+
+delete_not_in_clan: "§cYou're not in a clan!"
+
+delete_clan_deleted_members: "Your clan was deleteted!"
+
+
+
+# /clan invite
+
+invite_were_invited: "§6You were invited to the clan {clan} by {player}"
+
+invite_invite_expired: "§cThe invite to {clan} by {player} expired!"
+
+invite_invite_expired_sender: "§cYour invite to {player} expired!"
+
+invite_player_does_not_exist: "§cThis player does not exist!"
+
+invite_in_same_clan: "§cThe given player is already in your clan!"
+
+invite_provide_player: "§cPlease provide a player to invite!"
+
+invite_invited: "§aYou succesfully invited {player} to your clan!"
+
+invite_already_in_clan: "§cThat player is already in a clan!"
+
+invite_not_in_clan: "§cYou are not in a clan!"
+
+# /clan accept
+
+accept_accepted_invite: "§6You accepted the invite to §b{clan}"
+
+accept_not_invited: "§cYou're not invited to this clan!"
+
+accept_clan_does_not_exist: "§cThis clan doesn't exist!"
+
+accept_provide_clan: "§cPlease provide a clan to join!"
+
+accept_already_in_clan: "§cYou're already in a clan!"
+
+# /clan help
+
+help_help_list: "§bClan §cHelp:\n§e/clan help §d- §6Displays this list of avaibel commands\n§e/clan create <clanname> §d- §6Creates a clan\n§e/clan info (clanname) §d- §6Gives you information about your/a clan\n§e/clan invite <playername> §d- §6Let you invite players to your clan\n§e/clan accept <clanname> §d- §6Accept clan invites\n§e/clan join <clanname> §d- §6Join a clan (only for staff)\n§e/clan leave §d- §6Leave a clan\n§e/clan leader <playername> §d- §6Promotes a player to the clan leader\n§e/clan chat <message> §d- §6Sends a message to your clan\n§e/clan kick <playername> §d- §6Kicks the given player from the clan\n§e/clan delete §d- §6Deletes your clan\n§e/clan about §d- §6Shows you the credits and the version"
+
+# Other
+
+run_in_game: "Please run this command ingame!"
+...
