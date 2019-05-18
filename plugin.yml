@@ -1,0 +1,19 @@
+name: BedrockClans
+main: Wertzui123\BedrockClans\Main
+version: 1.0
+api: 3.0.0
+load: POSTWORLD
+author: Wertzui123
+description: A new clan plugin with many cool features, free and ´fast support.
+website: https://github.com/Wertzui123/BedrockClans
+permissions:
+  bedrockclans:
+    default: op
+    description: Let you use a bedrock clans features
+    children:
+      bedrockclans.join:
+        default: op
+        description: Allows you to use /clan join
+      bedrockclans.cmd:
+        default: true
+        description: Allows you to use /clan
