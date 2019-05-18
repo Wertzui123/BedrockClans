@@ -1,0 +1,23 @@
+---
+# BedrockClans - Copyright 2019 Wertzui123
+
+# Banned clan names
+banned_clan_names: 
+ - Hacker
+ - Owner
+ - Admin
+ - Support Team
+ - Supporter
+ - Nazi
+ - Team
+ - Server
+
+# Clan chat format
+clan_chat_format: "§bClan §c> §a{name} §c: §r{message}"
+
+# /clan usage
+usage: "§cUsage: /clan <help/subcommand>"
+
+# How many seconds a invite is valed
+expire_time: 3000
+...
