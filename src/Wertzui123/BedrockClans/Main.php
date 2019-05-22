@@ -49,7 +49,6 @@ public function onPlayerJoinEvent(PlayerJoinEvent $event)
             $pconfig->save();
         }
     }
-$event->getPlayer()->sendMessage($pname);
 }
 
 public function JoinClan(Player $player, $clan){
@@ -171,6 +170,14 @@ public function expire(Player $sender, Player $target){
         $this->getScheduler()->cancelTask($id);
     }
 
+	public function isLeader($player){
+	$clan = $this->getClan($player);
+if($clan->get("leader") == strtolower($player->getName()){
+return true;	
+}else{
+	return false;
+	}
+	
 public function setClan($player, $clanname)
 {
     $players = new Config($this->getDataFolder() . "players.yml", Config::YAML);
