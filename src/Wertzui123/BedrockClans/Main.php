@@ -172,7 +172,7 @@ public function expire(Player $sender, Player $target){
 
 	public function isLeader($player){
 	$clan = $this->getClan($player);
-if($clan->get("leader") == strtolower($player->getName()){
+if($clan->get("leader") == strtolower($player->getName())){
 return true;	
 }else{
 	return false;
