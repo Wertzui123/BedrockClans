@@ -177,6 +177,7 @@ return true;
 }else{
 	return false;
 	}
+   }
 	
 public function setClan($player, $clanname)
 {
