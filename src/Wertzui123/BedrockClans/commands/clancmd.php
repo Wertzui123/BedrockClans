@@ -235,7 +235,9 @@ class clancmd extends Command
                                     $member = $this->plugin->getServer()->getPlayer($membersforeach);
 
                                     $format = str_replace(["{name}", "{message}"], [strtolower($sender->getName()), $message], $config["clan_chat_format"]);
-                                    $member->sendMessage($format);
+                                    if($member instanceof Player){
+$member->sendMessage($format);
+                                    }
                             }
                         }
                     }else{
