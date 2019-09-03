@@ -12,12 +12,6 @@ use pocketmine\event\player\PlayerJoinEvent;
 use Wertzui123\BedrockClans\commands\clancmd;
 use Wertzui123\BedrockClans\tasks\invitetask;
 
-
-/*Copyright by Wertzui123 2019
-Change nothing, copy nothing etc.
-My plugin!*/
-
-
 class Main extends PluginBase{
 
     public $tasks;
