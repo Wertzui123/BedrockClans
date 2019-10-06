@@ -4,236 +4,263 @@ declare(strict_types=1);
 
 namespace Wertzui123\BedrockClans;
 
-use pocketmine\command\CommandSender;
+use pocketmine\IPlayer;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
-use pocketmine\event\player\PlayerJoinEvent;
 use Wertzui123\BedrockClans\commands\clancmd;
+use Wertzui123\BedrockClans\listener\CustomListener;
+use Wertzui123\BedrockClans\listener\EventListener;
 use Wertzui123\BedrockClans\tasks\invitetask;
 
-class Main extends PluginBase{
-
-    public $tasks;
-
-public function onEnable() : void{
-    $this->saveResource("config.yml");
-    $this->saveResource("messages.yml");
-    @mkdir($this->getDataFolder()."clans");
-    $this->getServer()->getCommandMap()->register("clancmd", new clancmd($this));
-}
-
-public function onPlayerJoinEvent(PlayerJoinEvent $event)
+class Main extends PluginBase
 {
 
-    $player = $event->getPlayer();
-    $pname = strtolower($player->getName());
+    private $clans = [];
+    private $playernames;
+    private $msgs;
+    private $playersfile;
+    private $players = [];
 
-    if (!file_exists($this->getDataFolder() . "players.yml")) {
-        $pconfig = new Config($this->getDataFolder() . "players.yml", Config::YAML);
-        $pconfig->set($pname, null);
-        $pconfig->save();
-    } else {
+    const CFG_VERSION = 2.0;
 
-        $pconfig = new Config($this->getDataFolder() . "players.yml", Config::YAML);
-        $pcname = $pconfig->get($pname);
-
-        if ($pcname = null) {
-            $pconfig->set($pname, null);
-            $pconfig->save();
-        }
-    }
-}
-
-public function JoinClan(Player $player, $clan){
-    $cconfig =  new Config($this->getDataFolder()."clans/$clan.yml", Config::YAML);
-	$members = $cconfig->get("members");
-	$messages = $this->getMessagesArray();
-	foreach($members as $member){
-        if($this->getServer()->getPlayer($member)){
-		    $member = $this->getServer()->getPlayer($member);
-		    $msg = str_replace("{playername}", $player->getName(), $messages["join_player_joined_clan"]);
-		$member->sendMessage($msg);
-		}
-	}
-	$this->setClan($player, $clan);
-}
-
-public function getMessagesArray(){
-    $msgs = new Config($this->getDataFolder()."messages.yml", Config::YAML);
-    $msgs = $msgs->getAll();
-    return $msgs;
-}
-
-    public function getMessages(){
-        $msgs = new Config($this->getDataFolder()."messages.yml", Config::YAML);
-        return $msgs;
-    }
-
-public function getClan($player)
-{
-    $players = new Config($this->getDataFolder() . "players.yml", Config::YAML);
-    $pclan = $players->get(strtolower($player->getName()));
-    $clan = new Config($this->getDataFolder() . "clans/$pclan.yml", Config::YAML);
-    return $clan;
-}
-
-    public function getClanByName($cname)
+    public function onEnable(): void
     {
-        $clan = new Config($this->getDataFolder() . "clans/$cname.yml", Config::YAML);
-        return $clan;
+        $this->ConfigUpdater(self::CFG_VERSION);
+        if (!is_dir($this->getDataFolder() . 'clans')) @mkdir($this->getDataFolder() . "clans");
+        $data = ['command' => $this->getConfig()->get('command'), 'description' => $this->getConfig()->get('description'), 'aliases' => $this->getConfig()->get('aliases')];
+        $this->getServer()->getCommandMap()->register("clancmd", new clancmd($this, $data));
+        $this->getServer()->getPluginManager()->registerEvents(new CustomListener($this), $this);
+        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
+        $this->playernames = new Config($this->getDataFolder() . "names.yml", Config::YAML);
+        $this->msgs = new Config($this->getDataFolder() . 'messages.yml', Config::YAML);
+        $this->playersfile = new Config($this->getDataFolder() . 'players.yml');
+        $this->loadClans();
     }
 
-public function isInClan($player){
-    $players = new Config($this->getDataFolder() . "players.yml", Config::YAML);
-    $pname = strtolower($player->getName());
-    $pclan = $players->get($pname);
-    if($pclan == null){
-        return false;
-    }else{
-        return true;
+    public function getPath(){
+        return $this->getDataFolder();
     }
-}
 
-public function deleteClan($clanname){
-    $clan = new Config($this->getDataFolder()."clans/".$clanname.".yml", Config::YAML);
-    $members = $clan->get("members");
-    $msgs = $this->getMessagesArray();
-    foreach($members as $member) {
-        if ($this->getServer()->getPlayerExact($member)) {
-            $member = $this->getServer()->getPlayerExact($member);
-            $member->sendMessage($msgs["delete_clan_deleted_members"]);
-            $this->setClan($member, null);
-        }else {
-            $member = $this->getServer()->getOfflinePlayer($member);
-            $this->setClan($member, null);
+    private function ConfigUpdater($version){
+        $cfgpath = $this->getDataFolder() . "config.yml";
+        $msgpath = $this->getDataFolder() . "messages.yml";
+        if (file_exists($cfgpath)) {
+            $cfgversion = $this->getConfig()->get("version");
+            if ($cfgversion !== $version) {
+                $this->getLogger()->info("Your config has been renamed to config-" . $cfgversion . ".yml and your messages file has been renamed to messages-" . $cfgversion . ".yml. That's because your config version wasn't the latest avable. So we created a new config and a new messages file for you!");
+                rename($cfgpath, $this->getDataFolder() . "config-" . $cfgversion . ".yml");
+                rename($msgpath, $this->getDataFolder() . "messages-" . $cfgversion . ".yml");
+                $this->saveResource("config.yml");
+                $this->saveResource("messages.yml");
+            }
+        } else {
+            $this->saveResource("config.yml");
+            $this->saveResource("messages.yml");
         }
     }
-    if($this->clanExist($clanname))
-        unlink($this->getDataFolder()."clans/".$clanname.".yml");
-}
 
-public function clanExist($clanname){
-    if(file_exists($this->getDataFolder()."clans/$clanname.yml")) {
-        return true;
-    }else{
-        return false;
-    }
-}
-
-public function invite(Player $sender, Player $target){
-    $messages = new Config($this->getDataFolder()."messages.yml", Config::YAML);
-    $messages = $messages->getAll();
-    $sclan = $this->getClan($sender);
-    $sname = strtolower($sender->getName());
-    $message = str_replace("{clan}", $sclan->get("name"), $messages["invite_were_invited"]);
-    $message = str_replace("{player}", $sname, $message);
-    $target->sendMessage($message);
-    $cconfig = $this->getClan($sender);
-    $invites = $cconfig->get("invites");
-    array_push($invites, strtolower($target->getName()));
-    $cconfig->set("invites", $invites);
-    $cconfig->save();
-
-    $task = new invitetask($this, $sender, $target, $this->ConfigArray()["expire_time"] ?? 600);
-    $var = $this->getScheduler()->scheduleRepeatingTask($task, 1);
-    $task->setHandler($var);
-    $this->tasks[$task->getTaskId()] = $task->getTaskId();
-}
-
-public function expire(Player $sender, Player $target){
-    $sclan = $this->getClan($sender);
-    $messages = $this->getMessagesArray();
-    $sname = strtolower($sender->getName());
-    $message = str_replace("{clan}", $sclan->get("name"), $messages["invite_invite_expired"]);
-   $message = str_replace("{player}", $sname, $message);
-   $target->sendMessage($message);
-   $tname = strtolower($target->getName());
-   $msg = str_replace("{player}", $tname, $messages["invite_invite_expired_sender"]);
-   $sender->sendMessage($msg);
-   $invites = $sclan->get("invites");
-   unset($invites[array_search($tname, $invites)]);
-   $sclan->set("invites", $invites);
-   $sclan->save();
-}
-
-    public function removeTask($id) {
-        //Reomves the task from your array of tasks
-        unset($this->tasks[$id]);
-        //Cancels the task and stops it from running
-        $this->getScheduler()->cancelTask($id);
-    }
-
-	public function isLeader($player){
-	$clan = $this->getClan($player);
-if($clan->get("leader") == strtolower($player->getName())){
-return true;	
-}else{
-	return false;
-	}
-   }
-	
-public function setClan($player, $clanname)
-{
-    $players = new Config($this->getDataFolder() . "players.yml", Config::YAML);
-    $pname = strtolower($player->getName());
-    if(!$clanname == null) {
-        $cconfig = new Config($this->getDataFolder() . "clans/$clanname.yml", Config::YAML);
-        $members = $cconfig->get("members");
-        if($this->isInClan($player)) {
-            $aclan = $this->getClan($player);
-            $members = $aclan->get("members");
-            unset($members[array_search($pname, $members)]);
-            $aclan->set("members", $members);
-            $aclan->save();
-        }
-        if (!in_array($pname, $members)) {
-            array_push($members, $pname);
-            $cconfig->set("members", $members);
-            $cconfig->save();
+    private function loadClans()
+    {
+        foreach ($this->allClans() as $clan) {
+            $name = substr($clan, 0, -4);
+            $name = substr($name,  strlen($this->getDataFolder()."clans/"));
+            $this->addClan($name);
         }
     }
-    if($this->isInClan($player)) {
-        $clan = $this->getClan($player);
-        $members = $clan->get("members");
-        unset($members[array_search($pname, $members)]);
-        $clan->set("members", $members);
-        $clan->save();
-    }
-    $players->set($pname, $clanname);
-    $players->save();
-}
 
-public function isInvited(Player $player, Config $clan){
-    if(in_array(strtolower($player->getName()), $clan->get("invites"))){
-        return true;
-    }else{
-        return false;
-    }
-}
-
-public function Config(){
-    $config = new Config($this->getDataFolder()."config.yml", Config::YAML);
-    return $config;
-}
-
-    public function ConfigArray(){
-        $config = new Config($this->getDataFolder()."config.yml", Config::YAML);
-        $config = $config->getAll();
-        return $config;
+    public function addPlayer(Player $player)
+    {
+        $this->players[$player->getName()] = new BCPlayer($this, $player);
     }
 
-    public function allClans(){
-    $clans = glob($this->getDataFolder(). "clans/*.yml");
-    return $clans;
+    public function removePlayer(BCPlayer $player)
+    {
+        unset($this->players[$player->getPlayer()->getName()]);
     }
 
-	public function onDisable() : void{
-		$this->getLogger()->info("Bye");
-		foreach ($this->allClans() as $clan){
-		    $clan = new Config($clan, Config::YAML);
-		    $clan->set("invites", []);
-		    $clan->save();
+    public function getPlayer($player): BCPlayer
+    {
+        return $this->players[$player instanceof Player ? $player->getName() : $player];
+    }
+
+    public function getPlayerNames(): Config
+    {
+        return $this->playernames;
+    }
+
+    public function getPlayerName($player)
+    {
+        if ($player instanceof BCPlayer) {
+            return $this->getPlayerNames()->get(strtolower($player->getPlayer()->getName()));
         }
-	}
+        if ($player instanceof Player) {
+            return $this->getPlayerNames()->get(strtolower($player->getName()));
+        }
+        return $this->getPlayerNames()->get(strtolower($player));
+    }
+
+    public function addClan($clan)
+    {
+        if ($clan instanceof Clan) {
+            $this->clans[$clan->getName()] = $clan;
+            return $clan;
+        } else {
+            $c = new Clan($this, $clan);
+            $this->clans[$clan] = $c;
+            return $c;
+        }
+    }
+
+    public function createClan($name, BCPlayer $leader)
+    {
+        $cfg = new Config($this->getDataFolder() . 'clans/' . $name . '.yml', Config::YAML);
+        $cfg->set('name', $name);
+        $cfg->set('leader', strtolower($leader->getPlayer()->getName()));
+        $cfg->set('members', [strtolower($leader->getPlayer()->getName())]);
+        $cfg->save();
+        $clan = new Clan($this, $name, $cfg, strtolower($leader->getPlayer()->getName()), [strtolower($leader->getPlayer()->getName())]);
+        return $this->addClan($clan);
+    }
+
+    public function joinClan(BCPlayer $player, Clan $clan)
+    {
+        foreach ($clan->getMembers() as $member) {
+            if (($mp = $this->getServer()->getPlayerExact($this->getPlayerName($member)))) {
+                $mp->sendMessage(str_replace("{playername}", $player->getPlayer()->getName(), $this->getMessagesArray()["join_player_joined_clan"]));
+            }
+        }
+        $clan->addMember($player);
+        $player->setClan($clan);
+    }
+
+    public function getMessagesArray(): array
+    {
+        return $this->getMessages()->getAll();
+    }
+
+    public function getMessages(): Config
+    {
+        return $this->msgs;
+    }
+
+    public function getClan($cname): ?Clan
+    {
+        return isset($this->clans[$cname]) ? $this->clans[$cname] : null;
+    }
+
+    public function getClanByPlayer($player){
+        return $this->getClan($this->getPlayersFile()->get(strtolower($player instanceof BCPlayer ? $player->getPlayer()->getName() : $player)));
+    }
+
+    public function deleteClan($clan)
+    {
+        if (!$clan instanceof Clan) {
+            $clan = $this->getClan($clan);
+        }
+        $members = $clan->getMembers();
+        $msgs = $this->getMessagesArray();
+        foreach ($members as $member) {
+            if (($member = $this->getServer()->getPlayerExact($member))) {
+                $member->sendMessage($msgs["delete_clan_deleted_members"]);
+                $member = $this->getPlayer($member->getName());
+                $member->setClan(null);
+            } else {
+                $member = $this->getServer()->getOfflinePlayer($member);
+                $this->setClan($member, null);
+            }
+        }
+        unset($this->clans[$clan->getName()]);
+        $file = $this->getPath().'clans/'.$clan->getName().'.yml';
+        unset($clan);
+        unlink($file);
+        unset($file);
+    }
+
+    public function clanExist($clanname)
+    {
+        return isset($this->clans[$clanname]);
+    }
+
+    public function invite(BCPlayer $sender, BCPlayer $target)
+    {
+        $messages = $this->getMessagesArray();
+        $sclan = $sender->getClan();
+        $sname = $this->getPlayerName($sender);
+        $message = str_replace("{clan}", $sclan->getName(), $messages["invite_were_invited"]);
+        $message = str_replace("{player}", $sname, $message);
+        $target->getPlayer()->sendMessage($message);
+        $sclan->invite($target);
+
+        $task = new invitetask($this, $sender, $target, isset($this->ConfigArray()["expire_time"]) ? $this->ConfigArray()["expire_time"] : 600);
+        $handle = $this->getScheduler()->scheduleRepeatingTask($task, 1);
+        $task->setHandler($handle);
+    }
+
+    public function expire(BCPlayer $sender, BCPlayer $target)
+    {
+        $sclan = $sender->getClan();
+        $messages = $this->getMessagesArray();
+        $sname = strtolower($sender->getPlayer()->getName());
+        $message = str_replace("{clan}", $sclan->getName(), $messages["invite_invite_expired"]);
+        $message = str_replace("{player}", $sname, $message);
+        $target->getPlayer()->sendMessage($message);
+        $tname = $target->getPlayer()->getName();
+        $msg = str_replace("{player}", $tname, $messages["invite_invite_expired_sender"]);
+        $sender->getPlayer()->sendMessage($msg);
+        $sclan->removeInvite($target);
+    }
+
+    public function getPlayersFile(): Config
+    {
+        return $this->playersfile;
+    }
+
+    public function setClan($player, ?Clan $clan)
+    {
+        $clan = $clan === null ? $clan : $clan->getName();
+        $this->getPlayersFile()->set($player instanceof IPlayer ? strtolower($player->getName()) : $player, $clan);
+        $this->getPlayersFile()->save();
+    }
+
+    public function ConfigArray()
+    {
+        return $this->getConfig()->getAll();
+    }
+
+    public function allClans()
+    {
+        $clans = glob($this->getDataFolder() . "clans/*.yml");
+        return $clans;
+    }
+
+    /**
+     * @return BCPlayer[]
+     */
+    public function getPlayers(): array
+    {
+        return $this->players;
+    }
+
+    /**
+     * @return Clan[]
+     */
+    public function getClans(): array
+    {
+        return $this->players;
+    }
+
+    public function getMessage($key){
+        return $this->getMessagesArray()[$key];
+    }
+
+    public function onDisable(): void
+    {
+        foreach ($this->getPlayers() as $player) {
+            $player->save();
+        }
+        foreach ($this->clans as $clan){
+            $clan->save();
+        }
+    }
 }
