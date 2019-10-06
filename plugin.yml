@@ -12,7 +12,7 @@ permissions:
     description: Let you use a bedrock clans features
     children:
       bedrockclans.cmd:
-        default: op
+        default: true
         description: Allows you to use /clan
       bedrockclans.cmd.join:
         default: op
