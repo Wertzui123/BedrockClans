@@ -1,6 +1,6 @@
 name: BedrockClans
 main: Wertzui123\BedrockClans\Main
-version: 1.0
+version: 2.0
 api: 3.0.0
 load: POSTWORLD
 author: Wertzui123
@@ -11,9 +11,15 @@ permissions:
     default: op
     description: Let you use a bedrock clans features
     children:
-      bedrockclans.join:
+      bedrockclans.cmd:
+        default: op
+        description: Allows you to use /clan
+      bedrockclans.cmd.join:
         default: op
         description: Allows you to use /clan join
-      bedrockclans.cmd:
-        default: true
-        description: Allows you to use /clan
+      bedrockclans.cmd.create:
+        default: op
+        description: Allows you to create clans
+      bedrockclans.cmd.create.costs.bypass:
+        default: false
+        description: Allows you to bypass the clan creation cost
