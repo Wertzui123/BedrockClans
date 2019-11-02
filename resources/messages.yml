@@ -96,11 +96,11 @@ kick_kicked_sender: "§aYou kicked §6{player} §aout of your clan!"
 
 delete_clan_deleted: "§aYou deleted your clan."
 
-delete_not_leader: "§cYou're not leader, so you can't delet the clan!"
+delete_not_leader: "§cYou're not leader, so you can't delete the clan!"
 
 delete_not_in_clan: "§cYou're not in a clan!"
 
-delete_clan_deleted_members: "§6Your clan was deleteted!"
+delete_clan_deleted_members: "§6Your clan was deleted!"
 
 
 
