@@ -76,6 +76,7 @@ class Main extends PluginBase
 
     public function removePlayer(BCPlayer $player)
     {
+        $player->save();
         unset($this->players[$player->getPlayer()->getName()]);
     }
 
