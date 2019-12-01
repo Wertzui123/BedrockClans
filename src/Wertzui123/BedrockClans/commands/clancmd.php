@@ -48,10 +48,8 @@ class clancmd extends Command
             $sender->sendMessage($this->plugin->getMessage('cannot_use_subcommand'));
             return;
         }
-        $arguments = [];
-        foreach ($args as $index => $arg){
-            if($index !== 0) $arguments[] = $arg;
-        }
+        $arguments = $args;
+        array_shift($arguments);
         $subcommand->execute($sender, $arguments);
     }
 
