@@ -34,7 +34,7 @@ class invitetask extends Task
         if ($this->seconds != 0) {
             $this->seconds--;
         }else{
-            if(is_null($sender->getClan())) return;
+            if(is_null($this->sender->getClan())) return;
             if($this->sender->getClan()->isInvited($this->target)){
                 $this->plugin->expire($this->sender, $this->target);
             }
