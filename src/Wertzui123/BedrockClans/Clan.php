@@ -113,15 +113,15 @@ class Clan
     }
 
     public function invite(BCPlayer $player){
-        if(!in_array($player, $this->invites)) $this->invites[] = $player;
+        if(!in_array($player, $this->invites, true)) $this->invites[] = $player;
     }
 
     public function removeInvite(BCPlayer $player){
-        unset($this->invites[array_search($player, $this->invites)]);
+        unset($this->invites[array_search($player, $this->invites, true)]);
     }
 
     public function isInvited(BCPlayer $player){
-        return in_array($player, $this->invites);
+        return in_array($player, $this->invites, true);
     }
 
     public function save(){
