@@ -1,27 +1,32 @@
 # BedrockClans
-This plugin let you create, delete, and manage clans!
-<br>The .phar can be found on <a href="https://poggit.pmmp.io/ci/Wertzui123/BedrockClans/BedrockClans/">poggit.</a>
+This plugin lets you create, delete, and manage clans!
+<br>The .phar can be found on <a href="https://poggit.pmmp.io/ci/Wertzui123/BedrockClans/BedrockClans/">poggit</a>.
 
 # JetBrains PHPStorm
 JetBrains supports BedrockClans with a free license! 
 
 Try their cool IDEs out!
-https://jetbrains.com?from=BedrockClans
+<br>https://jetbrains.com?from=BedrockClans
 
 # Commands
 /clan <subcommand/help> - Manage clans
 # Permissions
-bedrockclans: Let you use all features of this plugin. **Default: op**
+bedrockclans: Lets you use all features of this plugin
+<br>Default: op
 
-bedrockclans.cmd: Allows you to use /clan. **Default: true**
+bedrockclans.cmd: Allows you to use /clan
+<br>Default: true
 
-bedrockclans.cmd.join: Allows you to use /clan join. **Default: op**
+bedrockclans.cmd.join: Allows you to use /clan join
+<br>Default: op
 
-bedrockclans.cmd.create: Allows you to create clans. **Default: op**
+bedrockclans.cmd.create: Allows you to create clans.
+<br>Default: op
 
-bedrockclans.cmd.create.costs.bypass: Allows you to bypass the clan creation cost **Default: false**
+bedrockclans.cmd.create.costs.bypass: Allows you to bypass the clan creation cost
+<br>Default: false
 # Features
-This are some cool Features of BedrockClans:
+This are some cool features of BedrockClans:
 <br>
   <br>- Easy Config
   <br>- Custom messages (messages.yml)
