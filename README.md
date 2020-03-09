@@ -36,7 +36,10 @@ This are some cool features of BedrockClans:
   <br>- Create costs
   <br>- And so on...
   <br>
-  
+
+# Can I use BedrockClans with PureChat?
+You can use my PureChat Fork (https:://github.com/Wertzui123/PureChat) to show the players clanname and clanrank in the chat/nametag.  
+
 # Ideas and Questions
 You have a question or an idea? Then send it in my <a herf="https://discord.gg/eGhZGtF">discord</a> or create an <a href="https://github.com/Wertzui123/BedrockClans/issues/new">issue</a>.
 
