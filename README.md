@@ -39,6 +39,11 @@ This are some cool features of BedrockClans:
 
 # Can I use BedrockClans with PureChat?
 You can use my PureChat Fork (https:://github.com/Wertzui123/PureChat) to show the players clanname and clanrank in the chat/nametag.  
+How to setup PureChat with BedrockClans?
+1. Download my PureChat Fork
+2. Add clan-plugin: BedrockClans to your config, if it isn't already there
+3. Add {clan_name} where you want the clan name to be shown
+4. Restart your server
 
 # Ideas and Questions
 You have a question or an idea? Then send it in my <a herf="https://discord.gg/eGhZGtF">discord</a> or create an <a href="https://github.com/Wertzui123/BedrockClans/issues/new">issue</a>.
