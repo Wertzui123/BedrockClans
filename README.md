@@ -3,7 +3,7 @@ This plugin lets you create, delete, and manage clans!
 <br>The .phar can be found on <a href="https://poggit.pmmp.io/ci/Wertzui123/BedrockClans/BedrockClans/">poggit</a>.
 
 # JetBrains PHPStorm
-JetBrains supports BedrockClans with a free license! 
+JetBrains supports me in the developtment of BedrockClans.
 
 Try their cool IDEs out!
 <br>https://jetbrains.com?from=BedrockClans
