@@ -1,5 +1,5 @@
 ---
-# BedrockClans - Copyright 2019 Wertzui123
+# BedrockClans - (C) 2019 - 2020 Wertzui123
 
 version: 2.0
 
@@ -25,7 +25,7 @@ create_costs: false
 clan_create_costs: 100
 
 # How many seconds an invite is valid
-expire_time: 3000
+expire_time: 30
 
 # Whether /clan chat should be disabled or not
 chat_disabled: false
