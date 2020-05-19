@@ -4,12 +4,12 @@ version: 2.0
 api: 3.0.0
 load: POSTWORLD
 author: Wertzui123
-description: A new clan plugin with many cool features, free and ´fast support.
+description: A feature rich, easy to use and advanced clan plugin
 website: https://github.com/Wertzui123/BedrockClans
 permissions:
   bedrockclans:
     default: op
-    description: Let you use a bedrock clans features
+    description: Lets you use a BedrockClans features
     children:
       bedrockclans.cmd:
         default: true
