@@ -193,9 +193,9 @@ class Main extends PluginBase
         $target->getPlayer()->sendMessage($message);
         $sclan->invite($target);
 
-        $task = new invitetask($this, $sender, $target, isset($this->ConfigArray()["expire_time"]) ? $this->ConfigArray()["expire_time"] : 600);
-        $handle = $this->getScheduler()->scheduleRepeatingTask($task, 1);
-        $task->setHandler($handle);
+        $task = new invitetask($this, $sender, $target, $this->ConfigArray()["expire_time"] * 20);
+        $handler = $this->getScheduler()->scheduleRepeatingTask($task, 1);
+        $task->setHandler($handler);
     }
 
     public function expire(BCPlayer $sender, BCPlayer $target)
