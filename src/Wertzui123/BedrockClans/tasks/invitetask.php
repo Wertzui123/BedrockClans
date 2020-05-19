@@ -11,14 +11,14 @@ class invitetask extends Task
 {
 
     public $plugin;
-    public $seconds;
+    public $ticks;
     public $sender;
     public $target;
 
-    public function __construct(Main $plugin, BCPlayer $sender, BCPlayer $target,  $time)
+    public function __construct(Main $plugin, BCPlayer $sender, BCPlayer $target, $time)
     {
         $this->plugin = $plugin;
-        $this->seconds = $time;
+        $this->ticks = $time;
         $this->sender = $sender;
         $this->target = $target;
     }
@@ -30,9 +30,8 @@ class invitetask extends Task
 
     public function onRun(int $currentTick)
     {
-
-        if ($this->seconds != 0) {
-            $this->seconds--;
+        if ($this->ticks > 0) {
+            $this->ticks--;
         }else{
             if(is_null($this->sender->getClan())) return;
             if($this->sender->getClan()->isInvited($this->target)){
