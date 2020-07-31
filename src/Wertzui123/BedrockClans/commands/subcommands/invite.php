@@ -25,38 +25,28 @@ class invite extends Subcommand
     {
         $player = $this->plugin->getPlayer($sender);
         if (!$player->isInClan()) {
-            $sender->sendMessage($this->plugin->getMessage("invite_not_in_clan"));
+            $sender->sendMessage($this->plugin->getMessage('command.invite.noClan'));
             return;
         }
-
-        if (!isset($args[0])) {
-            $sender->sendMessage($this->plugin->getMessage("invite_provide_player"));
+        $name = implode(' ', $args);
+        if (!isset($name)) {
+            $sender->sendMessage($this->plugin->getMessage('command.invite.passPlayer'));
             return;
         }
-
-        if (in_array(strtolower($args[0]), $player->getClan()->getMembers())) {
-            $sender->sendMessage($this->plugin->getMessage("invite_in_same_clan"));
+        if (!$this->plugin->getServer()->getPlayerExact($name)) {
+            $sender->sendMessage($this->plugin->getMessage('command.invite.notFound'));
             return;
         }
-
-        if (!$this->plugin->getServer()->getPlayerExact($args[0])) {
-            $sender->sendMessage($this->plugin->getMessage("invite_player_does_not_exist"));
+        if ($this->plugin->getPlayer($this->plugin->getServer()->getPlayerExact($name))->getClan() === $player->getClan()) {
+            $sender->sendMessage($this->plugin->getMessage('command.invite.alreadyInClan'));
             return;
         }
-
-        if ($this->plugin->getPlayer($this->plugin->getServer()->getPlayerExact($args[0]))->getClan() === $player->getClan()) {
-            $sender->sendMessage($this->plugin->getMessage("invite_already_in_clan"));
+        if($player->getClan()->isInvited($this->plugin->getPlayer($this->plugin->getServer()->getPlayerExact($name)))){
+            $sender->sendMessage($this->plugin->getMessage('command.invite.alreadyInvited'));
             return;
         }
-
-        if($player->getClan()->isInvited($this->plugin->getPlayer($this->plugin->getServer()->getPlayerExact($args[0])))){
-            $sender->sendMessage($this->plugin->getMessage('invite_already_invited'));
-            return;
-        }
-
-        $this->plugin->invite($player, $this->plugin->getPlayer($this->plugin->getServer()->getPlayerExact($args[0])));
-        $msg = str_replace("{player}", $this->plugin->getServer()->getPlayerExact($args[0])->getName(), $this->plugin->getMessage("invite_invited"));
-        $sender->sendMessage($msg);
+        $player->getClan()->invite($player, $this->plugin->getPlayer($this->plugin->getServer()->getPlayerExact($args[0])));
+        $sender->sendMessage($this->plugin->getMessage('command.invite.sender', ['{player}' => $this->plugin->getServer()->getPlayerExact($name)->getName()]));
     }
 
 }

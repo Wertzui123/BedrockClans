@@ -18,28 +18,28 @@ class join extends Subcommand
 
     public function canUse(CommandSender $sender): bool
     {
-        return $sender instanceof Player && $sender->hasPermission("bedrockclans.cmd.join");
+        return $sender instanceof Player && $sender->hasPermission("bedrockclans.command.join");
     }
 
     public function execute(CommandSender $sender, array $args)
     {
         $player = $this->plugin->getPlayer($sender);
-        if (!isset($args[0])) {
-            $sender->sendMessage($this->plugin->getMessage("join_provide_clan"));
-            return;
-        }
-        if (!$this->plugin->clanExist($args[0])) {
-            $sender->sendMessage($this->plugin->getMessage("join_clan_does_not_exist"));
-            return;
-        }
         if ($player->isInClan()) {
-            $sender->sendMessage($this->plugin->getMessage("join_already_in_clan"));
+            $sender->sendMessage($this->plugin->getMessage('command.join.alreadyInClan'));
             return;
         }
-        $clan = $this->plugin->getClan($args[0]);
-        $this->plugin->joinClan($player, $clan);
-        $jc = str_replace("{clan}", $args[0], $this->plugin->getMessage("join_joined_clan"));
-        $sender->sendMessage($jc);
+        if (!isset($args[0])) {
+            $sender->sendMessage($this->plugin->getMessage('command.join.passClan'));
+            return;
+        }
+        $name = implode(' ', $args);
+        if (!$this->plugin->clanExists($name)) {
+            $sender->sendMessage($this->plugin->getMessage('command.join.invalidClan'));
+            return;
+        }
+        $clan = $this->plugin->getClan($name);
+        $player->joinClan($clan);
+        $sender->sendMessage($this->plugin->getMessage('command.join.success', ['{clan}' => $clan->getName()]));
     }
 
 }

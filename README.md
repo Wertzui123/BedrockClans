@@ -11,11 +11,8 @@ Try their cool IDEs out!
 # Commands
 /clan <subcommand/help> - Manage clans
 # Permissions
-bedrockclans: Lets you use all features of this plugin
+bedrockclans: Allows you to use all features of this plugin
 <br>Default: op
-
-bedrockclans.cmd: Allows you to use /clan
-<br>Default: true
 
 bedrockclans.cmd.join: Allows you to use /clan join
 <br>Default: op
@@ -29,10 +26,13 @@ bedrockclans.cmd.create.costs.bypass: Allows you to bypass the clan creation cos
 This are some cool features of BedrockClans:
 <br>
   <br>- Easy to understand config
-  <br>- Custom messages (messages.yml)
+  <br>- Custom messages (messages.yml), colors and more
   <br>- /clan chat
   <br>- Blacklisted clan names
-  <br>- Clan creation costs
+  <br>- Clan creation costs (using EconomyAPI)
+  <br>- Multiple clan ranks
+  <br>- Clan bank (using EconomyAPI)
+
 # Can I use BedrockClans with PureChat?
 You can use <a href="https://github.com/Wertzui123/PureChat">my PureChat Fork</a> to show the players clanname and clanrank in the chat/nametag.  
 How to setup PureChat with BedrockClans?

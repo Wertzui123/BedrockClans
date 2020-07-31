@@ -23,26 +23,32 @@ class chat extends Subcommand
 
     public function execute(CommandSender $sender, array $args)
     {
-        if($this->plugin->ConfigArray()['chat_disabled'] === true){
-            $sender->sendMessage($this->plugin->getMessage('chat_disabled'));
+        if($this->plugin->getConfig()->getNested('chat.enabled') !== true){
+            $sender->sendMessage($this->plugin->getMessage('command.chat.disabled'));
             return;
         }
         $player = $this->plugin->getPlayer($sender);
         $clan = $player->getClan();
         if($clan === null){
-            $sender->sendMessage($this->plugin->getMessage('chat_not_in_clan'));
+            $sender->sendMessage($this->plugin->getMessage('command.chat.noClan'));
             return;
         }
         if(!isset($args[0])){
-            $sender->sendMessage($this->plugin->getMessage('chat_provide_message'));
+            $sender->sendMessage($this->plugin->getMessage('command.chat.passMessage'));
             return;
         }
-
-        foreach ($clan->getMembersWithRealName() as $member){
-            if(($member = $this->plugin->getServer()->getPlayerExact($member)) instanceof Player){
-                $member->sendMessage(str_replace(['{name}', '{message}'], [$sender->getName(), implode(' ', $args)], $this->plugin->getConfig()->get('clan_chat_format')));
-            }
+        $message = implode(' ', $args);
+        if($message === $this->plugin->getConfig()->getNested('chat.on')){
+            $player->setChatting();
+            $sender->sendMessage($this->plugin->getMessage('command.chat.on'));
+            return;
         }
+        if($message === $this->plugin->getConfig()->getNested('chat.off')){
+            $player->setChatting(false);
+            $sender->sendMessage($this->plugin->getMessage('command.chat.off'));
+            return;
+        }
+        $player->chat($message);
     }
 
 }

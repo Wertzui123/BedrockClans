@@ -25,29 +25,32 @@ class leader extends Subcommand
     {
         $player = $this->plugin->getPlayer($sender);
         if (!$player->isInClan()) {
-            $sender->sendMessage($this->plugin->getMessage("leader_not_in_clan"));
+            $sender->sendMessage($this->plugin->getMessage('command.leader.noClan'));
             return;
         }
         $clan = $player->getClan();
         if (strtolower($sender->getName()) !== $clan->getLeader()) {
-            $sender->sendMessage($this->plugin->getMessage("leader_not_leader"));
+            $sender->sendMessage($this->plugin->getMessage('command.leader.notLeader'));
             return;
         }
         if (!isset($args[0])) {
-            $sender->sendMessage($this->plugin->getMessage("leader_provide_player"));
+            $sender->sendMessage($this->plugin->getMessage('command.leader.passPlayer'));
             return;
         }
         if (!in_array(strtolower(implode(' ', $args)), $clan->getMembers())) {
-            $message = str_replace("{player}", implode(' ', $args), $this->plugin->getMessage("leader_not_in_your_clan"));
-            $sender->sendMessage($message);
+            $sender->sendMessage($this->plugin->getMessage('command.leader.notInClan', ['{player}' => implode(' ', $args)]));
             return;
         }
+        if($clan->getLeader() === strtolower(implode(' ', $args))){
+            $sender->sendMessage($this->plugin->getMessage('command.leader.alreadyLeader'));
+            return;
+        }
+        $clan->setRank($player, 'member');
         $clan->setLeader(implode(' ', $args));
-        $ps = str_replace("{player}", implode(' ', $args), $this->plugin->getMessage("leader_promoted_to_leader"));
-        $sender->sendMessage($ps);
-        if (($p = $this->plugin->getServer()->getPlayerExact($this->plugin->getPlayerName(strtolower(implode(' ', $args)))))) {
-            $target = $this->plugin->getServer()->getPlayerExact(implode(' ', $args));
-            $target->sendMessage($this->plugin->getMessage("leader_now_leader"));
+        $clan->setRank(implode(' ', $args), 'leader');
+        $sender->sendMessage($this->plugin->getMessage('command.leader.success', ['{player}' => implode(' ', $args)]));
+        if (!is_null($p = $this->plugin->getServer()->getPlayerExact($this->plugin->getPlayerName(strtolower(implode(' ', $args)))))) {
+            $p->sendMessage($this->plugin->getMessage('clan.leader.newLeader'));
         }
     }
 

@@ -9,8 +9,10 @@ use pocketmine\command\CommandSender;
 use Wertzui123\BedrockClans\commands\subcommands\about;
 use Wertzui123\BedrockClans\commands\subcommands\accept;
 use Wertzui123\BedrockClans\commands\subcommands\chat;
+use Wertzui123\BedrockClans\commands\subcommands\demote;
 use Wertzui123\BedrockClans\commands\subcommands\create;
 use Wertzui123\BedrockClans\commands\subcommands\delete;
+use Wertzui123\BedrockClans\commands\subcommands\deposit;
 use Wertzui123\BedrockClans\commands\subcommands\help;
 use Wertzui123\BedrockClans\commands\subcommands\info;
 use Wertzui123\BedrockClans\commands\subcommands\invite;
@@ -18,7 +20,9 @@ use Wertzui123\BedrockClans\commands\subcommands\join;
 use Wertzui123\BedrockClans\commands\subcommands\kick;
 use Wertzui123\BedrockClans\commands\subcommands\leader;
 use Wertzui123\BedrockClans\commands\subcommands\leave;
+use Wertzui123\BedrockClans\commands\subcommands\promote;
 use Wertzui123\BedrockClans\commands\subcommands\Subcommand;
+use Wertzui123\BedrockClans\commands\subcommands\withdraw;
 use Wertzui123\BedrockClans\Main;
 
 class clancmd extends Command
@@ -28,29 +32,27 @@ class clancmd extends Command
 
     public function __construct(Main $plugin, $data)
     {
-        parent::__construct($data['command'], $data['description'], null, $data['aliases']);
-        $this->setPermission("bedrockclans.cmd");
+        parent::__construct($data['command'], $data['description'], $data['usage'], $data['aliases']);
         $this->plugin = $plugin;
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args)
     {
         if(!isset($args[0])){
-            $sender->sendMessage($this->plugin->getConfig()->get("usage"));
+            $sender->sendMessage($this->plugin->getMessage('command.clan.usage'));
             return;
         }
         $subcommand = $this->getSubCommand($args[0]);
-        if($subcommand === null){
-            $sender->sendMessage($this->plugin->getConfig()->get("usage"));
+        if(is_null($subcommand)){
+            $sender->sendMessage($this->plugin->getMessage('command.clan.usage'));
             return;
         }
-        if(!$subcommand->canUse($sender)){
-            $sender->sendMessage($this->plugin->getMessage('cannot_use_subcommand'));
+        if(!$subcommand->canUse($sender)) {
+            $sender->sendMessage($this->plugin->getMessage('command.clan.cannotUseSubcommand'));
             return;
         }
-        $arguments = $args;
-        array_shift($arguments);
-        $subcommand->execute($sender, $arguments);
+        array_shift($args);
+        $subcommand->execute($sender, $args);
     }
 
     public function getSubCommand($name) : ?Subcommand{
@@ -65,6 +67,10 @@ class clancmd extends Command
                 return new create($this->plugin);
             case "delete":
                 return new delete($this->plugin);
+            case "demote":
+                return new demote($this->plugin);
+            case "deposit":
+                return new deposit($this->plugin);
             case "help":
                 return new help($this->plugin);
             case "info":
@@ -79,6 +85,10 @@ class clancmd extends Command
                 return new leader($this->plugin);
             case "leave":
                 return new leave($this->plugin);
+            case "promote":
+                return new promote($this->plugin);
+            case "withdraw":
+                return new withdraw($this->plugin);
         }
         return null;
     }

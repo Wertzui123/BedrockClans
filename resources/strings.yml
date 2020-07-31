@@ -1,0 +1,110 @@
+---
+command:
+  clan:
+    usage: "§cUsage: /clan <subcommand: string>"
+    cannotUseSubcommand: "§cYou cannot use this subcommand!"
+  accept:
+    alreadyInClan: "§cYou are already in a clan!"
+    passClan: "§cPlease pass a clan!"
+    invalidClan: "§cThere is no clan by that name!"
+    notInvited: "§cYou have not been invited to this clan!"
+    success: "§aYou joined §b{clan}§a."
+  chat:
+    disabled: "§cThis feature is disabled!"
+    noClan: "§cYou need to be in a clan to use this feature!"
+    passMessage: "§cPlease pass a message!"
+    on: "§aYou are now in the clan chat mode."
+    off: "§aYou are no longer in the clan chat mode."
+  create:
+    alreadyInClan: "§cYou are already in a clan!"
+    passClan: "§cPlease pass a clan!"
+    clanExists: "§cThere already is a clan by that name!"
+    bannedName: "§cThis name is banned!"
+    notEnoughMoney: "§cYou don't have enough money (§6{price}§c) to create a clan!"
+    success: "§aYou successfully created the clan §b{clan}§a."
+  delete:
+    noClan: "§cYou need to be in a clan to use this feature!"
+    notLeader: "§cYou must be the leader of your clan to delete it!"
+    cancelled: "§cDeleting the clan has been cancelled!"
+  demote:
+    noClan: "§cYou need to be in a clan to use this feature!"
+    notLeader: "§cYou must be the leader of your clan to promote someone!"
+    passPlayer: "§cPlease pass a player!"
+    notInClan: "§b{player} §cis not in your clan!"
+    alreadyLowest: "§cThis player cannot be demoted anymore!"
+    success: "§aYou successfully demoted §b{player} §ato {rank}§a."
+  deposit:
+    disabled: "§cThis feature is disabled!"
+    noClan: "§cYou need to be in a clan to use this feature!"
+    passNumber: "§cPlease pass a valid number!"
+    tooMuch: "§cYou cannot deposit this much!"
+    success: "§aYou have successfully deposited §6{amount} §amoney to your clan's bank account."
+  help:
+    success: "§bClan §cHelp:\n§e/clan help §d- §6Displays this list of available commands\n§e/clan create <clanname> §d- §6Creates a clan\n§e/clan demote <playername> §d- §6Demotes a player\n§e/clan deposit <amount> §d- §6Deposits money to the clan bank\n§e/clan info [clanname] §d- §6Gives you information about your/a clan\n§e/clan invite <playername> §d- §6Invites a player to your clan\n§e/clan accept <clanname> §d- §6Accepts a clan invitation\n§e/clan join <clanname> §d- §6Joins a clan (only for staff)\n§e/clan leave §d- §6Leaves a clan\n§e/clan leader <playername> §d- §6Promotes a player to the clan leader\n§e/clan chat <message> §d- §6Sends a message to your clan\n§e/clan kick <playername> §d- §6Kicks the given player from the clan\n§e/clan delete §d- §6Deletes your clan\n§e/clan promote <playername> §d- §6Promotes a player\n§e/clan withdraw <amount> §d- §6Withdraws money from the clan bank\n§e/clan about §d- §6Shows credits and the version of BedrockClans"
+  info:
+    noClan: "§cYou need to be in a clan or pass a clanname!"
+    invalidClan: "§cThere is no clan by that name!"
+    success: "§eInfo about {name}:\n§bLeader: §c{leader}\n§bMembers: §c{members}\n§bBank: §c{bank}$"
+  invite:
+    noClan: "§cYou need to be in a clan to use this feature!"
+    passPlayer: "§cPlease pass a player!"
+    notFound: "§cThere is no player by that name online on this server!"
+    alreadyInClan: "§cThis player is already in a clan!"
+    alreadyInvited: "§cThis player has already been invited to your clan!"
+    sender: "§aYou successfully invited §b{player} §ato your clan."
+    target: "§aYou have been invited to the clan §b{clan} §aby §b{player}§a."
+  join:
+    alreadyInClan: "§cYou are already in a clan!"
+    passClan: "§cPlease pass a clan!"
+    invalidClan: "§cThere is no clan by that name!"
+    success: "§aYou joined §b{clan}§a."
+  kick:
+    noClan: "§cYou need to be in a clan to use this feature!"
+    notLeader: "§cYou must be the leader of your clan to kick a player out of it!"
+    passPlayer: "§cPlease pass a player!"
+    notInClan: "§b{player} §cis not in your clan!"
+    cannotKickLeader: "§cYou cannot kick the leader of your clan!"
+    success: "§aYou successfully kicked §b{player} §aout of your clan."
+  leader:
+    noClan: "§cYou need to be in a clan to use this feature!"
+    notLeader: "§cYou must be the leader of your clan to promote someone to the leader!"
+    passPlayer: "§cPlease pass a player!"
+    notInClan: "§b{player} §cis not in your clan!"
+    alreadyLeader: "§cThis player is already the leader!"
+    success: "§aYou successfully promoted §b{player} §ato the leader of your clan."
+  leave:
+    noClan: "§cYou need to be in a clan to use this feature!"
+    leader: "§cYou cannot leave your clan because you are the clan leader!"
+    success: "§aYou successfully left your clan."
+  promote:
+    noClan: "§cYou need to be in a clan to use this feature!"
+    notLeader: "§cYou must be the leader of your clan to promote someone!"
+    passPlayer: "§cPlease pass a player!"
+    notInClan: "§b{player} §cis not in your clan!"
+    alreadyHighest: "§cThis player is already a co-leader or higher!"
+    success: "§aYou successfully promoted §b{player} §ato {rank}§a."
+  withdraw:
+    disabled: "§cThis feature is disabled!"
+    noClan: "§cYou need to be in a clan to use this feature!"
+    cooldown: "§cYou cannot withdraw money from clan bank for the next §e{hours} hours, {minutes} minutes and {seconds} seconds§c!"
+    passNumber: "§cPlease pass a valid number!"
+    tooMuch: "§cYou cannot withdraw this much!"
+    success: "§aYou have successfully withdrawn §6{amount} §amoney from your clan's bank account."
+clan:
+  join:
+    members: "§a{player} §6joined your clan."
+  chat:
+    members: "§bClan §c> {player} §c: §r{message}"
+  delete:
+    members: "§cYour clan has been deleted!"
+  kick:
+    kicked: "§cYou were kicked out of your clan by §b{player}§c."
+  leader:
+    newleader: "§aYou are now the leader of your clan."
+  leave:
+    members: "§a{player} §cleft your clan."
+  promote:
+    promoted: "§aYou have been promoted to {rank}§a."
+  demote:
+    demoted: "§cYou have been demoted to {rank}§c."
+...

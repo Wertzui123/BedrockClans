@@ -24,40 +24,20 @@ class info extends Subcommand
     public function execute(CommandSender $sender, array $args)
     {
         $player = $this->plugin->getPlayer($sender);
-        if (!isset($args[0])) {
-            if (!$player->isInClan()) {
-                $sender->sendMessage($this->plugin->getMessage("info_not_in_clan"));
+        if (isset($args[0])) {
+            if (!$this->plugin->clanExists(implode(' ', $args))) {
+                $sender->sendMessage($this->plugin->getMessage('command.info.invalidClan'));
                 return;
             }
-
-            $clan = $player->getClan();
-            $members = $clan->getMembersWithRealName();
-            $leader = $clan->getLeaderWithRealName();
-            $cname = $clan->getName();
-            $memberss = implode(", ", $members);
-            $m = str_replace("{clanname}", $cname, $this->plugin->getMessage("info_info_about_your_clan"));
-            $m = str_replace("{leader}", $leader, $m);
-            $m = str_replace("{members}", $memberss, $m);
-            $sender->sendMessage($m);
+            $clan = $this->plugin->getClan(implode(' ', $args));
         } else {
-
-            $cname = implode(' ', $args);
-
-            if (!$this->plugin->clanExist($cname)) {
-                $sender->sendMessage($this->plugin->getMessage("info_clan_does_not_exist"));
+            if (!$player->isInClan()) {
+                $sender->sendMessage($this->plugin->getMessage('command.info.noClan'));
                 return;
             }
-
-            $clan = $this->plugin->getClan($cname);
-            $members = $clan->getMembersWithRealName();
-            $leader = $clan->getLeaderWithRealName();
-            $cname = $clan->getName();
-            $memberss = implode(", ", $members);
-            $m = str_replace("{clanname}", $cname, $this->plugin->getMessage("info_info_about_an_other_clan"));
-            $m = str_replace("{leader}", $leader, $m);
-            $m = str_replace("{members}", $memberss, $m);
-            $sender->sendMessage($m);
+            $clan = $player->getClan();
         }
+        $sender->sendMessage($this->plugin->getMessage('command.info.success', ['{name}' => $clan->getName(), '{leader}' => $clan->getLeaderWithRealName(), '{members}' => implode(', ', $clan->getMembersWithRealName(true)), '{bank}' => $clan->getBank()]));
     }
 
 }

@@ -25,31 +25,25 @@ class accept extends Subcommand
     {
         $player = $this->plugin->getPlayer($sender);
         if ($player->isInClan()) {
-            $sender->sendMessage($this->plugin->getMessage("accept_already_in_clan"));
+            $sender->sendMessage($this->plugin->getMessage('command.accept.alreadyInClan'));
             return;
         }
-
         if (!isset($args[0])) {
-            $sender->sendMessage($this->plugin->getMessage("accept_provide_clan"));
+            $sender->sendMessage($this->plugin->getMessage('command.accept.passClan'));
             return;
         }
-
-        if (!$this->plugin->clanExist($args[0])) {
-            $sender->sendMessage($this->plugin->getMessage("accept_clan_does_not_exist"));
+        if (!$this->plugin->clanExists($args[0])) {
+            $sender->sendMessage($this->plugin->getMessage('command.accept.invalidClan'));
             return;
         }
-
         $clan = $this->plugin->getClan($args[0]);
-
         if (!$clan->isInvited($player)) {
-            $sender->sendMessage($this->plugin->getMessage("accept_not_invited"));
+            $sender->sendMessage($this->plugin->getMessage('command.accept.notInvited'));
             return;
         }
-
         $clan->removeInvite($player);
-        $message = str_replace("{clan}", $clan->getName(), $this->plugin->getMessage("accept_accepted_invite"));
-        $sender->sendMessage($message);
-        $this->plugin->joinClan($player, $clan);
+        $player->joinClan($clan);
+        $sender->sendMessage($this->plugin->getMessage('command.accept.success', ['{clan}' => $clan->getName()]));
     }
 
 }

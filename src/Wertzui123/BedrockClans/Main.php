@@ -4,92 +4,213 @@ declare(strict_types=1);
 
 namespace Wertzui123\BedrockClans;
 
-use pocketmine\IPlayer;
+use pocketmine\OfflinePlayer;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use Wertzui123\BedrockClans\commands\clancmd;
+use Wertzui123\BedrockClans\events\clan\ClanCreateEvent;
+use Wertzui123\BedrockClans\events\clan\ClanDeleteEvent;
 use Wertzui123\BedrockClans\listener\CustomListener;
 use Wertzui123\BedrockClans\listener\EventListener;
-use Wertzui123\BedrockClans\tasks\invitetask;
 
 class Main extends PluginBase
 {
 
+    // TODO: UIs
+
+    private static $instance;
+    private $prefix;
     private $clans = [];
-    private $playernames;
-    private $msgs;
-    private $playersfile;
+    private $playerNames;
+    private $stringsFile;
+    private $playersFile;
+    private $withdrawCooldownsFile;
     private $players = [];
 
-    const CFG_VERSION = 2.0;
+    const CONFIG_VERSION = 3.0;
 
     public function onEnable(): void
     {
-        $this->ConfigUpdater(self::CFG_VERSION);
-        if (!is_dir($this->getDataFolder() . 'clans')) @mkdir($this->getDataFolder() . "clans");
-        $data = ['command' => $this->getConfig()->get('command'), 'description' => $this->getConfig()->get('description'), 'aliases' => $this->getConfig()->get('aliases')];
-        $this->getServer()->getCommandMap()->register("clancmd", new clancmd($this, $data));
+        self::$instance = $this;
+        $this->ConfigUpdater();
+        if (!is_dir($this->getDataFolder() . 'clans')) @mkdir($this->getDataFolder() . 'clans');
+        $this->playerNames = new Config($this->getDataFolder() . "names.json", Config::YAML);
+        $this->stringsFile = new Config($this->getDataFolder() . 'strings.yml', Config::YAML);
+        $this->playersFile = new Config($this->getDataFolder() . 'players.json', Config::JSON);
+        $this->withdrawCooldownsFile = new Config($this->getDataFolder() . 'withdrawCooldowns.json', Config::JSON);
+        $this->loadClans(true);
+        $this->prefix = (string)$this->getConfig()->get('prefix');
         $this->getServer()->getPluginManager()->registerEvents(new CustomListener($this), $this);
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
-        $this->playernames = new Config($this->getDataFolder() . "names.yml", Config::YAML);
-        $this->msgs = new Config($this->getDataFolder() . 'messages.yml', Config::YAML);
-        $this->playersfile = new Config($this->getDataFolder() . 'players.yml');
-        $this->loadClans();
+        $data = ['command' => $this->getConfig()->getNested('command.clan.command'), 'description' => $this->getConfig()->getNested('command.clan.description'), 'usage' => $this->getConfig()->getNested('command.clan.usage'), 'aliases' => $this->getConfig()->getNested('command.clan.aliases')];
+        $this->getServer()->getCommandMap()->register("BedrockClans", new clancmd($this, $data));
     }
 
-    public function getPath(){
-        return $this->getDataFolder();
+    /**
+     * Returns the current (and only) instance of this class
+     * @return Main
+     */
+    public static function getInstance(){
+        return self::$instance;
     }
 
-    private function ConfigUpdater($version){
-        $cfgpath = $this->getDataFolder() . "config.yml";
-        $msgpath = $this->getDataFolder() . "messages.yml";
-        if (file_exists($cfgpath)) {
-            $cfgversion = $this->getConfig()->get("version");
-            if ($cfgversion !== $version) {
-                $this->getLogger()->info("Your config has been renamed to config-" . $cfgversion . ".yml and your messages file has been renamed to messages-" . $cfgversion . ".yml. That's because your config version wasn't the latest avable. So we created a new config and a new messages file for you!");
-                rename($cfgpath, $this->getDataFolder() . "config-" . $cfgversion . ".yml");
-                rename($msgpath, $this->getDataFolder() . "messages-" . $cfgversion . ".yml");
-                $this->saveResource("config.yml");
-                $this->saveResource("messages.yml");
-            }
-        } else {
-            $this->saveResource("config.yml");
-            $this->saveResource("messages.yml");
-        }
-    }
-
-    private function loadClans()
+    /**
+     * @deprecated
+     * @return array
+     */
+    public function getMessagesArray(): array
     {
-        foreach ($this->allClans() as $clan) {
-            $name = substr($clan, 0, -4);
-            $name = substr($name,  strlen($this->getDataFolder()."clans/"));
+        return $this->getStringsFile()->getAll();
+    }
+
+    /**
+     * @internal
+     * @return Config
+     */
+    public function getStringsFile(): Config
+    {
+        return $this->stringsFile;
+    }
+
+    /**
+     * @internal
+     * @return Config
+     */
+    public function getPlayersFile(): Config
+    {
+        return $this->playersFile;
+    }
+
+    /**
+     * @internal
+     * @return Config
+     */
+    public function getWithdrawCooldownsFile(): Config
+    {
+        return $this->withdrawCooldownsFile;
+    }
+
+    /**
+     * @internal
+     * @return Config
+     */
+    public function getPlayerNames(): Config
+    {
+        return $this->playerNames;
+    }
+
+    /**
+     * @param string $key
+     * @param array $replace [optional]
+     * @param mixed $default [optional]
+     * @return string|mixed
+     * @internal
+     * Returns a string from the strings file
+     */
+    public function getString($key, $replace = [], $default = "")
+    {
+        return str_replace(array_keys($replace), $replace, $this->getStringsFile()->getNested($key, $default));
+    }
+
+    /**
+     * @param string $key
+     * @param array $replace [optional]
+     * @param mixed $default [optional]
+     * @return string|mixed
+     * @internal
+     * Returns a message from the strings file
+     */
+    public function getMessage($key, $replace = [], $default = "")
+    {
+        return $this->prefix . $this->getString($key, $replace, $default);
+    }
+
+    /**
+     * Returns all clans found in the database
+     * @return array|false
+     * @param bool $loadYAML [optional]
+     */
+    public function allClans($loadYAML = false)
+    {
+        return array_merge(glob($this->getDataFolder() . 'clans/*.json'), $loadYAML ? glob($this->getDataFolder() . 'clans/*.yml') : []);
+    }
+
+    /**
+     * Loads all clans from the database
+     * @param bool $loadYAML [optional]
+     */
+    private function loadClans($loadYAML = false)
+    {
+        foreach ($this->allClans($loadYAML) as $clan) {
+            $name = basename($clan, '.json');
+            if($loadYAML){
+                $name = basename($name, '.yml');
+            }
             $this->addClan($name);
         }
     }
 
+    /**
+     * @return BCPlayer[]
+     */
+    public function getPlayers(): array
+    {
+        return $this->players;
+    }
+
+    /**
+     * Returns whether a clan by the given name exists
+     * @param string $name
+     * @return bool
+     */
+    public function clanExists($name){
+        return !is_null($this->getClan($name));
+    }
+
+    /**
+     * @return Clan[]
+     */
+    public function getClans(): array
+    {
+        return $this->players;
+    }
+
+    /**
+     * @internal
+     * @param Player $player
+     */
     public function addPlayer(Player $player)
     {
         $this->players[$player->getName()] = new BCPlayer($this, $player);
     }
 
+    /**
+     * @internal
+     * @param BCPlayer $player
+     */
     public function removePlayer(BCPlayer $player)
     {
         $player->save();
         unset($this->players[$player->getPlayer()->getName()]);
     }
 
+    /**
+     * @api
+     * Returns a BCPLayer instance for the given player
+     * @param Player|string $player
+     * @return BCPlayer
+     */
     public function getPlayer($player): BCPlayer
     {
         return $this->players[$player instanceof Player ? $player->getName() : $player];
     }
 
-    public function getPlayerNames(): Config
-    {
-        return $this->playernames;
-    }
-
+    /**
+     * Returns the full name of the given player
+     * @param BCPlayer|Player|string $player
+     * @return bool|mixed
+     */
     public function getPlayerName($player)
     {
         if ($player instanceof BCPlayer) {
@@ -101,6 +222,13 @@ class Main extends PluginBase
         return $this->getPlayerNames()->get(strtolower($player));
     }
 
+    /**
+     * @internal
+     * @see Main::createClan()
+     * Registers a clan to the plugin
+     * @param Clan|string $clan
+     * @return Clan
+     */
     public function addClan($clan)
     {
         if ($clan instanceof Clan) {
@@ -113,89 +241,78 @@ class Main extends PluginBase
         }
     }
 
+    /**
+     * @api
+     * Returns a clan by its name or null if no clan by the given name exists
+     * @param string $name
+     * @return Clan|null
+     */
+    public function getClan($name): ?Clan
+    {
+        return $this->clans[$name] ?? null;
+    }
+
+    /**
+     * @api
+     * Returns a clan by the given player
+     * @param BCPlayer|Player|string $player
+     * @return Clan|null
+     */
+    public function getClanByPlayer($player)
+    {
+        $player = strtolower($player instanceof BCPlayer ? $player->getPlayer()->getName() : ($player instanceof Player ? $player->getName() : $player));
+        return $this->getClan($this->getPlayersFile()->get($player, null));
+    }
+
+    /**
+     * @api
+     * Creates a new clan
+     * @param string $name
+     * @param BCPlayer $leader
+     * @return Clan|null
+     */
     public function createClan($name, BCPlayer $leader)
     {
-        $cfg = new Config($this->getDataFolder() . 'clans/' . $name . '.yml', Config::YAML);
-        $cfg->set('name', $name);
-        $cfg->set('leader', strtolower($leader->getPlayer()->getName()));
-        $cfg->set('members', [strtolower($leader->getPlayer()->getName())]);
-        $cfg->save();
-        $clan = new Clan($this, $name, $cfg, strtolower($leader->getPlayer()->getName()), [strtolower($leader->getPlayer()->getName())]);
+        $file = new Config($this->getDataFolder() . 'clans/' . $name . '.json', Config::JSON);
+        $file->set('name', $name);
+        $file->set('leader', strtolower($leader->getPlayer()->getName()));
+        $file->set('members', [strtolower($leader->getPlayer()->getName()) => 'leader']);
+        $file->save();
+        $clan = new Clan($this, $name, $file, strtolower($leader->getPlayer()->getName()), [strtolower($leader->getPlayer()->getName()) => 'leader']);
+        $clan->setRank($leader, 'leader');
+        $event = new ClanCreateEvent($clan, $leader->getPlayer());
+        $event->call();
+        if($event->isCancelled()) return null;
         return $this->addClan($clan);
     }
 
-    public function joinClan(BCPlayer $player, Clan $clan)
-    {
-        foreach ($clan->getMembers() as $member) {
-            if (($mp = $this->getServer()->getPlayerExact($this->getPlayerName($member)))) {
-                $mp->sendMessage(str_replace("{playername}", $player->getPlayer()->getName(), $this->getMessagesArray()["join_player_joined_clan"]));
-            }
-        }
-        $clan->addMember($player);
-        $player->setClan($clan);
-    }
-
-    public function getMessagesArray(): array
-    {
-        return $this->getMessages()->getAll();
-    }
-
-    public function getMessages(): Config
-    {
-        return $this->msgs;
-    }
-
-    public function getClan($cname): ?Clan
-    {
-        return isset($this->clans[$cname]) ? $this->clans[$cname] : null;
-    }
-
-    public function getClanByPlayer($player){
-        return $this->getClan($this->getPlayersFile()->get(strtolower($player instanceof BCPlayer ? $player->getPlayer()->getName() : $player)));
-    }
-
+    /**
+     * @api
+     * Deletes the given clan
+     * @param Clan|string $clan
+     * @return bool
+     */
     public function deleteClan($clan)
     {
-        if (!$clan instanceof Clan) {
-            $clan = $this->getClan($clan);
-        }
+        if (!$clan instanceof Clan) $clan = $this->getClan($clan);
+        $event = new ClanDeleteEvent($clan);
+        $event->call();
+        if($event->isCancelled()) return false;
         $members = $clan->getMembers();
-        $msgs = $this->getMessagesArray();
         foreach ($members as $member) {
-            if (($member = $this->getServer()->getPlayerExact($member))) {
-                $member->sendMessage($msgs["delete_clan_deleted_members"]);
-                $member = $this->getPlayer($member->getName());
-                $member->setClan(null);
+            if ($player = $this->getServer()->getPlayerExact($member)) {
+                $player->sendMessage($this->getMessage('clan.delete.members'));
+                $this->getPlayer($player)->setClan(null);
             } else {
-                $member = $this->getServer()->getOfflinePlayer($member);
                 $this->setClan($member, null);
             }
         }
         unset($this->clans[$clan->getName()]);
-        $file = $this->getPath().'clans/'.$clan->getName().'.yml';
+        $file = $this->getDataFolder() . 'clans/' . $clan->getName() . '.json';
         unset($clan);
         unlink($file);
         unset($file);
-    }
-
-    public function clanExist($clanname)
-    {
-        return isset($this->clans[$clanname]);
-    }
-
-    public function invite(BCPlayer $sender, BCPlayer $target)
-    {
-        $messages = $this->getMessagesArray();
-        $sclan = $sender->getClan();
-        $sname = $this->getPlayerName($sender);
-        $message = str_replace("{clan}", $sclan->getName(), $messages["invite_were_invited"]);
-        $message = str_replace("{player}", $sname, $message);
-        $target->getPlayer()->sendMessage($message);
-        $sclan->invite($target);
-
-        $task = new invitetask($this, $sender, $target, $this->ConfigArray()["expire_time"] * 20);
-        $handler = $this->getScheduler()->scheduleRepeatingTask($task, 1);
-        $task->setHandler($handler);
+        return true;
     }
 
     public function expire(BCPlayer $sender, BCPlayer $target)
@@ -212,47 +329,50 @@ class Main extends PluginBase
         $sclan->removeInvite($target);
     }
 
-    public function getPlayersFile(): Config
-    {
-        return $this->playersfile;
-    }
-
+    /**
+     * @internal
+     * @see BCPlayer::joinClan()
+     * @param OfflinePlayer|string $player
+     * @param Clan|null $clan
+     */
     public function setClan($player, ?Clan $clan)
     {
         $clan = $clan === null ? $clan : $clan->getName();
-        $this->getPlayersFile()->set($player instanceof IPlayer ? strtolower($player->getName()) : $player, $clan);
+        $this->getPlayersFile()->set($player instanceof OfflinePlayer ? strtolower($player->getName()) : $player, $clan);
         $this->getPlayersFile()->save();
     }
 
-    public function ConfigArray()
+    /**
+     * Checks whether the config version is the latest and updates it if it isn't
+     */
+    private function ConfigUpdater()
     {
-        return $this->getConfig()->getAll();
-    }
-
-    public function allClans()
-    {
-        $clans = glob($this->getDataFolder() . "clans/*.yml");
-        return $clans;
+        if (!file_exists($this->getDataFolder() . "config.yml")) {
+            $this->saveResource('config.yml');
+            $this->saveResource('strings.yml');
+            return;
+        }
+        if ($this->getConfig()->get('config-version') !== self::CONFIG_VERSION) {
+            $config_version = $this->getConfig()->get('config-version');
+            $this->getLogger()->info("§eYour Config isn't the latest. BedrockClans renamed your old config to §bconfig-" . $config_version . ".yml §6and created a new config. Have fun!");
+            rename($this->getDataFolder() . "config.yml", $this->getDataFolder() . "config-" . $config_version . ".yml");
+            rename($this->getDataFolder() . "strings.yml", $this->getDataFolder() . "strings-" . $config_version . ".yml");
+            $this->saveResource("config.yml");
+            $this->saveResource("strings.yml");
+        }
     }
 
     /**
-     * @return BCPlayer[]
+     * Converts seconds to hours, minutes and seconds
+     * @param int $seconds
+     * @param string $message
+     * @return string
      */
-    public function getPlayers(): array
-    {
-        return $this->players;
-    }
-
-    /**
-     * @return Clan[]
-     */
-    public function getClans(): array
-    {
-        return $this->players;
-    }
-
-    public function getMessage($key){
-        return $this->getMessagesArray()[$key];
+    public function ConvertSeconds($seconds, $message){
+        $hours = floor($seconds / 3600);
+        $minutes = floor(($seconds / 60) % 60);
+        $seconds = $seconds % 60;
+        return str_replace(["{hours}", "{minutes}", "{seconds}"], [$hours, $minutes, $seconds], $message);
     }
 
     public function onDisable(): void
@@ -260,8 +380,10 @@ class Main extends PluginBase
         foreach ($this->getPlayers() as $player) {
             $player->save();
         }
-        foreach ($this->clans as $clan){
+        foreach ($this->clans as $clan) {
             $clan->save();
         }
+        $this->withdrawCooldownsFile->save();
     }
+
 }

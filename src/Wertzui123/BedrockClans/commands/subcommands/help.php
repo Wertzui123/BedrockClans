@@ -22,7 +22,7 @@ class help extends Subcommand
 
     public function execute(CommandSender $sender, array $args)
     {
-        $sender->sendMessage($this->plugin->getMessage("help_help_list"));
+        $sender->sendMessage($this->plugin->getMessage("command.help.success"));
     }
 
 }

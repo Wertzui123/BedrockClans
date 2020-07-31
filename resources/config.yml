@@ -1,8 +1,7 @@
 ---
-# BedrockClans - (C) 2019 - 2020 Wertzui123
-
-version: 2.0
-
+# BedrockClans - Copyright 2019 - 2020 Wertzui123
+# Don't edit this if you don't know what you're doing
+config-version: 3.0
 # Banned clan names
 banned_clan_names: 
  - Hacker
@@ -12,27 +11,50 @@ banned_clan_names:
  - Supporter
  - Nazi
  - Team
+ - Staff
  - Server
  - Clan
-
-# Clan chat format
-clan_chat_format: "§bClan §c> §a{name} §c: §r{message}"
-
+# Commands
+command:
+ clan:
+  command: clan
+  description: Create, delete and manage clans
+  usage: "/clan <subcommand: string>"
+  aliases: ['clans']
 # Should  /clan create cost money? (EconomyAPI)
 create_costs: false
-
-# How much money it should cost to create a clan when create_costs is enabled.
+# How much money it should cost to create a clan when create_costs is enabled
 clan_create_costs: 100
-
-# How many seconds an invite is valid
-expire_time: 30
-
-# Whether /clan chat should be disabled or not
-chat_disabled: false
-
-# Command
-command: clan
-description: Create, delete and manage clans
-usage: "§cUsage: /clan <help/subcommand>"
-aliases: ['clans']
+# Whether /clan chat should be enabled or disabled
+chat:
+ enabled: true
+ on: "on"
+ off: "off"
+# How many seconds an invitation is valid
+invitation_expire_time: 3000
+# The display-names and colors for the clan ranks
+ranks:
+ member:
+  name: "Member"
+  color: "§7"
+ vim:
+  name: "VIM"
+  color: "§e"
+ coleader:
+  name: "Co-Leader"
+  color: "§a"
+ leader:
+  name: "Leader"
+  color: "§5"
+bank:
+ enabled: true
+ withdraw:
+  # All members (except the clan leader) have to wait this long (in hours) between withdrawing from the clan's bank
+  cooldown: 24
+  maximum:
+   # How much percent of the money on the clan bank can be withdrawn from members with the following ranks
+   member: 5
+   vim: 10
+   coleader: 30
+   leader: 100
 ...
