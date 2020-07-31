@@ -28,7 +28,7 @@ class BCPlayer {
         $this->plugin = $plugin;
         $this->player = $player;
         $this->clan= $clan ?? $plugin->getPlayersFile()->get(strtolower($player->getName())) !== false ? $this->plugin->getClan($plugin->getPlayersFile()->get(strtolower($player->getName()))) : null;
-        $this->withdrawCooldown = $clan ?? $plugin->getWithdrawCooldownsFile()->get(strtolower($player->getName()), 0);
+        $this->withdrawCooldown = $withdrawCooldown ?? $plugin->getWithdrawCooldownsFile()->get(strtolower($player->getName()), 0);
     }
 
     /**
