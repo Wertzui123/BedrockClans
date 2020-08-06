@@ -108,7 +108,7 @@ class BCPlayer {
     /**
      * @api
      * Returns the whether the player cannot withdraw from the clan bank
-     * @return int
+     * @return bool
      */
     public function hasWithdrawCooldown(){
         return $this->getWithdrawCooldown() > 0;
