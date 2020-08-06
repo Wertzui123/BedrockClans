@@ -29,7 +29,7 @@ class invite extends Subcommand
             return;
         }
         $name = implode(' ', $args);
-        if (!isset($name)) {
+        if (empty($name)) {
             $sender->sendMessage($this->plugin->getMessage('command.invite.passPlayer'));
             return;
         }
