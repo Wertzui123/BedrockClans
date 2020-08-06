@@ -9,10 +9,10 @@ use Wertzui123\BedrockClans\Main;
 class invitetask extends Task
 {
 
-    public $plugin;
-    public $ticks;
-    public $sender;
-    public $target;
+    private $plugin;
+    private $ticks;
+    private $sender;
+    private $target;
 
     public function __construct(Main $plugin, BCPlayer $sender, BCPlayer $target, $ticks)
     {
@@ -24,14 +24,14 @@ class invitetask extends Task
 
     public function onRun(int $currentTick)
     {
-
         if ($this->ticks > 0) {
             $this->ticks--;
-        }else{
-            if(is_null($this->sender->getClan())) return;
-            if($this->sender->getClan()->isInvited($this->target)){
+        } else {
+            if (is_null($this->sender) || is_null($this->target) || is_null($this->sender->getClan())) return;
+            if ($this->sender->getClan()->isInvited($this->target)) {
                 $this->plugin->expire($this->sender, $this->target);
             }
         }
     }
+
 }
