@@ -315,18 +315,16 @@ class Main extends PluginBase
         return true;
     }
 
+    /**
+     * Informs the sender and the target that an invitation has expired and removes the target from the invitation list
+     * @param BCPlayer $sender
+     * @param BCPlayer $target
+     */
     public function expire(BCPlayer $sender, BCPlayer $target)
     {
-        $sclan = $sender->getClan();
-        $messages = $this->getMessagesArray();
-        $sname = strtolower($sender->getPlayer()->getName());
-        $message = str_replace("{clan}", $sclan->getName(), $messages["invite_invite_expired"]);
-        $message = str_replace("{player}", $sname, $message);
-        $target->getPlayer()->sendMessage($message);
-        $tname = $target->getPlayer()->getName();
-        $msg = str_replace("{player}", $tname, $messages["invite_invite_expired_sender"]);
-        $sender->getPlayer()->sendMessage($msg);
-        $sclan->removeInvite($target);
+        $sender->getClan()->removeInvite($target);
+        $sender->getPlayer()->sendMessage($this->getMessage('clan.invite.expired.sender', ['{target}' => $target->getPlayer()->getName()]));
+        $target->getPlayer()->sendMessage($this->getMessage('clan.invite.expired.target', ['{clan}' => $sender->getClan()->getName(), '{sender}' => $sender->getPlayer()->getName()])); // TODO: This will show an incorrect name if the sender has switched their clan
     }
 
     /**
