@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Wertzui123\BedrockClans;
 
 use pocketmine\level\Location;
-use pocketmine\level\Position;
 use pocketmine\Player;
 use pocketmine\utils\Config;
 use Wertzui123\BedrockClans\tasks\invitetask;
@@ -30,7 +29,7 @@ class Clan
      * @param string|null $leader
      * @param string[]|null $members
      * @param int|null $bank
-     * @param Position|null $home
+     * @param Location|null $home
      */
     public function __construct(Main $plugin, $name, $file = null, $leader = null, $members = null, $bank = null, $home = null)
     {
