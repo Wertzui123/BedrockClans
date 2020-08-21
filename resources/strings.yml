@@ -40,7 +40,12 @@ command:
     tooMuch: "§cYou cannot deposit this much!"
     success: "§aYou have successfully deposited §6{amount} §amoney to your clan's bank account."
   help:
-    success: "§bClan §cHelp:\n§e/clan help §d- §6Displays this list of available commands\n§e/clan create <clanname> §d- §6Creates a clan\n§e/clan demote <playername> §d- §6Demotes a player\n§e/clan deposit <amount> §d- §6Deposits money to the clan bank\n§e/clan info [clanname] §d- §6Gives you information about your/a clan\n§e/clan invite <playername> §d- §6Invites a player to your clan\n§e/clan accept <clanname> §d- §6Accepts a clan invitation\n§e/clan join <clanname> §d- §6Joins a clan (only for staff)\n§e/clan leave §d- §6Leaves a clan\n§e/clan leader <playername> §d- §6Promotes a player to the clan leader\n§e/clan chat <message> §d- §6Sends a message to your clan\n§e/clan kick <playername> §d- §6Kicks the given player from the clan\n§e/clan delete §d- §6Deletes your clan\n§e/clan promote <playername> §d- §6Promotes a player\n§e/clan withdraw <amount> §d- §6Withdraws money from the clan bank\n§e/clan about §d- §6Shows credits and the version of BedrockClans"
+    success: "§bClan §cHelp:\n§e/clan help §d- §6Displays this list of available commands\n§e/clan create <clanname> §d- §6Creates a clan\n§e/clan demote <playername> §d- §6Demotes a player\n§e/clan deposit <amount> §d- §6Deposits money to the clan bank\n§e/clan info [clanname] §d- §6Gives you information about your/a clan\n§e/clan invite <playername> §d- §6Invites a player to your clan\n§e/clan accept <clanname> §d- §6Accepts a clan invitation\n§e/clan join <clanname> §d- §6Joins a clan (only for staff)\n§e/clan leave §d- §6Leaves a clan\n§e/clan leader <playername> §d- §6Promotes a player to the clan leader\n§e/clan chat <message> §d- §6Sends a message to your clan\n§e/clan kick <playername> §d- §6Kicks the given player from the clan\n§e/clan delete §d- §6Deletes your clan\n§e/clan promote <playername> §d- §6Promotes a player\n§e/clan home §d- §6Teleports you to your clan's home\n§e/clan sethome §d- §6Updates your clan's home\n§e/clan withdraw <amount> §d- §6Withdraws money from the clan bank\n§e/clan about §d- §6Shows credits and the version of BedrockClans"
+  home:
+    disabled: "§cThis feature is disabled!"
+    noClan: "§cYou need to be in a clan to use this feature!"
+    noHome: "§cYour clan does not have a home!"
+    success: "§aYou were successfully teleport to your clan's home."
   info:
     noClan: "§cYou need to be in a clan or pass a clanname!"
     invalidClan: "§cThere is no clan by that name!"
@@ -83,6 +88,10 @@ command:
     notInClan: "§b{player} §cis not in your clan!"
     alreadyHighest: "§cThis player is already a co-leader or higher!"
     success: "§aYou successfully promoted §b{player} §ato {rank}§a."
+  sethome:
+    disabled: "§cThis feature is disabled!"
+    noClan: "§cYou need to be in a clan to use this feature!"
+    success: "§aYour clan home was successfully updated to your current position."
   withdraw:
     disabled: "§cThis feature is disabled!"
     noClan: "§cYou need to be in a clan to use this feature!"
@@ -92,17 +101,21 @@ command:
     success: "§aYou have successfully withdrawn §6{amount} §amoney from your clan's bank account."
 clan:
   join:
-    members: "§a{player} §6joined your clan."
+    members: "§b{player} §6joined your clan."
   chat:
     members: "§bClan §c> {player} §c: §r{message}"
   delete:
     members: "§cYour clan has been deleted!"
+  invite:
+    expired:
+      sender: "§cYour invitation to §b{target} §chas expired!"
+      target: "§cYour invitation to §b{clan} by §b{sender} §chas expired!"
   kick:
     kicked: "§cYou were kicked out of your clan by §b{player}§c."
   leader:
     newleader: "§aYou are now the leader of your clan."
   leave:
-    members: "§a{player} §cleft your clan."
+    members: "§b{player} §cleft your clan."
   promote:
     promoted: "§aYou have been promoted to {rank}§a."
   demote:

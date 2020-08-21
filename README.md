@@ -26,12 +26,13 @@ bedrockclans.cmd.create.costs.bypass: Allows you to bypass the clan creation cos
 This are some cool features of BedrockClans:
 <br>
   <br>- Easy to understand config
-  <br>- Custom messages (messages.yml), colors and more
+  <br>- Custom messages (strings.yml), colors and more
   <br>- /clan chat
   <br>- Blacklisted clan names
   <br>- Clan creation costs (using EconomyAPI)
   <br>- Multiple clan ranks
   <br>- Clan bank (using EconomyAPI)
+  <br>- Clan homes
 
 # Can I use BedrockClans with PureChat?
 You can use <a href="https://github.com/Wertzui123/PureChat">my PureChat Fork</a> to show the players clanname and clanrank in the chat/nametag.  

@@ -1,7 +1,7 @@
 ---
 # BedrockClans - Copyright 2019 - 2020 Wertzui123
 # Don't edit this if you don't know what you're doing
-config-version: 3.0
+config-version: 3.1
 # Banned clan names
 banned_clan_names: 
  - Hacker
@@ -28,8 +28,11 @@ clan_create_costs: 100
 # Whether /clan chat should be enabled or disabled
 chat:
  enabled: true
- on: "on"
- off: "off"
+ on: "on" # /clan chat on
+ off: "off" # /clan chat off
+# Whether /clan home should be enabled or disabled
+home:
+ enabled: true
 # How many seconds an invitation is valid
 invitation_expire_time: 3000
 # The display-names and colors for the clan ranks

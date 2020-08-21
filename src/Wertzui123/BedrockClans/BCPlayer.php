@@ -7,13 +7,14 @@ namespace Wertzui123\BedrockClans;
 use pocketmine\Player;
 use pocketmine\Server;
 use Wertzui123\BedrockClans\events\player\ClanJoinEvent;
+use Wertzui123\BedrockClans\events\player\PlayerChatEvent;
 
 class BCPlayer {
 
     private $plugin;
     private $player;
     private $clan;
-    private $withdrawCooldown = 0;
+    private $withdrawCooldown;
     private $chatting = false;
 
     /**
@@ -21,7 +22,7 @@ class BCPlayer {
      * @param Main $plugin
      * @param Player $player
      * @param Clan|null $clan
-     * @param int $withdrawCooldown
+     * @param int|null $withdrawCooldown
      */
     public function __construct(Main $plugin, Player $player, $clan = null, $withdrawCooldown = null)
     {
@@ -175,6 +176,9 @@ class BCPlayer {
      */
     public function chat($message){
         if(!$this->isInClan()) return false;
+        $event = new PlayerChatEvent($this->getPlayer(), $message);
+        $event->call();
+        if($event->isCancelled()) return false;
         foreach ($this->getClan()->getMembersWithRealName() as $member){
             if(($m = $this->plugin->getServer()->getPlayerExact($member)) instanceof Player){
                 $m->sendMessage($this->plugin->getMessage('clan.chat.members', ['{player}' => Clan::getRankColor($this->getClan()->getRank($this)) . $this->getPlayer()->getName(), '{message}' => $message]));

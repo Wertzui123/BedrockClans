@@ -28,7 +28,7 @@ class Main extends PluginBase
     private $withdrawCooldownsFile;
     private $players = [];
 
-    const CONFIG_VERSION = 3.0;
+    const CONFIG_VERSION = 3.1;
 
     public function onEnable(): void
     {
@@ -38,6 +38,10 @@ class Main extends PluginBase
         $this->playerNames = new Config($this->getDataFolder() . "names.json", Config::YAML);
         $this->stringsFile = new Config($this->getDataFolder() . 'strings.yml', Config::YAML);
         $this->playersFile = new Config($this->getDataFolder() . 'players.json', Config::JSON);
+        if(file_exists($this->getDataFolder() . 'players.yml')){
+            $this->playersFile->setAll((new Config($this->getDataFolder() . 'players.yml', Config::YAML))->getAll());
+            unlink($this->getDataFolder() . 'players.yml');
+        }
         $this->withdrawCooldownsFile = new Config($this->getDataFolder() . 'withdrawCooldowns.json', Config::JSON);
         $this->loadClans(true);
         $this->prefix = (string)$this->getConfig()->get('prefix');
@@ -350,13 +354,18 @@ class Main extends PluginBase
             $this->saveResource('strings.yml');
             return;
         }
-        if ($this->getConfig()->get('config-version') !== self::CONFIG_VERSION) {
+        if (!$this->getConfig()->exists('config-version')) {
+            $this->getLogger()->info("§eYour Config isn't the latest. BedrockClans renamed your old config to §bconfig-old.yml §6and created a new config. Have fun!");
+            rename($this->getDataFolder() . "config.yml", $this->getDataFolder() . "config-old.yml");
+            $this->saveResource('config.yml', true);
+            $this->saveResource('strings.yml', true);
+        } elseif ($this->getConfig()->get('config-version') !== self::CONFIG_VERSION) {
             $config_version = $this->getConfig()->get('config-version');
             $this->getLogger()->info("§eYour Config isn't the latest. BedrockClans renamed your old config to §bconfig-" . $config_version . ".yml §6and created a new config. Have fun!");
             rename($this->getDataFolder() . "config.yml", $this->getDataFolder() . "config-" . $config_version . ".yml");
             rename($this->getDataFolder() . "strings.yml", $this->getDataFolder() . "strings-" . $config_version . ".yml");
-            $this->saveResource("config.yml");
-            $this->saveResource("strings.yml");
+            $this->saveResource('config.yml');
+            $this->saveResource('strings.yml');
         }
     }
 

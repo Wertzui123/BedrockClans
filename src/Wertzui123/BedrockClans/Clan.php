@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Wertzui123\BedrockClans;
 
+use pocketmine\level\Location;
+use pocketmine\level\Position;
 use pocketmine\Player;
 use pocketmine\utils\Config;
 use Wertzui123\BedrockClans\tasks\invitetask;
@@ -17,7 +19,8 @@ class Clan
     private $members;
     private $leader;
     private $invites = [];
-    private $bank = 0;
+    private $bank;
+    private $home = null;
 
     /**
      * Clan constructor.
@@ -26,19 +29,38 @@ class Clan
      * @param Config|null $file
      * @param string|null $leader
      * @param string[]|null $members
-     * @param int $bank
+     * @param int|null $bank
+     * @param Position|null $home
      */
-    public function __construct(Main $plugin, $name, $file = null, $leader = null, $members = null, $bank = null)
+    public function __construct(Main $plugin, $name, $file = null, $leader = null, $members = null, $bank = null, $home = null)
     {
         $this->plugin = $plugin;
         $this->name = $name;
         $this->file = $file ?? new Config($this->plugin->getDataFolder() . 'clans/' . $this->name . '.json', Config::JSON);
-        if(file_exists($this->plugin->getDataFolder() . 'clans/' . $this->name . '.yml')){
+        if (file_exists($this->plugin->getDataFolder() . 'clans/' . $this->name . '.yml')) {
             $this->file->setAll((new Config($this->plugin->getDataFolder() . "clans/" . $this->name . ".yml", Config::YAML))->getAll());
         }
         $this->leader = $leader ?? $this->getFile()->get('leader', '');
         $this->members = $members ?? $this->getFile()->get('members', []);
+        if (!empty($this->members) && is_int(array_keys($this->members)[0])) {
+            $members = [];
+            foreach ($this->members as $member) {
+                if ($this->getLeader() === strtolower($member)) {
+                    $members[strtolower($member)] = "leader";
+                } else {
+                    $members[strtolower($member)] = "member";
+                }
+            }
+            $this->members = $members;
+        }
         $this->bank = $bank ?? $this->getFile()->get('bank', 0);
+        if ($this->plugin->getConfig()->getNested('home.enabled', true) === true) {
+            if (is_null($home) && $this->getFile()->exists('home')) {
+                $this->home = new Location($this->getFile()->getNested('home.x', 0), $this->getFile()->getNested('home.y', 0), $this->getFile()->getNested('home.z', 0), $this->getFile()->getNested('home.yaw', 0), $this->getFile()->getNested('home.pitch', 0), $this->plugin->getServer()->getLevelByName($this->getFile()->getNested('home.world', 'world')));
+            } else {
+                $this->home = $home;
+            }
+        }
     }
 
     /**
@@ -129,7 +151,8 @@ class Clan
      * @param BCPlayer|Player|string $player
      * @return string|null
      */
-    public function getRank($player){
+    public function getRank($player)
+    {
         $player = strtolower($player instanceof BCPlayer ? $player->getPlayer()->getName() : ($player instanceof Player ? $player->getName() : $player));
         return $this->members[$player] ?? null;
     }
@@ -139,7 +162,8 @@ class Clan
      * @param BCPlayer|Player|string $player
      * @param string $rank
      */
-    public function setRank($player, $rank){
+    public function setRank($player, $rank)
+    {
         $player = strtolower($player instanceof BCPlayer ? $player->getPlayer()->getName() : ($player instanceof Player ? $player->getName() : $player));
         $this->members[$player] = $rank;
     }
@@ -250,6 +274,24 @@ class Clan
     }
 
     /**
+     * Returns the clan's home
+     * @return Location|null
+     */
+    public function getHome(): ?Location
+    {
+        return $this->home;
+    }
+
+    /**
+     * Updates the clan's home
+     * @param Location|null $position
+     */
+    public function setHome(?Location $position)
+    {
+        $this->home = $position;
+    }
+
+    /**
      * Saves the clan to memory
      */
     public function save()
@@ -259,6 +301,9 @@ class Clan
         $file->set('members', $this->members); // not getMembers() because it doesn't return the ranks
         $file->set('leader', $this->getLeader());
         $file->set('bank', $this->getBank());
+        if (!is_null($home = $this->getHome())) {
+            $file->set('home', ['x' => $home->getX(), 'y' => $home->getY(), 'z' => $home->getZ(), 'world' => $home->getLevel()->getFolderName(), 'yaw' => $home->getYaw(), 'pitch' => $home->getPitch()]);
+        }
         $file->save();
         unset($file);
     }
@@ -268,10 +313,11 @@ class Clan
      * @param bool $displayName [optional}
      * @return string[]
      */
-    public static function getRanks($displayName = false){
-        if($displayName) {
+    public static function getRanks($displayName = false)
+    {
+        if ($displayName) {
             return ['member' => self::getRankName('member'), 'vim' => self::getRankName('vim'), 'coleader' => self::getRankName('coleader'), 'leader' => self::getRankName('leader')];
-        }else{
+        } else {
             return ['member', 'vim', 'coleader', 'leader'];
         }
     }
@@ -282,8 +328,9 @@ class Clan
      * @param bool $color [optional]
      * @return string|false
      */
-    public static function getRankName($rank, $color = false){
-        if($color){
+    public static function getRankName($rank, $color = false)
+    {
+        if ($color) {
             return self::getRankColor($rank) . Main::getInstance()->getConfig()->getNested('ranks.' . strtolower($rank) . '.name');
         }
         return Main::getInstance()->getConfig()->getNested('ranks.' . strtolower($rank) . '.name');
@@ -294,7 +341,8 @@ class Clan
      * @param string $rank
      * @return string|false
      */
-    public static function getRankColor($rank){
+    public static function getRankColor($rank)
+    {
         return Main::getInstance()->getConfig()->getNested('ranks.' . strtolower($rank) . '.color');
     }
 
@@ -303,7 +351,8 @@ class Clan
      * @param string $name
      * @return bool
      */
-    public static function isValidName($name){
+    public static function isValidName($name)
+    {
         return !in_array($name, Main::getInstance()->getConfig()->get('banned_clan_names'));
     }
 
@@ -312,7 +361,8 @@ class Clan
      * @param string $rank
      * @return int
      */
-    public static function getMaxWithdrawAmount($rank){
+    public static function getMaxWithdrawAmount($rank)
+    {
         return Main::getInstance()->getConfig()->getNested('bank.withdraw.maximum.' . $rank, 0);
     }
 
