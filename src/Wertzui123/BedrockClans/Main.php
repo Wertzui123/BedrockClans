@@ -314,6 +314,7 @@ class Main extends PluginBase
         if($clan->getBank() > 0) {
             if (!is_null($this->getServer()->getPlayerExact($clan->getLeaderWithRealName()))) {
                 $this->getPlayer($this->getServer()->getPlayerExact($clan->getLeaderWithRealName()))->addMoney($clan->getBank());
+                $this->getServer()->getPlayerExact($clan->getLeaderWithRealName())->sendMessage($this->getMessage('clan.delete.money', ['{amount}' => $clan->getBank()]));
             } else {
                 if (!is_null($this->getServer()->getPluginManager()->getPlugin('EconomyAPI'))) {
                     $this->getServer()->getPluginManager()->getPlugin('EconomyAPI')->addMoney($clan->getLeaderWithRealName(), $clan->getBank());

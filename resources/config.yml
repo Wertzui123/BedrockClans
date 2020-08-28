@@ -1,7 +1,7 @@
 ---
 # BedrockClans - Copyright 2019 - 2020 Wertzui123
 # Don't edit this if you don't know what you're doing
-config-version: 3.1
+config-version: 3.2
 # Banned clan names
 banned_clan_names: 
  - Hacker

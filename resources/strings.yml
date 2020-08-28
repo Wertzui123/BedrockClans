@@ -106,6 +106,7 @@ clan:
     members: "§bClan §c> {player} §c: §r{message}"
   delete:
     members: "§cYour clan has been deleted!"
+    money: "§aSince you were your leader of your clan, you received the money in the bank account of your clan (§6${amount}§a)."
   invite:
     expired:
       sender: "§cYour invitation to §b{target} §chas expired!"
