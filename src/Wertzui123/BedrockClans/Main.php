@@ -311,6 +311,16 @@ class Main extends PluginBase
                 $this->setClan($member, null);
             }
         }
+        if($clan->getBank() > 0) {
+            if (!is_null($this->getServer()->getPlayerExact($clan->getLeaderWithRealName()))) {
+                $this->getPlayer($this->getServer()->getPlayerExact($clan->getLeaderWithRealName()))->addMoney($clan->getBank());
+            } else {
+                if (!is_null($this->getServer()->getPluginManager()->getPlugin('EconomyAPI'))) {
+                    $this->getServer()->getPluginManager()->getPlugin('EconomyAPI')->addMoney($clan->getLeaderWithRealName(), $clan->getBank());
+                }
+            }
+        }
+        $clan->setBank(0); // just in case some code is repeated
         unset($this->clans[$clan->getName()]);
         $file = $this->getDataFolder() . 'clans/' . $clan->getName() . '.json';
         unset($clan);
