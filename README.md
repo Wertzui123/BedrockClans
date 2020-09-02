@@ -40,6 +40,9 @@ How to setup PureChat with BedrockClans?
 3. Add {clan_name} where you want the clan name to be shown
 4. Restart your server
 
+# Is there a ScoreHud Addon?
+<a href="https://github.com/Wertzui123/ScoreHud-Addons/blob/master/BedrockClansAddon.php">Yes, there is.</a>
+
 # Ideas, Questions and Support
 You can contact me in <a href="https://discord.gg/eGhZGtF">my discord server</a> or <a href="https://github.com/Wertzui123/BedrockClans/issues/new">create an issue</a>.
 
