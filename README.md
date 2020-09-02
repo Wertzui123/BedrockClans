@@ -5,9 +5,7 @@ This plugin lets you create, delete and manage clans!
 # JetBrains PHPStorm
 JetBrains supports me in the development of BedrockClans.
 
-Try their cool IDEs out!
-<br>https://jetbrains.com?from=BedrockClans
-
+<a href="https://jetbrains.com?from=BedrockClans">Try their cool IDEs out!</a>
 # Commands
 /clan <subcommand/help> - Manage clans
 # Permissions
