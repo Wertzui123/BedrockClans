@@ -45,7 +45,7 @@ class invite extends Subcommand
             $sender->sendMessage($this->plugin->getMessage('command.invite.alreadyInvited'));
             return;
         }
-        $player->getClan()->invite($player, $this->plugin->getPlayer($this->plugin->getServer()->getPlayerExact($args[0])));
+        $player->getClan()->invite($player, $this->plugin->getPlayer($this->plugin->getServer()->getPlayerExact($name)));
         $sender->sendMessage($this->plugin->getMessage('command.invite.sender', ['{player}' => $this->plugin->getServer()->getPlayerExact($name)->getName()]));
     }
 
