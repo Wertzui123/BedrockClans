@@ -9,12 +9,18 @@ use pocketmine\Server;
 use Wertzui123\BedrockClans\events\player\ClanJoinEvent;
 use Wertzui123\BedrockClans\events\player\PlayerChatEvent;
 
-class BCPlayer {
+class BCPlayer
+{
 
+    /** @var Main */
     private $plugin;
+    /** @var Player */
     private $player;
+    /** @var Clan|null */
     private $clan;
+    /** @var int */
     private $withdrawCooldown;
+    /** @var bool */
     private $chatting = false;
 
     /**
@@ -24,11 +30,11 @@ class BCPlayer {
      * @param Clan|null $clan
      * @param int|null $withdrawCooldown
      */
-    public function __construct(Main $plugin, Player $player, $clan = null, $withdrawCooldown = null)
+    public function __construct(Main $plugin, Player $player, ?Clan $clan = null, ?int $withdrawCooldown = null)
     {
         $this->plugin = $plugin;
         $this->player = $player;
-        $this->clan= $clan ?? $plugin->getPlayersFile()->get(strtolower($player->getName())) !== false ? $this->plugin->getClan($plugin->getPlayersFile()->get(strtolower($player->getName()))) : null;
+        $this->clan = $clan ?? $plugin->getPlayersFile()->get(strtolower($player->getName())) !== false ? $this->plugin->getClan($plugin->getPlayersFile()->get(strtolower($player->getName()))) : null;
         $this->withdrawCooldown = $withdrawCooldown ?? $plugin->getWithdrawCooldownsFile()->get(strtolower($player->getName()), 0);
     }
 
@@ -36,7 +42,8 @@ class BCPlayer {
      * Returns the player instance of this player
      * @return Player
      */
-    public function getPlayer() : Player{
+    public function getPlayer(): Player
+    {
         return $this->player;
     }
 
@@ -44,7 +51,8 @@ class BCPlayer {
      * Returns whether the player is in a clan
      * @return bool
      */
-    public function isInClan() : bool{
+    public function isInClan(): bool
+    {
         return $this->clan !== null;
     }
 
@@ -52,7 +60,8 @@ class BCPlayer {
      * Returns the players clan
      * @return Clan|null
      */
-    public function getClan() : ?Clan{
+    public function getClan(): ?Clan
+    {
         return $this->clan;
     }
 
@@ -60,7 +69,8 @@ class BCPlayer {
      * Updates the players clan
      * @param Clan|null $clan
      */
-    public function setClan(?Clan $clan){
+    public function setClan(?Clan $clan)
+    {
         $this->clan = $clan;
     }
 
@@ -68,7 +78,7 @@ class BCPlayer {
      * Returns whether this player is currently in clan chat mode
      * @return bool
      */
-    public function isChatting()
+    public function isChatting(): bool
     {
         return $this->chatting;
     }
@@ -77,7 +87,8 @@ class BCPlayer {
      * Defines whether the given player is currently in chat mode
      * @param bool $value
      */
-    public function setChatting($value = true){
+    public function setChatting(bool $value = true)
+    {
         $this->chatting = $value;
     }
 
@@ -85,7 +96,8 @@ class BCPlayer {
      * Returns whether the player is the leader of their clan or false if the player is not in a clan
      * @return bool
      */
-    public function isLeader() : bool{
+    public function isLeader(): bool
+    {
         return $this->isInClan() ? $this->getClan()->getLeader() === strtolower($this->getPlayer()->getName()) : false;
     }
 
@@ -93,7 +105,8 @@ class BCPlayer {
      * Adds a withdraw cooldown of the given seconds
      * @param int $seconds
      */
-    public function addWithdrawCooldown($seconds){
+    public function addWithdrawCooldown(int $seconds)
+    {
         $this->withdrawCooldown = time() + $seconds;
     }
 
@@ -102,7 +115,8 @@ class BCPlayer {
      * Returns the number of seconds until the player can withdraw from the clan bank again
      * @return int
      */
-    public function getWithdrawCooldown(){
+    public function getWithdrawCooldown(): int
+    {
         return $this->withdrawCooldown - time();
     }
 
@@ -111,7 +125,8 @@ class BCPlayer {
      * Returns the whether the player cannot withdraw from the clan bank
      * @return bool
      */
-    public function hasWithdrawCooldown(){
+    public function hasWithdrawCooldown(): bool
+    {
         return $this->getWithdrawCooldown() > 0;
     }
 
@@ -120,8 +135,9 @@ class BCPlayer {
      * Returns how much money is on the player's economy api account
      * @return int
      */
-    public function getMoney(){
-        if(!is_null(Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI'))){
+    public function getMoney(): int
+    {
+        if (!is_null(Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI'))) {
             return Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI')->myMoney($this->getPlayer());
         }
         return 0;
@@ -132,8 +148,9 @@ class BCPlayer {
      * Adds money to the given player's economy api account
      * @param int $amount
      */
-    public function addMoney($amount){
-        if(!is_null(Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI'))){
+    public function addMoney(int $amount)
+    {
+        if (!is_null(Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI'))) {
             Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI')->addMoney($this->getPlayer(), $amount);
         }
     }
@@ -143,8 +160,9 @@ class BCPlayer {
      * Removes money from the given player's economy api account
      * @param int $amount
      */
-    public function removeMoney($amount){
-        if(!is_null(Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI'))){
+    public function removeMoney(int $amount)
+    {
+        if (!is_null(Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI'))) {
             Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI')->reduceMoney($this->getPlayer(), $amount);
         }
     }
@@ -154,11 +172,11 @@ class BCPlayer {
      * @param Clan $clan
      * @return bool
      */
-    public function joinClan(Clan $clan)
+    public function joinClan(Clan $clan): bool
     {
         $event = new ClanJoinEvent($this->getPlayer(), $clan);
         $event->call();
-        if($event->isCancelled()) return false;
+        if ($event->isCancelled()) return false;
         foreach ($clan->getMembers() as $member) {
             if (!is_null($m = Server::getInstance()->getPlayerExact(Main::getInstance()->getPlayerName($member)))) {
                 $m->sendMessage(Main::getInstance()->getMessage('clan.join.members', ['{player}' => $this->getPlayer()->getName()]));
@@ -174,13 +192,14 @@ class BCPlayer {
      * @param string $message
      * @return bool
      */
-    public function chat($message){
-        if(!$this->isInClan()) return false;
+    public function chat(string $message): bool
+    {
+        if (!$this->isInClan()) return false;
         $event = new PlayerChatEvent($this->getPlayer(), $message);
         $event->call();
-        if($event->isCancelled()) return false;
-        foreach ($this->getClan()->getMembersWithRealName() as $member){
-            if(($m = $this->plugin->getServer()->getPlayerExact($member)) instanceof Player){
+        if ($event->isCancelled()) return false;
+        foreach ($this->getClan()->getMembersWithRealName() as $member) {
+            if (($m = $this->plugin->getServer()->getPlayerExact($member)) instanceof Player) {
                 $m->sendMessage($this->plugin->getMessage('clan.chat.members', ['{player}' => Clan::getRankColor($this->getClan()->getRank($this)) . $this->getPlayer()->getName(), '{message}' => $message]));
             }
         }
@@ -190,7 +209,8 @@ class BCPlayer {
     /**
      * Saves the player to the file system
      */
-    public function save(){
+    public function save()
+    {
         $file = $this->plugin->getPlayersFile();
         $file->set(strtolower($this->getPlayer()->getName()), $this->getClan() === null ? null : $this->getClan()->getName());
         $file->save();

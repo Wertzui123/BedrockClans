@@ -23,7 +23,7 @@ class ClanEvent extends Event
     /**
      * @return Clan
      */
-    public function getClan()
+    public function getClan(): Clan
     {
         return $this->clan;
     }

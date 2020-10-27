@@ -14,7 +14,14 @@ class invitetask extends Task
     private $sender;
     private $target;
 
-    public function __construct(Main $plugin, BCPlayer $sender, BCPlayer $target, $ticks)
+    /**
+     * invitetask constructor.
+     * @param Main $plugin
+     * @param BCPlayer $sender
+     * @param BCPlayer $target
+     * @param int $ticks
+     */
+    public function __construct(Main $plugin, BCPlayer $sender, BCPlayer $target, int $ticks)
     {
         $this->plugin = $plugin;
         $this->ticks = $ticks;

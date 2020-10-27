@@ -9,11 +9,13 @@ use Wertzui123\BedrockClans\Main;
 class kick extends Subcommand
 {
 
-    private $plugin;
-
+    /**
+     * kick constructor.
+     * @param Main $plugin
+     */
     public function __construct(Main $plugin)
     {
-        $this->plugin = $plugin;
+        parent::__construct($plugin);
     }
 
     public function canUse(CommandSender $sender): bool

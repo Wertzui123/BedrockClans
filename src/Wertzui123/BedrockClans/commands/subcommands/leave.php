@@ -10,11 +10,13 @@ use Wertzui123\BedrockClans\Main;
 class leave extends Subcommand
 {
 
-    private $plugin;
-
+    /**
+     * leave constructor.
+     * @param Main $plugin
+     */
     public function __construct(Main $plugin)
     {
-        $this->plugin = $plugin;
+        parent::__construct($plugin);
     }
 
     public function canUse(CommandSender $sender): bool
@@ -33,7 +35,7 @@ class leave extends Subcommand
             $clan = $player->getClan();
             $event = new ClanLeaveEvent($player->getPlayer(), $clan);
             $event->call();
-            if($event->isCancelled()) return; // TODO: Message
+            if ($event->isCancelled()) return; // TODO: Message
             $player->setClan(null);
             $clan->removeMember($player);
             $sender->sendMessage($this->plugin->getMessage('command.leave.success'));

@@ -7,7 +7,7 @@ use pocketmine\command\CommandSender;
 class about extends Subcommand
 {
 
-    public function canUse(CommandSender $sender) : bool
+    public function canUse(CommandSender $sender): bool
     {
         return true;
     }

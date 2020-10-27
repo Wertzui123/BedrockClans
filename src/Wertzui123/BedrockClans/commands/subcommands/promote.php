@@ -10,11 +10,13 @@ use Wertzui123\BedrockClans\Main;
 class promote extends Subcommand
 {
 
-    private $plugin;
-
+    /**
+     * promote constructor.
+     * @param Main $plugin
+     */
     public function __construct(Main $plugin)
     {
-        $this->plugin = $plugin;
+        parent::__construct($plugin);
     }
 
     public function canUse(CommandSender $sender): bool
@@ -42,13 +44,13 @@ class promote extends Subcommand
             $sender->sendMessage($this->plugin->getMessage('command.promote.notInClan', ['{player}' => implode(' ', $args)]));
             return;
         }
-        if($clan->getRank(implode(' ', $args)) === 'leader' || $clan->getRank(implode(' ', $args)) === 'coleader'){
+        if ($clan->getRank(implode(' ', $args)) === 'leader' || $clan->getRank(implode(' ', $args)) === 'coleader') {
             $sender->sendMessage($this->plugin->getMessage('command.promote.alreadyHighest'));
             return;
         }
-        if($clan->getRank(implode(' ', $args)) === "vim"){
+        if ($clan->getRank(implode(' ', $args)) === "vim") {
             $rank = "coleader";
-        }else{
+        } else {
             $rank = "vim";
         }
         $clan->setRank(implode(' ', $args), $rank);

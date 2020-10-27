@@ -9,11 +9,13 @@ use Wertzui123\BedrockClans\Main;
 class invite extends Subcommand
 {
 
-    private $plugin;
-
+    /**
+     * invite constructor.
+     * @param Main $plugin
+     */
     public function __construct(Main $plugin)
     {
-        $this->plugin = $plugin;
+        parent::__construct($plugin);
     }
 
     public function canUse(CommandSender $sender): bool
@@ -41,7 +43,7 @@ class invite extends Subcommand
             $sender->sendMessage($this->plugin->getMessage('command.invite.alreadyInClan'));
             return;
         }
-        if($player->getClan()->isInvited($this->plugin->getPlayer($this->plugin->getServer()->getPlayerExact($name)))){
+        if ($player->getClan()->isInvited($this->plugin->getPlayer($this->plugin->getServer()->getPlayerExact($name)))) {
             $sender->sendMessage($this->plugin->getMessage('command.invite.alreadyInvited'));
             return;
         }

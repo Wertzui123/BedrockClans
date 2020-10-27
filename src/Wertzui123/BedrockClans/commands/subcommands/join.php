@@ -9,11 +9,13 @@ use Wertzui123\BedrockClans\Main;
 class join extends Subcommand
 {
 
-    private $plugin;
-
+    /**
+     * join constructor.
+     * @param Main $plugin
+     */
     public function __construct(Main $plugin)
     {
-        $this->plugin = $plugin;
+        parent::__construct($plugin);
     }
 
     public function canUse(CommandSender $sender): bool

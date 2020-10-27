@@ -9,11 +9,13 @@ use Wertzui123\BedrockClans\Main;
 class deposit extends Subcommand
 {
 
-    private $plugin;
-
+    /**
+     * deposit constructor.
+     * @param Main $plugin
+     */
     public function __construct(Main $plugin)
     {
-        $this->plugin = $plugin;
+        parent::__construct($plugin);
     }
 
     public function canUse(CommandSender $sender): bool
@@ -23,7 +25,7 @@ class deposit extends Subcommand
 
     public function execute(CommandSender $sender, array $args)
     {
-        if($this->plugin->getConfig()->getNested('bank.enabled') !== true){
+        if ($this->plugin->getConfig()->getNested('bank.enabled') !== true) {
             $sender->sendMessage($this->plugin->getMessage('command.deposit.disabled'));
             return;
         }
@@ -38,7 +40,7 @@ class deposit extends Subcommand
             return;
         }
         $amount = (int)$args[0];
-        if($player->getMoney() < $amount){
+        if ($player->getMoney() < $amount) {
             $sender->sendMessage($this->plugin->getMessage('command.deposit.tooMuch'));
             return;
         }

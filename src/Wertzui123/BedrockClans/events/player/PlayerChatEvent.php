@@ -18,7 +18,7 @@ class PlayerChatEvent extends PlayerEvent implements Cancellable
      * @param Player $player
      * @param string $message
      */
-    public function __construct( Player $player, $message)
+    public function __construct(Player $player, $message)
     {
         parent::__construct($player);
         $this->message = $message;
@@ -28,7 +28,7 @@ class PlayerChatEvent extends PlayerEvent implements Cancellable
      * Returns the clan chat message
      * @return string
      */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
@@ -37,7 +37,7 @@ class PlayerChatEvent extends PlayerEvent implements Cancellable
      * Updates the clan chat message
      * @param string $message
      */
-    public function setMessage($message)
+    public function setMessage(string $message)
     {
         $this->message = $message;
     }

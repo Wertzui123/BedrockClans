@@ -9,11 +9,13 @@ use Wertzui123\BedrockClans\Main;
 class delete extends Subcommand
 {
 
-    private $plugin;
-
+    /**
+     * delete constructor.
+     * @param Main $plugin
+     */
     public function __construct(Main $plugin)
     {
-        $this->plugin = $plugin;
+        parent::__construct($plugin);
     }
 
     public function canUse(CommandSender $sender): bool
@@ -32,7 +34,7 @@ class delete extends Subcommand
             $sender->sendMessage($this->plugin->getMessage('command.delete.notLeader'));
             return;
         }
-        if(!$this->plugin->deleteClan($player->getClan())){
+        if (!$this->plugin->deleteClan($player->getClan())) {
             $sender->sendMessage($this->plugin->getMessage('command.delete.cancelled'));
         }
     }

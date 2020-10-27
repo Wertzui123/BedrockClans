@@ -9,11 +9,13 @@ use Wertzui123\BedrockClans\Main;
 class leader extends Subcommand
 {
 
-    private $plugin;
-
+    /**
+     * leader constructor.
+     * @param Main $plugin
+     */
     public function __construct(Main $plugin)
     {
-        $this->plugin = $plugin;
+        parent::__construct($plugin);
     }
 
     public function canUse(CommandSender $sender): bool
@@ -41,7 +43,7 @@ class leader extends Subcommand
             $sender->sendMessage($this->plugin->getMessage('command.leader.notInClan', ['{player}' => implode(' ', $args)]));
             return;
         }
-        if($clan->getLeader() === strtolower(implode(' ', $args))){
+        if ($clan->getLeader() === strtolower(implode(' ', $args))) {
             $sender->sendMessage($this->plugin->getMessage('command.leader.alreadyLeader'));
             return;
         }

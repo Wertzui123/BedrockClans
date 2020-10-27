@@ -10,11 +10,13 @@ use Wertzui123\BedrockClans\Main;
 class create extends Subcommand
 {
 
-    private $plugin;
-
+    /**
+     * create constructor.
+     * @param Main $plugin
+     */
     public function __construct(Main $plugin)
     {
-        $this->plugin = $plugin;
+        parent::__construct($plugin);
     }
 
     public function canUse(CommandSender $sender): bool

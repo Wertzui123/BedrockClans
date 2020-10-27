@@ -36,8 +36,9 @@ class EventListener implements Listener
      * @priority LOW
      * @param PlayerChatEvent $event
      */
-    public function onChat(PlayerChatEvent $event){
-        if($this->plugin->getPlayer($event->getPlayer())->isChatting()){
+    public function onChat(PlayerChatEvent $event)
+    {
+        if ($this->plugin->getPlayer($event->getPlayer())->isChatting()) {
             $event->setCancelled();
             $this->plugin->getPlayer($event->getPlayer())->chat($event->getMessage());
         }

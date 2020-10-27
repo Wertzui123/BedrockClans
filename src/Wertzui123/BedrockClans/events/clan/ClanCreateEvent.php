@@ -29,7 +29,7 @@ class ClanCreateEvent extends ClanEvent implements Cancellable
      * Returns the player who is creating the clan
      * @return Player
      */
-    public function getPlayer()
+    public function getPlayer(): Player
     {
         return $this->player;
     }

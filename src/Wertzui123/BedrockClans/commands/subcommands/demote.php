@@ -10,11 +10,13 @@ use Wertzui123\BedrockClans\Main;
 class demote extends Subcommand
 {
 
-    private $plugin;
-
+    /**
+     * demote constructor.
+     * @param Main $plugin
+     */
     public function __construct(Main $plugin)
     {
-        $this->plugin = $plugin;
+        parent::__construct($plugin);
     }
 
     public function canUse(CommandSender $sender): bool
@@ -42,13 +44,13 @@ class demote extends Subcommand
             $sender->sendMessage($this->plugin->getMessage('command.demote.notInClan', ['{player}' => implode(' ', $args)]));
             return;
         }
-        if($clan->getRank(implode(' ', $args)) === 'leader' || $clan->getRank(implode(' ', $args)) === 'member'){
+        if ($clan->getRank(implode(' ', $args)) === 'leader' || $clan->getRank(implode(' ', $args)) === 'member') {
             $sender->sendMessage($this->plugin->getMessage('command.demote.alreadyLowest'));
             return;
         }
-        if($clan->getRank(implode(' ', $args)) === "vim"){
+        if ($clan->getRank(implode(' ', $args)) === "vim") {
             $rank = "member";
-        }else{
+        } else {
             $rank = "vim";
         }
         $clan->setRank(implode(' ', $args), $rank);

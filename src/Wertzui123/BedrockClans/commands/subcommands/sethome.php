@@ -9,11 +9,13 @@ use Wertzui123\BedrockClans\Main;
 class sethome extends Subcommand
 {
 
-    private $plugin;
-
+    /**
+     * sethome constructor.
+     * @param Main $plugin
+     */
     public function __construct(Main $plugin)
     {
-        $this->plugin = $plugin;
+        parent::__construct($plugin);
     }
 
     public function canUse(CommandSender $sender): bool
@@ -23,7 +25,7 @@ class sethome extends Subcommand
 
     public function execute(CommandSender $sender, array $args)
     {
-        if($this->plugin->getConfig()->getNested('home.enabled') !== true){
+        if ($this->plugin->getConfig()->getNested('home.enabled') !== true) {
             $sender->sendMessage($this->plugin->getMessage('command.sethome.disabled'));
             return;
         }

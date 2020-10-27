@@ -244,7 +244,7 @@ class Clan
      * Returns how much money is stored on the clan bank
      * @return int
      */
-    public function getBank()
+    public function getBank(): int
     {
         return $this->bank;
     }
@@ -253,7 +253,7 @@ class Clan
      * Updates how much money is stored on the clan bank
      * @param int $bank
      */
-    public function setBank($bank)
+    public function setBank(int $bank)
     {
         $this->bank = $bank;
     }
@@ -312,7 +312,7 @@ class Clan
      * @param bool $displayName [optional}
      * @return string[]
      */
-    public static function getRanks($displayName = false)
+    public static function getRanks(bool $displayName = false): array
     {
         if ($displayName) {
             return ['member' => self::getRankName('member'), 'vim' => self::getRankName('vim'), 'coleader' => self::getRankName('coleader'), 'leader' => self::getRankName('leader')];
@@ -327,7 +327,7 @@ class Clan
      * @param bool $color [optional]
      * @return string|false
      */
-    public static function getRankName($rank, $color = false)
+    public static function getRankName(string $rank, bool $color = false)
     {
         if ($color) {
             return self::getRankColor($rank) . Main::getInstance()->getConfig()->getNested('ranks.' . strtolower($rank) . '.name');
@@ -340,7 +340,7 @@ class Clan
      * @param string $rank
      * @return string|false
      */
-    public static function getRankColor($rank)
+    public static function getRankColor(string $rank)
     {
         return Main::getInstance()->getConfig()->getNested('ranks.' . strtolower($rank) . '.color');
     }
@@ -350,7 +350,7 @@ class Clan
      * @param string $name
      * @return bool
      */
-    public static function isValidName($name)
+    public static function isValidName(string $name): bool
     {
         return !in_array($name, Main::getInstance()->getConfig()->get('banned_clan_names'));
     }
@@ -360,7 +360,7 @@ class Clan
      * @param string $rank
      * @return int
      */
-    public static function getMaxWithdrawAmount($rank)
+    public static function getMaxWithdrawAmount(string $rank): int
     {
         return Main::getInstance()->getConfig()->getNested('bank.withdraw.maximum.' . $rank, 0);
     }

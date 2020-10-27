@@ -19,7 +19,7 @@ class ClanJoinEvent extends PlayerEvent implements Cancellable
      * @param Player $player
      * @param Clan $clan
      */
-    public function __construct( Player $player, Clan $clan)
+    public function __construct(Player $player, Clan $clan)
     {
         parent::__construct($player);
         $this->clan = $clan;

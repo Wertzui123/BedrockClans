@@ -30,7 +30,8 @@ use Wertzui123\BedrockClans\Main;
 class clancmd extends Command
 {
 
-    public $plugin;
+    /** @var Main */
+    private $plugin;
 
     public function __construct(Main $plugin, $data)
     {
@@ -61,7 +62,7 @@ class clancmd extends Command
     {
         switch ($name) {
             case "about":
-                return new about();
+                return new about($this->plugin);
             case "accept":
                 return new accept($this->plugin);
             case "chat":

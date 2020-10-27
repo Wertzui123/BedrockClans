@@ -38,7 +38,7 @@ class Main extends PluginBase
         $this->playerNames = new Config($this->getDataFolder() . "names.json", Config::YAML);
         $this->stringsFile = new Config($this->getDataFolder() . 'strings.yml', Config::YAML);
         $this->playersFile = new Config($this->getDataFolder() . 'players.json', Config::JSON);
-        if(file_exists($this->getDataFolder() . 'players.yml')){
+        if (file_exists($this->getDataFolder() . 'players.yml')) {
             $this->playersFile->setAll((new Config($this->getDataFolder() . 'players.yml', Config::YAML))->getAll());
             unlink($this->getDataFolder() . 'players.yml');
         }
@@ -55,17 +55,9 @@ class Main extends PluginBase
      * Returns the current (and only) instance of this class
      * @return Main
      */
-    public static function getInstance(){
-        return self::$instance;
-    }
-
-    /**
-     * @deprecated
-     * @return array
-     */
-    public function getMessagesArray(): array
+    public static function getInstance()
     {
-        return $this->getStringsFile()->getAll();
+        return self::$instance;
     }
 
     /**
@@ -105,37 +97,37 @@ class Main extends PluginBase
     }
 
     /**
-     * @param string $key
-     * @param array $replace [optional]
-     * @param mixed $default [optional]
-     * @return string|mixed
      * @internal
      * Returns a string from the strings file
+     * @param array $replace [optional]
+     * @param mixed $default [optional]
+     * @param string $key
+     * @return string|mixed
      */
-    public function getString($key, $replace = [], $default = "")
+    public function getString(string $key, array $replace = [], string $default = "")
     {
         return str_replace(array_keys($replace), $replace, $this->getStringsFile()->getNested($key, $default));
     }
 
     /**
-     * @param string $key
-     * @param array $replace [optional]
-     * @param mixed $default [optional]
-     * @return string|mixed
      * @internal
      * Returns a message from the strings file
+     * @param array $replace [optional]
+     * @param mixed $default [optional]
+     * @param string $key
+     * @return string|mixed
      */
-    public function getMessage($key, $replace = [], $default = "")
+    public function getMessage(string $key, array $replace = [], string $default = "")
     {
         return $this->prefix . $this->getString($key, $replace, $default);
     }
 
     /**
      * Returns all clans found in the database
-     * @return array|false
      * @param bool $loadYAML [optional]
+     * @return array|false
      */
-    public function allClans($loadYAML = false)
+    public function allClans(bool $loadYAML = false)
     {
         return array_merge(glob($this->getDataFolder() . 'clans/*.json'), $loadYAML ? glob($this->getDataFolder() . 'clans/*.yml') : []);
     }
@@ -144,11 +136,11 @@ class Main extends PluginBase
      * Loads all clans from the database
      * @param bool $loadYAML [optional]
      */
-    private function loadClans($loadYAML = false)
+    private function loadClans(bool $loadYAML = false)
     {
         foreach ($this->allClans($loadYAML) as $clan) {
             $name = basename($clan, '.json');
-            if($loadYAML){
+            if ($loadYAML) {
                 $name = basename($name, '.yml');
             }
             $this->addClan($name);
@@ -168,7 +160,8 @@ class Main extends PluginBase
      * @param string $name
      * @return bool
      */
-    public function clanExists($name){
+    public function clanExists(string $name)
+    {
         return !is_null($this->getClan($name));
     }
 
@@ -251,7 +244,7 @@ class Main extends PluginBase
      * @param string $name
      * @return Clan|null
      */
-    public function getClan($name): ?Clan
+    public function getClan(string $name): ?Clan
     {
         return $this->clans[$name] ?? null;
     }
@@ -275,7 +268,7 @@ class Main extends PluginBase
      * @param BCPlayer $leader
      * @return Clan|null
      */
-    public function createClan($name, BCPlayer $leader)
+    public function createClan(string $name, BCPlayer $leader)
     {
         $file = new Config($this->getDataFolder() . 'clans/' . $name . '.json', Config::JSON);
         $file->set('name', $name);
@@ -286,7 +279,7 @@ class Main extends PluginBase
         $clan->setRank($leader, 'leader');
         $event = new ClanCreateEvent($clan, $leader->getPlayer());
         $event->call();
-        if($event->isCancelled()) return null;
+        if ($event->isCancelled()) return null;
         return $this->addClan($clan);
     }
 
@@ -301,7 +294,7 @@ class Main extends PluginBase
         if (!$clan instanceof Clan) $clan = $this->getClan($clan);
         $event = new ClanDeleteEvent($clan);
         $event->call();
-        if($event->isCancelled()) return false;
+        if ($event->isCancelled()) return false;
         $members = $clan->getMembers();
         foreach ($members as $member) {
             if ($player = $this->getServer()->getPlayerExact($member)) {
@@ -311,7 +304,7 @@ class Main extends PluginBase
                 $this->setClan($member, null);
             }
         }
-        if($clan->getBank() > 0) {
+        if ($clan->getBank() > 0) {
             if (!is_null($this->getServer()->getPlayerExact($clan->getLeaderWithRealName()))) {
                 $this->getPlayer($this->getServer()->getPlayerExact($clan->getLeaderWithRealName()))->addMoney($clan->getBank());
                 $this->getServer()->getPlayerExact($clan->getLeaderWithRealName())->sendMessage($this->getMessage('clan.delete.money', ['{amount}' => $clan->getBank()]));
@@ -386,7 +379,8 @@ class Main extends PluginBase
      * @param string $message
      * @return string
      */
-    public function ConvertSeconds($seconds, $message){
+    public function ConvertSeconds(int $seconds, string $message): string
+    {
         $hours = floor($seconds / 3600);
         $minutes = floor(($seconds / 60) % 60);
         $seconds = $seconds % 60;
