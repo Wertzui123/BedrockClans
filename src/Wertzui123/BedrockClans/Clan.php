@@ -20,6 +20,7 @@ class Clan
     private $invites = [];
     private $bank;
     private $home = null;
+    public $homeLevel = null;
 
     /**
      * Clan constructor.
@@ -55,7 +56,8 @@ class Clan
         $this->bank = $bank ?? $this->getFile()->get('bank', 0);
         if ($this->plugin->getConfig()->getNested('home.enabled', true) === true) {
             if (is_null($home) && $this->getFile()->exists('home')) {
-                $this->home = new Location($this->getFile()->getNested('home.x', 0), $this->getFile()->getNested('home.y', 0), $this->getFile()->getNested('home.z', 0), $this->getFile()->getNested('home.yaw', 0), $this->getFile()->getNested('home.pitch', 0), $this->plugin->getServer()->getLevelByName($this->getFile()->getNested('home.world', 'world')));
+                $this->homeLevel = $this->getFile()->getNested('home.world', 'world');
+                $this->home = new Location($this->getFile()->getNested('home.x', 0), $this->getFile()->getNested('home.y', 0), $this->getFile()->getNested('home.z', 0), $this->getFile()->getNested('home.yaw', 0), $this->getFile()->getNested('home.pitch', 0), $this->plugin->getServer()->getLevelByName($this->homeLevel));
             } else {
                 $this->home = $home;
             }

@@ -38,6 +38,14 @@ class home extends Subcommand
         if (is_null($clan->getHome())) {
             $sender->sendMessage($this->plugin->getMessage('command.home.noHome'));
             return;
+        }elseif(!$clan->getHome()->isValid() && !$this->plugin->getServer()->isLevelGenerated($clan->homeLevel)){
+            $clan->setHome(null);
+            $sender->sendMessage($this->plugin->getMessage('command.home.noHome'));
+            return;
+        }
+        iF(is_null($clan->getHome()->getLevel())){
+            $this->plugin->getServer()->loadLevel($clan->homeLevel);
+            $clan->getHome()->setLevel($this->plugin->getServer()->getLevelByName($clan->homeLevel));
         }
         $sender->teleport($clan->getHome());
         $sender->sendMessage($this->plugin->getMessage('command.home.success'));
