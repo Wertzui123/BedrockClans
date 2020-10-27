@@ -12,14 +12,23 @@ use Wertzui123\BedrockClans\tasks\invitetask;
 class Clan
 {
 
+    /** @var Main */
     private $plugin;
+    /** @var string */
     private $name;
+    /** @var Config */
     private $file;
+    /** @var array */
     private $members;
+    /** @var string */
     private $leader;
+    /** @var BCPlayer[] */
     private $invites = [];
+    /** @var int */
     private $bank;
+    /** @var Location|null */
     private $home = null;
+    /** @var string */
     public $homeLevel = null;
 
     /**
@@ -32,7 +41,7 @@ class Clan
      * @param int|null $bank
      * @param Location|null $home
      */
-    public function __construct(Main $plugin, $name, $file = null, $leader = null, $members = null, $bank = null, $home = null)
+    public function __construct(Main $plugin, string $name, ?Config $file = null, ?string $leader = null, ?array $members = null, ?int $bank = null, ?Location $home = null)
     {
         $this->plugin = $plugin;
         $this->name = $name;
