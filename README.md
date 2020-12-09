@@ -44,7 +44,7 @@ How to setup PureChat with BedrockClans?
 <a href="https://github.com/Wertzui123/ScoreHud-Addons/blob/master/BedrockClansAddon.php">Yes, there is.</a>
 
 # Ideas, Questions and Support
-You can contact me in <a href="https://discord.gg/eGhZGtF">my discord server</a> or <a href="https://github.com/Wertzui123/BedrockClans/issues/new">create an issue</a>.
+You can contact me in <a href="https://discord.gg/eGhZGtF">my discord server</a> or <a href="https://github.com/Wertzui123/BedrockClans/issues/new">create an issue</a>/<a href="https://github.com/Wertzui123/BedrockClans/discussions/new">start a discussion</a>.
 
 # License
 BedrockClans is licensed under the GNU General Public License v3.0. For more information: https://choosealicense.com/licenses/gpl-3.0
