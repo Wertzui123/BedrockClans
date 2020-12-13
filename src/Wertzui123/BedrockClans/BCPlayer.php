@@ -133,9 +133,9 @@ class BCPlayer
     /**
      * @internal
      * Returns how much money is on the player's economy api account
-     * @return int
+     * @return float
      */
-    public function getMoney(): int
+    public function getMoney(): float
     {
         if (!is_null(Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI'))) {
             return Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI')->myMoney($this->getPlayer());
@@ -146,9 +146,9 @@ class BCPlayer
     /**
      * @internal
      * Adds money to the given player's economy api account
-     * @param int $amount
+     * @param float $amount
      */
-    public function addMoney(int $amount)
+    public function addMoney(float $amount)
     {
         if (!is_null(Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI'))) {
             Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI')->addMoney($this->getPlayer(), $amount);
@@ -158,9 +158,9 @@ class BCPlayer
     /**
      * @internal
      * Removes money from the given player's economy api account
-     * @param int $amount
+     * @param float $amount
      */
-    public function removeMoney(int $amount)
+    public function removeMoney(float $amount)
     {
         if (!is_null(Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI'))) {
             Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI')->reduceMoney($this->getPlayer(), $amount);
