@@ -139,7 +139,10 @@ class Main extends PluginBase
     private function loadClans(bool $loadYAML = false)
     {
         foreach ($this->allClans($loadYAML) as $clan) {
-            $name = str_ireplace($loadYAML ? ['.json', '.yml'] : ['.json'], '', substr($clan, strrpos($clan, '/') + 1));
+            $offset = strrpos($clan, '/') + 1;
+            $endOfName = strrpos($clan, '.');
+            $length = strlen($clan) - $offset - $endOfName + 1;
+            $name = substr($clan, $offset, $length);
             $this->addClan($name);
         }
     }
