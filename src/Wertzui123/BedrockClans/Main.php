@@ -139,7 +139,7 @@ class Main extends PluginBase
         foreach ($this->allClans() as $clan) {
             $offset = strrpos($clan, '/') + 1;
             $endOfName = strrpos($clan, '.');
-            $length = strlen($clan) - $offset - $endOfName + 1;
+            $length = strlen($clan) - $offset - (strlen($clan) - $endOfName);
             $this->addClan(substr($clan, $offset, $length));
         }
     }
