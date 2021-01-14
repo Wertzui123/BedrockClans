@@ -43,7 +43,7 @@ class Main extends PluginBase
             unlink($this->getDataFolder() . 'players.yml');
         }
         $this->withdrawCooldownsFile = new Config($this->getDataFolder() . 'withdrawCooldowns.json', Config::JSON);
-        $this->loadClans(true);
+        $this->loadClans();
         $this->prefix = (string)$this->getConfig()->get('prefix');
         $this->getServer()->getPluginManager()->registerEvents(new CustomListener($this), $this);
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
@@ -124,26 +124,23 @@ class Main extends PluginBase
 
     /**
      * Returns all clans found in the database
-     * @param bool $loadYAML [optional]
      * @return array|false
      */
-    public function allClans(bool $loadYAML = false)
+    public function allClans()
     {
-        return array_merge(glob($this->getDataFolder() . 'clans/*.json'), $loadYAML ? glob($this->getDataFolder() . 'clans/*.yml') : []);
+        return array_merge(glob($this->getDataFolder() . 'clans/*.json'), glob($this->getDataFolder() . 'clans/*.yml'));
     }
 
     /**
      * Loads all clans from the database
-     * @param bool $loadYAML [optional]
      */
-    private function loadClans(bool $loadYAML = false)
+    private function loadClans()
     {
-        foreach ($this->allClans($loadYAML) as $clan) {
+        foreach ($this->allClans() as $clan) {
             $offset = strrpos($clan, '/') + 1;
             $endOfName = strrpos($clan, '.');
             $length = strlen($clan) - $offset - $endOfName + 1;
-            $name = substr($clan, $offset, $length);
-            $this->addClan($name);
+            $this->addClan(substr($clan, $offset, $length));
         }
     }
 
