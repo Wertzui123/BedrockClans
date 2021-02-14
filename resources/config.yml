@@ -1,5 +1,5 @@
 ---
-# BedrockClans - Copyright 2019 - 2020 Wertzui123
+# BedrockClans - Copyright 2019 - 2021 Wertzui123
 # Don't edit this if you don't know what you're doing
 config-version: 3.2
 # Banned clan names
@@ -21,7 +21,7 @@ command:
   description: Create, delete and manage clans
   usage: "/clan <subcommand: string>"
   aliases: ['clans']
-# Should  /clan create cost money? (EconomyAPI)
+# Should /clan create cost money? (EconomyAPI)
 create_costs: false
 # How much money it should cost to create a clan when create_costs is enabled
 clan_create_costs: 100
