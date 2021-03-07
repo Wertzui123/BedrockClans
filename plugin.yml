@@ -9,7 +9,7 @@ website: https://github.com/Wertzui123/BedrockClans
 permissions:
   bedrockclans:
     default: op
-    description: Lets you use a BedrockClans features
+    description: Lets you use all BedrockClans features
     children:
       bedrockclans.command.join:
         default: op
