@@ -7,7 +7,7 @@ namespace Wertzui123\BedrockClans;
 use pocketmine\level\Location;
 use pocketmine\Player;
 use pocketmine\utils\Config;
-use Wertzui123\BedrockClans\tasks\invitetask;
+use Wertzui123\BedrockClans\tasks\InviteTask;
 
 class Clan
 {
@@ -278,7 +278,7 @@ class Clan
     {
         $target->getPlayer()->sendMessage(Main::getInstance()->getMessage('command.invite.target', ['{clan}' => $this->getName(), '{player}' => $sender->getPlayer()->getName()]));
         $this->addInvite($target);
-        $task = new invitetask(Main::getInstance(), $sender, $target, Main::getInstance()->getConfig()->get('invitation_expire_time') * 20);
+        $task = new InviteTask(Main::getInstance(), $sender, $target, Main::getInstance()->getConfig()->get('invitation_expire_time') * 20);
         $handle = Main::getInstance()->getScheduler()->scheduleRepeatingTask($task, 1);
         $task->setHandler($handle);
     }

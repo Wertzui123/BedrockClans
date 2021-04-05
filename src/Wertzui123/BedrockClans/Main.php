@@ -33,7 +33,7 @@ class Main extends PluginBase
     public function onEnable(): void
     {
         self::$instance = $this;
-        $this->ConfigUpdater();
+        $this->configUpdater();
         if (!is_dir($this->getDataFolder() . 'clans')) @mkdir($this->getDataFolder() . 'clans');
         $this->playerNames = new Config($this->getDataFolder() . "names.json", Config::YAML);
         $this->stringsFile = new Config($this->getDataFolder() . 'strings.yml', Config::YAML);
@@ -348,23 +348,23 @@ class Main extends PluginBase
     /**
      * Checks whether the config version is the latest and updates it if it isn't
      */
-    private function ConfigUpdater()
+    private function configUpdater()
     {
-        if (!file_exists($this->getDataFolder() . "config.yml")) {
+        if (!file_exists($this->getDataFolder() . 'config.yml')) {
             $this->saveResource('config.yml');
             $this->saveResource('strings.yml');
             return;
         }
         if (!$this->getConfig()->exists('config-version')) {
             $this->getLogger()->info("§eYour Config isn't the latest. BedrockClans renamed your old config to §bconfig-old.yml §6and created a new config. Have fun!");
-            rename($this->getDataFolder() . "config.yml", $this->getDataFolder() . "config-old.yml");
+            rename($this->getDataFolder() . 'config.yml', $this->getDataFolder() . 'config-old.yml');
             $this->saveResource('config.yml', true);
             $this->saveResource('strings.yml', true);
         } elseif ($this->getConfig()->get('config-version') !== self::CONFIG_VERSION) {
             $config_version = $this->getConfig()->get('config-version');
             $this->getLogger()->info("§eYour Config isn't the latest. BedrockClans renamed your old config to §bconfig-" . $config_version . ".yml §6and created a new config. Have fun!");
-            rename($this->getDataFolder() . "config.yml", $this->getDataFolder() . "config-" . $config_version . ".yml");
-            rename($this->getDataFolder() . "strings.yml", $this->getDataFolder() . "strings-" . $config_version . ".yml");
+            rename($this->getDataFolder() . 'config.yml', $this->getDataFolder() . 'config-' . $config_version . '.yml');
+            rename($this->getDataFolder() . 'strings.yml', $this->getDataFolder() . 'strings-' . $config_version . '.yml');
             $this->saveResource('config.yml');
             $this->saveResource('strings.yml');
         }
@@ -376,7 +376,7 @@ class Main extends PluginBase
      * @param string $message
      * @return string
      */
-    public function ConvertSeconds(int $seconds, string $message): string
+    public function convertSeconds(int $seconds, string $message): string
     {
         $hours = floor($seconds / 3600);
         $minutes = floor(($seconds / 60) % 60);

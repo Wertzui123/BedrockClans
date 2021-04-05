@@ -6,7 +6,7 @@ use pocketmine\scheduler\Task;
 use Wertzui123\BedrockClans\BCPlayer;
 use Wertzui123\BedrockClans\Main;
 
-class invitetask extends Task
+class InviteTask extends Task
 {
 
     private $plugin;
@@ -15,7 +15,7 @@ class invitetask extends Task
     private $target;
 
     /**
-     * invitetask constructor.
+     * InviteTask constructor.
      * @param Main $plugin
      * @param BCPlayer $sender
      * @param BCPlayer $target

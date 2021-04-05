@@ -36,7 +36,7 @@ class withdraw extends Subcommand
             return;
         }
         if ($player->hasWithdrawCooldown()) {
-            $sender->sendMessage($this->plugin->ConvertSeconds($player->getWithdrawCooldown(), $this->plugin->getMessage('command.withdraw.cooldown')));
+            $sender->sendMessage($this->plugin->convertSeconds($player->getWithdrawCooldown(), $this->plugin->getMessage('command.withdraw.cooldown')));
             return;
         }
         if (!isset($args[0]) || !is_numeric($args[0]) || (int)$args[0] <= 0) {
