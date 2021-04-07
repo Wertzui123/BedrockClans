@@ -167,7 +167,7 @@ class Main extends PluginBase
      */
     public function getClans(): array
     {
-        return $this->players;
+        return $this->clans;
     }
 
     /**
