@@ -99,12 +99,12 @@ class Main extends PluginBase
     /**
      * @internal
      * Returns a string from the strings file
+     * @param string $key
      * @param array $replace [optional]
      * @param mixed $default [optional]
-     * @param string $key
      * @return string|mixed
      */
-    public function getString(string $key, array $replace = [], string $default = "")
+    public function getString(string $key, array $replace = [], $default = "")
     {
         return str_replace(array_keys($replace), $replace, $this->getStringsFile()->getNested($key, $default));
     }
@@ -112,12 +112,12 @@ class Main extends PluginBase
     /**
      * @internal
      * Returns a message from the strings file
+     * @param string $key
      * @param array $replace [optional]
      * @param mixed $default [optional]
-     * @param string $key
      * @return string|mixed
      */
-    public function getMessage(string $key, array $replace = [], string $default = "")
+    public function getMessage(string $key, array $replace = [], $default = "")
     {
         return $this->prefix . $this->getString($key, $replace, $default);
     }
