@@ -28,7 +28,7 @@ class Main extends PluginBase
     private $withdrawCooldownsFile;
     private $players = [];
 
-    const CONFIG_VERSION = 3.2;
+    const CONFIG_VERSION = 3.3;
 
     public function onEnable(): void
     {

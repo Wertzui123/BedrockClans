@@ -52,6 +52,7 @@ command:
     success: "§eInfo about {name}:\n§bLeader: §c{leader}\n§bMembers: §c{members}\n§bBank: §c{bank}$"
   invite:
     noClan: "§cYou need to be in a clan to use this feature!"
+    noPermission: "§cYou are not allowed to invite people into your clan!"
     passPlayer: "§cPlease pass a player!"
     notFound: "§cThere is no player by that name online on this server!"
     alreadyInClan: "§cThis player is already in a clan!"

@@ -30,6 +30,10 @@ class invite extends Subcommand
             $sender->sendMessage($this->plugin->getMessage('command.invite.noClan'));
             return;
         }
+        if (!$player->canInvite()) {
+            $sender->sendMessage($this->plugin->getMessage('command.invite.noPermission'));
+            return;
+        }
         $name = implode(' ', $args);
         if (empty($name)) {
             $sender->sendMessage($this->plugin->getMessage('command.invite.passPlayer'));

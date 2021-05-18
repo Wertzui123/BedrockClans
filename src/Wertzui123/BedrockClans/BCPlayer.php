@@ -102,6 +102,15 @@ class BCPlayer
     }
 
     /**
+     * Returns whether the player is allowed to invite people into their clan
+     * @return bool
+     */
+    public function canInvite(): bool
+    {
+        return Clan::rankToNumber($this->getClan()->getRank($this)) >= Clan::rankToNumber($this->plugin->getConfig()->get('minimum_invitation_rank', 'member'));
+    }
+
+    /**
      * Adds a withdraw cooldown of the given seconds
      * @param int $seconds
      */

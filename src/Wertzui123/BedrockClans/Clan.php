@@ -357,6 +357,27 @@ class Clan
     }
 
     /**
+     * Converts a rank to a number (for later arithmetic comparison)
+     * @param string $rank
+     * @return int
+     */
+    public static function rankToNumber(string $rank)
+    {
+        switch ($rank) {
+            case 'member':
+                return 0;
+            case 'vim':
+                return 1;
+            case 'coleader':
+                return 2;
+            case 'leader':
+                return 3;
+            default:
+                throw new \InvalidArgumentException("There is no rank called $rank");
+        }
+    }
+
+    /**
      * Returns whether the given name is a valid clan name
      * @param string $name
      * @return bool
