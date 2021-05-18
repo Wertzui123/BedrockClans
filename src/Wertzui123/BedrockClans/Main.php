@@ -35,7 +35,7 @@ class Main extends PluginBase
         self::$instance = $this;
         $this->configUpdater();
         if (!is_dir($this->getDataFolder() . 'clans')) @mkdir($this->getDataFolder() . 'clans');
-        $this->playerNames = new Config($this->getDataFolder() . "names.json", Config::YAML);
+        $this->playerNames = new Config($this->getDataFolder() . 'names.json', Config::YAML); // TODO: .json but Config::YAML?
         $this->stringsFile = new Config($this->getDataFolder() . 'strings.yml', Config::YAML);
         $this->playersFile = new Config($this->getDataFolder() . 'players.json', Config::JSON);
         if (file_exists($this->getDataFolder() . 'players.yml')) {
@@ -48,7 +48,7 @@ class Main extends PluginBase
         $this->getServer()->getPluginManager()->registerEvents(new CustomListener($this), $this);
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         $data = ['command' => $this->getConfig()->getNested('command.clan.command'), 'description' => $this->getConfig()->getNested('command.clan.description'), 'usage' => $this->getConfig()->getNested('command.clan.usage'), 'aliases' => $this->getConfig()->getNested('command.clan.aliases')];
-        $this->getServer()->getCommandMap()->register("BedrockClans", new clancmd($this, $data));
+        $this->getServer()->getCommandMap()->register('BedrockClans', new clancmd($this, $data));
     }
 
     /**
@@ -381,7 +381,7 @@ class Main extends PluginBase
         $hours = floor($seconds / 3600);
         $minutes = floor(($seconds / 60) % 60);
         $seconds = $seconds % 60;
-        return str_replace(["{hours}", "{minutes}", "{seconds}"], [$hours, $minutes, $seconds], $message);
+        return str_replace(['{hours}', '{minutes}', '{seconds}'], [$hours, $minutes, $seconds], $message);
     }
 
     public function onDisable(): void

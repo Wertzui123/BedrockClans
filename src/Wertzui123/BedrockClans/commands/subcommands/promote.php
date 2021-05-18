@@ -48,10 +48,10 @@ class promote extends Subcommand
             $sender->sendMessage($this->plugin->getMessage('command.promote.alreadyHighest'));
             return;
         }
-        if ($clan->getRank(implode(' ', $args)) === "vim") {
-            $rank = "coleader";
+        if ($clan->getRank(implode(' ', $args)) === 'vim') {
+            $rank = 'coleader';
         } else {
-            $rank = "vim";
+            $rank = 'vim';
         }
         $clan->setRank(implode(' ', $args), $rank);
         $sender->sendMessage($this->plugin->getMessage('command.promote.success', ['{player}' => implode(' ', $args), '{rank}' => Clan::getRankName($rank, true)]));
