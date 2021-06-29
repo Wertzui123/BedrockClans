@@ -12,13 +12,13 @@ JetBrains supports me in the development of BedrockClans.
 bedrockclans: Allows you to use all features of this plugin
 <br>Default: op
 
-bedrockclans.cmd.join: Allows you to use /clan join
+bedrockclans.command.join: Allows you to use /clan join
 <br>Default: op
 
-bedrockclans.cmd.create: Allows you to create clans.
+bedrockclans.command.create: Allows you to create clans.
 <br>Default: op
 
-bedrockclans.cmd.create.costs.bypass: Allows you to bypass the clan creation cost
+bedrockclans.command.create.costs.bypass: Allows you to bypass the clan creation cost
 <br>Default: false
 # Features
 This are some cool features of BedrockClans:
