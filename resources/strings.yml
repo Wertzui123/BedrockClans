@@ -8,7 +8,7 @@ command:
     passClan: "§cPlease pass a clan!"
     invalidClan: "§cThere is no clan by that name!"
     notInvited: "§cYou have not been invited to this clan!"
-    success: "§aYou joined §b{clan}§a."
+    success: "§aYou joined {clan}§a."
   chat:
     disabled: "§cThis feature is disabled!"
     noClan: "§cYou need to be in a clan to use this feature!"
@@ -21,7 +21,7 @@ command:
     clanExists: "§cThere already is a clan by that name!"
     bannedName: "§cThis name is banned!"
     notEnoughMoney: "§cYou don't have enough money (§6{price}§c) to create a clan!"
-    success: "§aYou successfully created the clan §b{clan}§a."
+    success: "§aYou successfully created the clan {clan}§a."
   delete:
     noClan: "§cYou need to be in a clan to use this feature!"
     notLeader: "§cYou must be the leader of your clan to delete it!"
@@ -49,7 +49,7 @@ command:
   info:
     noClan: "§cYou need to be in a clan or pass a clanname!"
     invalidClan: "§cThere is no clan by that name!"
-    success: "§eInfo about {name}:\n§bLeader: §c{leader}\n§bMembers: §c{members}\n§bBank: §c{bank}$"
+    success: "§eInfo about {name}§e:\n§bLeader: §c{leader}\n§bMembers: §c{members}\n§bBank: §c{bank}$"
   invite:
     noClan: "§cYou need to be in a clan to use this feature!"
     noPermission: "§cYou are not allowed to invite people into your clan!"
@@ -58,12 +58,12 @@ command:
     alreadyInClan: "§cThis player is already in a clan!"
     alreadyInvited: "§cThis player has already been invited to your clan!"
     sender: "§aYou successfully invited §b{player} §ato your clan."
-    target: "§aYou have been invited to the clan §b{clan} §aby §b{player}§a."
+    target: "§aYou have been invited to the clan {clan} §aby §b{player}§a."
   join:
     alreadyInClan: "§cYou are already in a clan!"
     passClan: "§cPlease pass a clan!"
     invalidClan: "§cThere is no clan by that name!"
-    success: "§aYou joined §b{clan}§a."
+    success: "§aYou joined {clan}§a."
   kick:
     noClan: "§cYou need to be in a clan to use this feature!"
     notLeader: "§cYou must be the leader of your clan to kick a player out of it!"
@@ -89,6 +89,10 @@ command:
     notInClan: "§b{player} §cis not in your clan!"
     alreadyHighest: "§cThis player is already a co-leader or higher!"
     success: "§aYou successfully promoted §b{player} §ato {rank}§a."
+  setcolor:
+    noClan: "§cYou need to be in a clan to use this feature!"
+    invalidColor: "§aThis color is invalid! Please use the default minecraft color codes or english words."
+    success: "§aYour clan color was successfully updated."
   sethome:
     disabled: "§cThis feature is disabled!"
     noClan: "§cYou need to be in a clan to use this feature!"
@@ -111,7 +115,7 @@ clan:
   invite:
     expired:
       sender: "§cYour invitation to §b{target} §chas expired!"
-      target: "§cYour invitation to §b{clan} by §b{sender} §chas expired!"
+      target: "§cYour invitation to {clan} by §b{sender} §chas expired!"
   kick:
     kicked: "§cYou were kicked out of your clan by §b{player}§c."
   leader:

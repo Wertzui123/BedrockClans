@@ -45,7 +45,7 @@ class accept extends Subcommand
         }
         $clan->removeInvite($player);
         $player->joinClan($clan);
-        $sender->sendMessage($this->plugin->getMessage('command.accept.success', ['{clan}' => $clan->getName()]));
+        $sender->sendMessage($this->plugin->getMessage('command.accept.success', ['{clan}' => $clan->getDisplayName()]));
     }
 
 }

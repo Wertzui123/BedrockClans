@@ -41,7 +41,7 @@ class join extends Subcommand
         }
         $clan = $this->plugin->getClan($name);
         $player->joinClan($clan);
-        $sender->sendMessage($this->plugin->getMessage('command.join.success', ['{clan}' => $clan->getName()]));
+        $sender->sendMessage($this->plugin->getMessage('command.join.success', ['{clan}' => $clan->getDisplayName()]));
     }
 
 }

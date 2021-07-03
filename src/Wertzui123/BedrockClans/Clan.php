@@ -22,6 +22,8 @@ class Clan
     private $members;
     /** @var string */
     private $leader;
+    /** @var string */
+    public $color = 'f';
     /** @var BCPlayer[] */
     private $invites = [];
     /** @var int */
@@ -38,10 +40,11 @@ class Clan
      * @param Config|null $file
      * @param string|null $leader
      * @param string[]|null $members
+     * @param string $color
      * @param int|null $bank
      * @param Location|null $home
      */
-    public function __construct(Main $plugin, string $name, ?Config $file = null, ?string $leader = null, ?array $members = null, ?int $bank = null, ?Location $home = null)
+    public function __construct(Main $plugin, string $name, ?Config $file = null, ?string $leader = null, ?array $members = null, string $color = null, ?int $bank = null, ?Location $home = null)
     {
         $this->plugin = $plugin;
         $this->name = $name;
@@ -61,6 +64,13 @@ class Clan
                 }
             }
             $this->members = $members;
+        }
+        if (is_null($color)) {
+            if ($this->getFile()->exists('color')) {
+                $this->color = $this->getFile()->get('color');
+            }
+        }else {
+            $this->color = $color;
         }
         $this->bank = $bank ?? $this->getFile()->get('bank', 0);
         if ($this->plugin->getConfig()->getNested('home.enabled', true) === true) {
@@ -89,6 +99,15 @@ class Clan
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Returns the clans name with all formatting already done
+     * @return string
+     */
+    public function getDisplayName()
+    {
+        return '§' . $this->getColor() . $this->name . '§f';
     }
 
     /**
@@ -206,6 +225,24 @@ class Clan
     }
 
     /**
+     * Returns the color of this clan
+     * @return string
+     */
+    public function getColor(): string
+    {
+        return $this->color;
+    }
+
+    /**
+     * Changes the color of this clan
+     * @param string $color
+     */
+    public function setColor(string $color)
+    {
+        $this->color = $color;
+    }
+
+    /**
      * Returns whether a given player is invited to this clan
      * @param BCPlayer $player
      * @return bool
@@ -276,7 +313,7 @@ class Clan
      */
     public function invite(BCPlayer $sender, BCPlayer $target)
     {
-        $target->getPlayer()->sendMessage(Main::getInstance()->getMessage('command.invite.target', ['{clan}' => $this->getName(), '{player}' => $sender->getPlayer()->getName()]));
+        $target->getPlayer()->sendMessage(Main::getInstance()->getMessage('command.invite.target', ['{clan}' => $this->getDisplayName(), '{player}' => $sender->getPlayer()->getName()]));
         $this->addInvite($target);
         $task = new InviteTask(Main::getInstance(), $sender, $target, Main::getInstance()->getConfig()->get('invitation_expire_time') * 20);
         $handle = Main::getInstance()->getScheduler()->scheduleRepeatingTask($task, 1);
@@ -310,6 +347,7 @@ class Clan
         $file->set('name', $this->getName());
         $file->set('members', $this->members); // not getMembers() because it doesn't return the ranks
         $file->set('leader', $this->getLeader());
+        $file->set('color', $this->getColor());
         $file->set('bank', $this->getBank());
         if (!is_null($home = $this->getHome())) {
             $file->set('home', ['x' => $home->getX(), 'y' => $home->getY(), 'z' => $home->getZ(), 'world' => $home->getLevel()->getFolderName(), 'yaw' => $home->getYaw(), 'pitch' => $home->getPitch()]);

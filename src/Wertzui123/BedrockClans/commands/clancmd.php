@@ -22,6 +22,7 @@ use Wertzui123\BedrockClans\commands\subcommands\kick;
 use Wertzui123\BedrockClans\commands\subcommands\leader;
 use Wertzui123\BedrockClans\commands\subcommands\leave;
 use Wertzui123\BedrockClans\commands\subcommands\promote;
+use Wertzui123\BedrockClans\commands\subcommands\setcolor;
 use Wertzui123\BedrockClans\commands\subcommands\sethome;
 use Wertzui123\BedrockClans\commands\subcommands\Subcommand;
 use Wertzui123\BedrockClans\commands\subcommands\withdraw;
@@ -93,6 +94,8 @@ class clancmd extends Command
                 return new leave($this->plugin);
             case "promote":
                 return new promote($this->plugin);
+            case "setcolor":
+                return new setcolor($this->plugin);
             case "sethome":
                 return new sethome($this->plugin);
             case "withdraw":

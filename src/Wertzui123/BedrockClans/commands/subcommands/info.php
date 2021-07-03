@@ -39,7 +39,7 @@ class info extends Subcommand
             }
             $clan = $player->getClan();
         }
-        $sender->sendMessage($this->plugin->getMessage('command.info.success', ['{name}' => $clan->getName(), '{leader}' => $clan->getLeaderWithRealName(), '{members}' => implode(', ', $clan->getMembersWithRealName(true)), '{bank}' => $clan->getBank()]));
+        $sender->sendMessage($this->plugin->getMessage('command.info.success', ['{name}' => $clan->getDisplayName(), '{leader}' => $clan->getLeaderWithRealName(), '{members}' => implode(', ', $clan->getMembersWithRealName(true)), '{bank}' => $clan->getBank()]));
     }
 
 }
