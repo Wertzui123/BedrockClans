@@ -1,5 +1,5 @@
 ---
-# BedrockClans - Copyright 2019 - 2021 Wertzui123
+# BedrockClans | Copyright 2019 - 2021 Wertzui123
 # Don't edit this if you don't know what you're doing
 config-version: 3.4
 # Banned clan names
@@ -25,9 +25,9 @@ command:
 create_costs: false
 # How much money it should cost to create a clan when create_costs is enabled
 clan_create_costs: 100
-# Whether /clan chat should be enabled or disabled
+# Settings for /clan chat
 chat:
- enabled: true
+ enabled: true # whether /clan chat should be enabled
  on: "on" # /clan chat on
  off: "off" # /clan chat off
 # Whether /clan home should be enabled or disabled
@@ -57,7 +57,7 @@ bank:
   # All members (except the clan leader) have to wait this long (in hours) between withdrawing from the clan's bank
   cooldown: 24
   maximum:
-   # How much percent of the money on the clan bank can be withdrawn from members with the following ranks
+   # How much percent of the money on the clan bank can be withdrawn from members with the following ranks at once
    member: 5
    vim: 10
    coleader: 30
