@@ -119,7 +119,7 @@ clan:
   kick:
     kicked: "§cYou were kicked out of your clan by §b{player}§c."
   leader:
-    newleader: "§aYou are now the leader of your clan."
+    newLeader: "§aYou are now the leader of your clan."
   leave:
     members: "§b{player} §cleft your clan."
   promote:
