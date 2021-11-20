@@ -18,7 +18,7 @@ bedrockclans.command.join: Allows you to use /clan join
 bedrockclans.command.create: Allows you to create clans.
 <br>Default: op
 
-bedrockclans.command.create.cost.bypass: Allows you to bypass the clan creation cost
+bedrockclans.create.cost.bypass: Allows you to bypass the clan creation cost
 <br>Default: false
 # Features
 This are some cool features of BedrockClans:
