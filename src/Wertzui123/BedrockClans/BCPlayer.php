@@ -19,7 +19,7 @@ class BCPlayer
     /** @var Clan|null */
     private $clan;
     /** @var int */
-    private $withdrawCooldown;
+    private $nextPossibleWithdrawTimestamp;
     /** @var bool */
     private $chatting = false;
 
@@ -35,7 +35,7 @@ class BCPlayer
         $this->plugin = $plugin;
         $this->player = $player;
         $this->clan = $clan ?? $plugin->getPlayersFile()->get(strtolower($player->getName())) !== false ? $this->plugin->getClan($plugin->getPlayersFile()->get(strtolower($player->getName()))) : null;
-        $this->withdrawCooldown = $withdrawCooldown ?? $plugin->getWithdrawCooldownsFile()->get(strtolower($player->getName()), 0);
+        $this->nextPossibleWithdrawTimestamp = $withdrawCooldown ?? $plugin->getWithdrawCooldownsFile()->get(strtolower($player->getName()), 0);
     }
 
     /**
@@ -116,7 +116,7 @@ class BCPlayer
      */
     public function addWithdrawCooldown(int $seconds)
     {
-        $this->withdrawCooldown = time() + $seconds;
+        $this->nextPossibleWithdrawTimestamp = time() + $seconds;
     }
 
     /**
@@ -126,7 +126,7 @@ class BCPlayer
      */
     public function getWithdrawCooldown(): int
     {
-        return $this->withdrawCooldown - time();
+        return $this->nextPossibleWithdrawTimestamp - time();
     }
 
     /**
@@ -225,7 +225,7 @@ class BCPlayer
         $file->save();
 
         $file = $this->plugin->getWithdrawCooldownsFile();
-        $file->set(strtolower($this->getPlayer()->getName()), $this->getWithdrawCooldown());
+        $file->set(strtolower($this->getPlayer()->getName()), $this->nextPossibleWithdrawTimestamp);
         $file->save();
     }
 
