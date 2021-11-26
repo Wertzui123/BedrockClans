@@ -1,6 +1,8 @@
 # BedrockClans
 An advanced PocketMine-MP clan plugin with many creative features.
 <br>The .phar can be found on <a href="https://poggit.pmmp.io/ci/Wertzui123/BedrockClans/BedrockClans/">poggit</a>.
+> This is the branch for PocketMine-MP 3, which will soon be discontinued.
+> See <a href="https://github.com/Wertzui123/BedrockClans/tree/master">here</a> for the new PocketMine-MP 4 branch.
 
 # JetBrains PHPStorm
 JetBrains supports me in the development of BedrockClans.
