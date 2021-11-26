@@ -9,9 +9,6 @@ JetBrains supports me in the development of BedrockClans.
 # Commands
 /clan <subcommand/help> - Manage clans
 # Permissions
-bedrockclans: Allows you to use all features of this plugin
-<br>Default: op
-
 bedrockclans.command.join: Allows you to use /clan join
 <br>Default: op
 

@@ -3,7 +3,7 @@
 namespace Wertzui123\BedrockClans\events\player;
 
 use pocketmine\event\Event;
-use pocketmine\Player;
+use pocketmine\player\Player;
 
 class PlayerEvent extends Event
 {

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Wertzui123\BedrockClans\events\clan;
 
+use pocketmine\event\CancellableTrait;
 use Wertzui123\BedrockClans\Clan;
 use pocketmine\event\Cancellable;
 
 class ClanDeleteEvent extends ClanEvent implements Cancellable
 {
+    use CancellableTrait;
 
     /**
      * ClanDeleteEvent constructor.

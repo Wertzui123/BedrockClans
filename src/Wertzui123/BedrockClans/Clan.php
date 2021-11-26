@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Wertzui123\BedrockClans;
 
-use pocketmine\level\Location;
-use pocketmine\Player;
+use pocketmine\entity\Location;
+use pocketmine\player\Player;
 use pocketmine\utils\Config;
 use Wertzui123\BedrockClans\tasks\InviteTask;
 
@@ -69,14 +69,14 @@ class Clan
             if ($this->getFile()->exists('color')) {
                 $this->color = $this->getFile()->get('color');
             }
-        }else {
+        } else {
             $this->color = $color;
         }
         $this->bank = $bank ?? $this->getFile()->get('bank', 0);
         if ($this->plugin->getConfig()->getNested('home.enabled', true) === true) {
             if (is_null($home) && $this->getFile()->exists('home')) {
                 $this->homeLevel = $this->getFile()->getNested('home.world', 'world');
-                $this->home = new Location($this->getFile()->getNested('home.x', 0), $this->getFile()->getNested('home.y', 0), $this->getFile()->getNested('home.z', 0), $this->getFile()->getNested('home.yaw', 0), $this->getFile()->getNested('home.pitch', 0), $this->plugin->getServer()->getLevelByName($this->homeLevel));
+                $this->home = new Location($this->getFile()->getNested('home.x', 0), $this->getFile()->getNested('home.y', 0), $this->getFile()->getNested('home.z', 0), $this->plugin->getServer()->getWorldManager()->getWorldByName($this->homeLevel), $this->getFile()->getNested('home.yaw', 0), $this->getFile()->getNested('home.pitch', 0));
             } else {
                 $this->home = $home;
             }
@@ -350,7 +350,7 @@ class Clan
         $file->set('color', $this->getColor());
         $file->set('bank', $this->getBank());
         if (!is_null($home = $this->getHome())) {
-            $file->set('home', ['x' => $home->getX(), 'y' => $home->getY(), 'z' => $home->getZ(), 'world' => $home->getLevel()->getFolderName(), 'yaw' => $home->getYaw(), 'pitch' => $home->getPitch()]);
+            $file->set('home', ['x' => $home->getX(), 'y' => $home->getY(), 'z' => $home->getZ(), 'world' => $home->getWorld()->getFolderName(), 'yaw' => $home->getYaw(), 'pitch' => $home->getPitch()]);
         }
         $file->save();
         unset($file);

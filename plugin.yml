@@ -1,22 +1,18 @@
 name: BedrockClans
 main: Wertzui123\BedrockClans\Main
 version: 3.4
-api: 3.0.0
+api: 4.0.0
 load: POSTWORLD
 author: Wertzui123
 description: An advanced PocketMine-MP clan plugin with many creative features
 website: https://github.com/Wertzui123/BedrockClans
 permissions:
-  bedrockclans:
+  bedrockclans.command.join:
     default: op
-    description: Lets you use all BedrockClans features
-    children:
-      bedrockclans.command.join:
-        default: op
-        description: Allows you to use /clan join
-      bedrockclans.command.create:
-        default: op
-        description: Allows you to create clans
-      bedrockclans.create.cost.bypass:
-        default: false
-        description: Allows you to bypass the clan creation cost
+    description: Allows you to use /clan join
+  bedrockclans.command.create:
+    default: op
+    description: Allows you to create clans
+  bedrockclans.create.cost.bypass:
+    default: false
+    description: Allows you to bypass the clan creation cost

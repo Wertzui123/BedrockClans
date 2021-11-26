@@ -3,7 +3,8 @@
 namespace Wertzui123\BedrockClans\commands\subcommands;
 
 use pocketmine\command\CommandSender;
-use pocketmine\Player;
+use pocketmine\entity\Location;
+use pocketmine\player\Player;
 use Wertzui123\BedrockClans\Main;
 
 class home extends Subcommand
@@ -38,14 +39,16 @@ class home extends Subcommand
         if (is_null($clan->getHome())) {
             $sender->sendMessage($this->plugin->getMessage('command.home.noHome'));
             return;
-        }elseif(!$clan->getHome()->isValid() && !$this->plugin->getServer()->isLevelGenerated($clan->homeLevel)){
+        } elseif (!$clan->getHome()->isValid() && !$this->plugin->getServer()->getWorldManager()->isWorldGenerated($clan->homeLevel)) {
             $clan->setHome(null);
             $sender->sendMessage($this->plugin->getMessage('command.home.noHome'));
             return;
         }
-        iF(is_null($clan->getHome()->getLevel())){
-            $this->plugin->getServer()->loadLevel($clan->homeLevel);
-            $clan->getHome()->setLevel($this->plugin->getServer()->getLevelByName($clan->homeLevel));
+        if (is_null($clan->getHome()->getWorld())) {
+            $this->plugin->getServer()->getWorldManager()->loadWorld($clan->homeLevel);
+            $home = $clan->getHome();
+            $home = new Location($home->getX(), $home->getY(), $home->getZ(), $this->plugin->getServer()->getWorldManager()->getWorldByName($clan->homeLevel), $home->getYaw(), $home->getPitch());
+            $clan->setHome($home);
         }
         $sender->teleport($clan->getHome());
         $sender->sendMessage($this->plugin->getMessage('command.home.success'));

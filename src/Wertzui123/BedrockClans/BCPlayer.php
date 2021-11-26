@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Wertzui123\BedrockClans;
 
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\Server;
 use Wertzui123\BedrockClans\events\player\ClanJoinEvent;
 use Wertzui123\BedrockClans\events\player\PlayerClanChatEvent;

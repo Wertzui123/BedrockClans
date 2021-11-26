@@ -29,7 +29,7 @@ class InviteTask extends Task
         $this->target = $target;
     }
 
-    public function onRun(int $currentTick)
+    public function onRun(): void
     {
         if ($this->ticks > 0) {
             $this->ticks--;

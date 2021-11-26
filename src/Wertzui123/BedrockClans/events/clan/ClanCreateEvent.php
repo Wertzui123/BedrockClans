@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Wertzui123\BedrockClans\events\clan;
 
-use Wertzui123\BedrockClans\Clan;
 use pocketmine\event\Cancellable;
-use pocketmine\Player;
+use pocketmine\event\CancellableTrait;
+use Wertzui123\BedrockClans\Clan;
+use pocketmine\player\Player;
 
 class ClanCreateEvent extends ClanEvent implements Cancellable
 {
+    use CancellableTrait;
 
     /** @var Player */
     private $player;

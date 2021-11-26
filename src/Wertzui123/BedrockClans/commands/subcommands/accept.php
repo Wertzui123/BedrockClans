@@ -3,7 +3,7 @@
 namespace Wertzui123\BedrockClans\commands\subcommands;
 
 use pocketmine\command\CommandSender;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use Wertzui123\BedrockClans\Main;
 
 class accept extends Subcommand

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Wertzui123\BedrockClans;
 
-use pocketmine\OfflinePlayer;
-use pocketmine\Player;
+use pocketmine\player\OfflinePlayer;
+use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use Wertzui123\BedrockClans\commands\clancmd;

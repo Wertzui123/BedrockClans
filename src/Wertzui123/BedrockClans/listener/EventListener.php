@@ -39,7 +39,7 @@ class EventListener implements Listener
     public function onChat(PlayerChatEvent $event)
     {
         if ($this->plugin->getPlayer($event->getPlayer())->isChatting()) {
-            $event->setCancelled();
+            $event->cancel();
             $this->plugin->getPlayer($event->getPlayer())->chat($event->getMessage());
         }
     }
