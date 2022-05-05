@@ -8,7 +8,7 @@ use pocketmine\player\OfflinePlayer;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
-use Wertzui123\BedrockClans\commands\clancmd;
+use Wertzui123\BedrockClans\commands\ClanCommand;
 use Wertzui123\BedrockClans\events\clan\ClanCreateEvent;
 use Wertzui123\BedrockClans\events\clan\ClanDeleteEvent;
 use Wertzui123\BedrockClans\listener\CustomListener;
@@ -48,7 +48,7 @@ class Main extends PluginBase
         $this->getServer()->getPluginManager()->registerEvents(new CustomListener($this), $this);
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         $data = ['command' => $this->getConfig()->getNested('command.clan.command'), 'description' => $this->getConfig()->getNested('command.clan.description'), 'usage' => $this->getConfig()->getNested('command.clan.usage'), 'aliases' => $this->getConfig()->getNested('command.clan.aliases')];
-        $this->getServer()->getCommandMap()->register('BedrockClans', new clancmd($this, $data));
+        $this->getServer()->getCommandMap()->register('BedrockClans', new ClanCommand($this, $data));
     }
 
     /**
@@ -104,7 +104,7 @@ class Main extends PluginBase
      * @param mixed $default [optional]
      * @return string|mixed
      */
-    public function getString(string $key, array $replace = [], $default = "")
+    public function getString(string $key, array $replace = [], $default = '')
     {
         return str_replace(array_keys($replace), $replace, $this->getStringsFile()->getNested($key, $default));
     }
@@ -117,7 +117,7 @@ class Main extends PluginBase
      * @param mixed $default [optional]
      * @return string|mixed
      */
-    public function getMessage(string $key, array $replace = [], $default = "")
+    public function getMessage(string $key, array $replace = [], $default = '')
     {
         return $this->prefix . $this->getString($key, $replace, $default);
     }

@@ -4,19 +4,9 @@ namespace Wertzui123\BedrockClans\commands\subcommands;
 
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
-use Wertzui123\BedrockClans\Main;
 
-class setcolor extends Subcommand
+class SetColorSubcommand extends Subcommand
 {
-
-    /**
-     * setcolor constructor.
-     * @param Main $plugin
-     */
-    public function __construct(Main $plugin)
-    {
-        parent::__construct($plugin);
-    }
 
     public function canUse(CommandSender $sender): bool
     {
