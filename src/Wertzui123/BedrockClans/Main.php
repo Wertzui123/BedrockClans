@@ -13,6 +13,7 @@ use Wertzui123\BedrockClans\events\clan\ClanCreateEvent;
 use Wertzui123\BedrockClans\events\clan\ClanDeleteEvent;
 use Wertzui123\BedrockClans\listener\CustomListener;
 use Wertzui123\BedrockClans\listener\EventListener;
+use pocketmine\utils\ConfigLoadException;
 
 class Main extends PluginBase
 {
@@ -22,8 +23,8 @@ class Main extends PluginBase
     private static $instance;
     private $prefix;
     private $clans = [];
-    private $playerNames;
     private $stringsFile;
+    private $playerNames;
     private $playersFile;
     private $withdrawCooldownsFile;
     private $players = [];
@@ -35,8 +36,15 @@ class Main extends PluginBase
         self::$instance = $this;
         $this->configUpdater();
         if (!is_dir($this->getDataFolder() . 'clans')) @mkdir($this->getDataFolder() . 'clans');
-        $this->playerNames = new Config($this->getDataFolder() . 'names.json', Config::YAML); // TODO: .json but Config::YAML?
         $this->stringsFile = new Config($this->getDataFolder() . 'strings.yml', Config::YAML);
+        try {
+            $this->playerNames = new Config($this->getDataFolder() . 'names.json', Config::JSON);
+        } catch (ConfigLoadException) {
+            // Ensure backwards compatibility
+            $contents = yaml_parse(file_get_contents($this->getDataFolder() . 'names.json'));
+            file_put_contents($this->getDataFolder() . 'names.json', json_encode($contents, JSON_PRETTY_PRINT));
+            $this->playerNames = new Config($this->getDataFolder() . 'names.json', Config::JSON);
+        }
         $this->playersFile = new Config($this->getDataFolder() . 'players.json', Config::JSON);
         if (file_exists($this->getDataFolder() . 'players.yml')) {
             $this->playersFile->setAll((new Config($this->getDataFolder() . 'players.yml', Config::YAML))->getAll());
