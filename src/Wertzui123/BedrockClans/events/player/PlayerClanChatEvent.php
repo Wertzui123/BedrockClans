@@ -16,7 +16,7 @@ class PlayerClanChatEvent extends PlayerEvent implements Cancellable
     private $message;
 
     /**
-     * ClanChatEvent constructor.
+     * PlayerClanChatEvent constructor.
      * @param Player $player
      * @param string $message
      */
