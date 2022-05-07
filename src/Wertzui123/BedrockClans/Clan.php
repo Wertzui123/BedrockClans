@@ -50,7 +50,7 @@ class Clan
         $this->name = $name;
         $this->file = $file ?? new Config($this->plugin->getDataFolder() . 'clans/' . $this->name . '.json', Config::JSON);
         if (file_exists($this->plugin->getDataFolder() . 'clans/' . $this->name . '.yml')) {
-            $this->file->setAll((new Config($this->plugin->getDataFolder() . "clans/" . $this->name . ".yml", Config::YAML))->getAll());
+            $this->file->setAll((new Config($this->plugin->getDataFolder() . 'clans/' . $this->name . '.yml', Config::YAML))->getAll());
         }
         $this->leader = $leader ?? $this->getFile()->get('leader', '');
         $this->members = $members ?? $this->getFile()->get('members', []);
@@ -58,9 +58,9 @@ class Clan
             $members = [];
             foreach ($this->members as $member) {
                 if ($this->getLeader() === strtolower($member)) {
-                    $members[strtolower($member)] = "leader";
+                    $members[strtolower($member)] = 'leader';
                 } else {
-                    $members[strtolower($member)] = "member";
+                    $members[strtolower($member)] = 'member';
                 }
             }
             $this->members = $members;

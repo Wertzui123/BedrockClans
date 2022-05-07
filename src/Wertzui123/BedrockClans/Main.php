@@ -364,7 +364,7 @@ class Main extends PluginBase
             return;
         }
         if (!$this->getConfig()->exists('config-version')) {
-            $this->getLogger()->info("§eYour Config isn't the latest. BedrockClans renamed your old config to §bconfig-old.yml §6and created a new config. Have fun!");
+            $this->getLogger()->info("§eYour config wasn't the latest. BedrockClans renamed your old config to §bconfig-old.yml §6and created a new config. Have fun!");
             rename($this->getDataFolder() . 'config.yml', $this->getDataFolder() . 'config-old.yml');
             $this->saveResource('config.yml', true);
             $this->saveResource('strings.yml', true);

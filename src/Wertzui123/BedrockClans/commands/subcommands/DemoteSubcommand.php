@@ -38,7 +38,7 @@ class DemoteSubcommand extends Subcommand
             $sender->sendMessage($this->plugin->getMessage('command.demote.alreadyLowest'));
             return;
         }
-        if ($clan->getRank(implode(' ', $args)) === "vim") {
+        if ($clan->getRank(implode(' ', $args)) === 'vim') {
             $rank = 'member';
         } else {
             $rank = 'vim';

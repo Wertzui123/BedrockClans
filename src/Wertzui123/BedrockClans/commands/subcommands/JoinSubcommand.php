@@ -10,7 +10,7 @@ class JoinSubcommand extends Subcommand
 
     public function canUse(CommandSender $sender): bool
     {
-        return $sender instanceof Player && $sender->hasPermission("bedrockclans.command.join");
+        return $sender instanceof Player && $sender->hasPermission('bedrockclans.command.join');
     }
 
     public function execute(CommandSender $sender, array $args)

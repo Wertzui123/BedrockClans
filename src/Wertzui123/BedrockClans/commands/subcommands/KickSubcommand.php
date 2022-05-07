@@ -21,7 +21,7 @@ class KickSubcommand extends Subcommand
             return;
         }
         if (!$player->isLeader()) {
-            $sender->sendMessage($this->plugin->getMessage("kick_not_leader"));
+            $sender->sendMessage($this->plugin->getMessage('command.kick.notLeader'));
             return;
         }
         if (!isset($args[0])) {

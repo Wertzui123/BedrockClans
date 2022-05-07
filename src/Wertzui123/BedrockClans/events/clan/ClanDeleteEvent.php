@@ -22,7 +22,7 @@ class ClanDeleteEvent extends ClanEvent implements Cancellable
     }
 
     /**
-     * Returns the new clan
+     * Returns the deleted clan
      * @return Clan
      */
     public function getClan(): Clan
