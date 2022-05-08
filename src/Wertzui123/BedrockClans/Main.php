@@ -11,7 +11,6 @@ use pocketmine\utils\Config;
 use Wertzui123\BedrockClans\commands\ClanCommand;
 use Wertzui123\BedrockClans\events\clan\ClanCreateEvent;
 use Wertzui123\BedrockClans\events\clan\ClanDeleteEvent;
-use Wertzui123\BedrockClans\listener\CustomListener;
 use Wertzui123\BedrockClans\listener\EventListener;
 use pocketmine\utils\ConfigLoadException;
 
@@ -53,7 +52,6 @@ class Main extends PluginBase
         $this->withdrawCooldownsFile = new Config($this->getDataFolder() . 'withdrawCooldowns.json', Config::JSON);
         $this->loadClans();
         $this->prefix = (string)$this->getConfig()->get('prefix');
-        $this->getServer()->getPluginManager()->registerEvents(new CustomListener($this), $this);
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         $data = ['command' => $this->getConfig()->getNested('command.clan.command'), 'description' => $this->getConfig()->getNested('command.clan.description'), 'usage' => $this->getConfig()->getNested('command.clan.usage'), 'aliases' => $this->getConfig()->getNested('command.clan.aliases')];
         $this->getServer()->getCommandMap()->register('BedrockClans', new ClanCommand($this, $data));
