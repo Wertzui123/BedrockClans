@@ -43,7 +43,14 @@ class DemoteSubcommand extends Subcommand
         } else {
             $rank = 'vim';
         }
-        $clan->setRank(implode(' ', $args), $rank);
+        $member = implode(' ', $args);
+        if ($this->plugin->getServer()->getPlayerExact($member) instanceof Player) {
+            $member = $this->plugin->getServer()->getPlayerExact($member);
+        }
+        if (!$clan->setRank($member, $rank)) {
+            $sender->sendMessage($this->plugin->getMessage('command.demote.cancelled'));
+            return;
+        }
         $sender->sendMessage($this->plugin->getMessage('command.demote.success', ['{player}' => implode(' ', $args), '{rank}' => Clan::getRankName($rank, true)]));
         if (!is_null($p = $this->plugin->getServer()->getPlayerExact($this->plugin->getPlayerName(strtolower(implode(' ', $args)))))) {
             $p->sendMessage($this->plugin->getMessage('clan.demote.demoted', ['{rank}' => Clan::getRankName($rank, true)]));

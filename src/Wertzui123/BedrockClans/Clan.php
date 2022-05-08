@@ -7,6 +7,9 @@ namespace Wertzui123\BedrockClans;
 use pocketmine\entity\Location;
 use pocketmine\player\Player;
 use pocketmine\utils\Config;
+use Wertzui123\BedrockClans\events\clan\ClanColorChangeEvent;
+use Wertzui123\BedrockClans\events\player\OfflinePlayerRankChangeEvent;
+use Wertzui123\BedrockClans\events\player\PlayerRankChangeEvent;
 use Wertzui123\BedrockClans\tasks\InviteTask;
 
 class Clan
@@ -103,11 +106,12 @@ class Clan
 
     /**
      * Returns the clans name with all formatting already done
+     * @param string $color [optional]
      * @return string
      */
-    public function getDisplayName()
+    public function getDisplayName(string $color = null)
     {
-        return '§' . $this->getColor() . $this->name . '§f';
+        return '§' . ($color ?? $this->getColor()) . $this->name . '§f';
     }
 
     /**
@@ -190,11 +194,26 @@ class Clan
      * Updates the clan rank of the given player
      * @param BCPlayer|Player|string $player
      * @param string $rank
+     * @param bool $force [optional]
+     * @return bool
      */
-    public function setRank($player, $rank)
+    public function setRank($player, $rank, $force = false)
     {
-        $player = strtolower($player instanceof BCPlayer ? $player->getPlayer()->getName() : ($player instanceof Player ? $player->getName() : $player));
-        $this->members[$player] = $rank;
+        $playerName = strtolower($player instanceof BCPlayer ? $player->getPlayer()->getName() : ($player instanceof Player ? $player->getName() : $player));
+        if ($this->members[$playerName] !== null && !$force) {
+            if ($player instanceof BCPlayer) $player = $player->getPlayer();
+            if ($player instanceof Player) {
+                $event = new PlayerRankChangeEvent($player, $this->members[$playerName], $rank);
+                $event->call();
+                if ($event->isCancelled()) return false;
+            } else {
+                $event = new OfflinePlayerRankChangeEvent($playerName, $this->members[$playerName], $rank);
+                $event->call();
+                if ($event->isCancelled()) return false;
+            }
+        }
+        $this->members[$playerName] = $rank;
+        return true;
     }
 
     /**
@@ -236,10 +255,15 @@ class Clan
     /**
      * Changes the color of this clan
      * @param string $color
+     * @return bool
      */
     public function setColor(string $color)
     {
+        $event = new ClanColorChangeEvent($this, $this->color, $color);
+        $event->call();
+        if ($event->isCancelled()) return false;
         $this->color = $color;
+        return true;
     }
 
     /**

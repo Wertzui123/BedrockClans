@@ -14,7 +14,7 @@ class AboutSubcommand extends Subcommand
 
     public function execute(CommandSender $sender, array $args)
     {
-        $sender->sendMessage("§cBedrock§bClans §awas written by Wertzui123. You are using version §73.4§a. Thanks for downloading (:");
+        $sender->sendMessage("§cBedrock§bClans §awas written by Wertzui123. You are using version §73.5§a. Thanks for downloading (:");
     }
 
 }

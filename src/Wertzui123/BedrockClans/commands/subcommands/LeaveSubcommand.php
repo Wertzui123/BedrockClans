@@ -4,7 +4,7 @@ namespace Wertzui123\BedrockClans\commands\subcommands;
 
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
-use Wertzui123\BedrockClans\events\player\ClanLeaveEvent;
+use Wertzui123\BedrockClans\events\player\PlayerClanLeaveEvent;
 
 class LeaveSubcommand extends Subcommand
 {
@@ -23,9 +23,12 @@ class LeaveSubcommand extends Subcommand
         }
         if (strtolower($sender->getName()) !== $player->getClan()->getLeader()) {
             $clan = $player->getClan();
-            $event = new ClanLeaveEvent($player->getPlayer(), $clan);
+            $event = new PlayerClanLeaveEvent($player->getPlayer(), $clan);
             $event->call();
-            if ($event->isCancelled()) return; // TODO: Message
+            if ($event->isCancelled()) {
+                $event->getPlayer()->sendMessage($this->plugin->getMessage('command.leave.cancelled'));
+                return;
+            }
             $player->setClan(null);
             $clan->removeMember($player);
             $sender->sendMessage($this->plugin->getMessage('command.leave.success'));

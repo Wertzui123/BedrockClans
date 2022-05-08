@@ -12,6 +12,7 @@ JetBrains supports me in the development of BedrockClans.
 * Highly customizable
 * Multiple clan ranks
 * Clan bank (using EconomyAPI)
+* ScoreHud integration
 * Clan creation costs (using EconomyAPI)
 * Clan chat
 * Clan homes
@@ -53,8 +54,15 @@ JetBrains supports me in the development of BedrockClans.
 PureChat integration is currently not possible anymore.
 <br>I may bring it back in the future.
 
-# ScoreHud Addon
-There is a <a href="https://github.com/Wertzui123/ScoreHud-Addons/blob/master/BedrockClansAddon.php">ScoreHud addon</a> for very old versions of ScoreHud.
+# ScoreHud integration
+BedrockClans has built-in support for <a href="https://github.com/Ifera/ScoreHud">ScoreHud</a>.
+<br>Available tags are:
+
+| Tag                       | Description                                     |
+|---------------------------|-------------------------------------------------|
+| bedrockclans.clan.name    | The display name of the player's clan (colored) |
+| bedrockclans.player.rank  | The rank of the player in their clan (colored)  |
+| bedrockclans.clan.members | The number of members in the player's clan      |
 
 # Ideas, Questions and Support
 You can contact me in <a href="https://discord.gg/eGhZGtF">my discord server</a> or <a href="https://github.com/Wertzui123/BedrockClans/issues/new">create an issue</a>/<a href="https://github.com/Wertzui123/BedrockClans/discussions/new">start a discussion</a>.

@@ -32,6 +32,7 @@ command:
     passPlayer: "§cPlease pass a player!"
     notInClan: "§b{player} §cis not in your clan!"
     alreadyLowest: "§cThis player cannot be demoted anymore!"
+    cancelled: "§cYou cannot demote this player!"
     success: "§aYou successfully demoted §b{player} §ato {rank}§a."
   deposit:
     disabled: "§cThis feature is disabled!"
@@ -70,6 +71,7 @@ command:
     passPlayer: "§cPlease pass a player!"
     notInClan: "§b{player} §cis not in your clan!"
     cannotKickLeader: "§cYou cannot kick the leader of your clan!"
+    cancelled: "§cYou cannot kick this player out of your clan!"
     success: "§aYou successfully kicked §b{player} §aout of your clan."
   leader:
     noClan: "§cYou need to be in a clan to use this feature!"
@@ -77,10 +79,12 @@ command:
     passPlayer: "§cPlease pass a player!"
     notInClan: "§b{player} §cis not in your clan!"
     alreadyLeader: "§cThis player is already the leader!"
+    cancelled: "§cYou cannot promote this player to the leader!"
     success: "§aYou successfully promoted §b{player} §ato the leader of your clan."
   leave:
     noClan: "§cYou need to be in a clan to use this feature!"
     leader: "§cYou cannot leave your clan because you are the clan leader!"
+    cancelled: "§cYou cannot leave your clan!"
     success: "§aYou successfully left your clan."
   promote:
     noClan: "§cYou need to be in a clan to use this feature!"
@@ -88,10 +92,12 @@ command:
     passPlayer: "§cPlease pass a player!"
     notInClan: "§b{player} §cis not in your clan!"
     alreadyHighest: "§cThis player is already a co-leader or higher!"
+    cancelled: "§cYou cannot promote this player!"
     success: "§aYou successfully promoted §b{player} §ato {rank}§a."
   setcolor:
     noClan: "§cYou need to be in a clan to use this feature!"
     invalidColor: "§aThis color is invalid! Please use the default minecraft color codes or english words."
+    cancelled: "§cYou cannot set the color of your clan!"
     success: "§aYour clan color was successfully updated."
   sethome:
     disabled: "§cThis feature is disabled!"

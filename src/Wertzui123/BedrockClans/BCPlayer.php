@@ -6,7 +6,7 @@ namespace Wertzui123\BedrockClans;
 
 use pocketmine\player\Player;
 use pocketmine\Server;
-use Wertzui123\BedrockClans\events\player\ClanJoinEvent;
+use Wertzui123\BedrockClans\events\player\PlayerClanJoinEvent;
 use Wertzui123\BedrockClans\events\player\PlayerClanChatEvent;
 
 class BCPlayer
@@ -183,7 +183,7 @@ class BCPlayer
      */
     public function joinClan(Clan $clan): bool
     {
-        $event = new ClanJoinEvent($this->getPlayer(), $clan);
+        $event = new PlayerClanJoinEvent($this->getPlayer(), $clan);
         $event->call();
         if ($event->isCancelled()) return false;
         foreach ($clan->getMembers() as $member) {

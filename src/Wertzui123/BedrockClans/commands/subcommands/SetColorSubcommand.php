@@ -107,7 +107,10 @@ class SetColorSubcommand extends Subcommand
                 return;
         }
 
-        $clan->setColor($color);
+        if (!$clan->setColor($color)) {
+            $sender->sendMessage($this->plugin->getMessage('command.setcolor.cancelled'));
+            return;
+        }
         $sender->sendMessage($this->plugin->getMessage('command.setcolor.success'));
     }
 

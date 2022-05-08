@@ -37,9 +37,20 @@ class LeaderSubcommand extends Subcommand
             $sender->sendMessage($this->plugin->getMessage('command.leader.alreadyLeader'));
             return;
         }
-        $clan->setRank($player, 'member');
+        if (!$clan->setRank($player, 'member')) {
+            $sender->sendMessage($this->plugin->getMessage('command.leader.cancelled'));
+            return;
+        }
+        $member = implode(' ', $args);
+        if ($this->plugin->getServer()->getPlayerExact($member) instanceof Player) {
+            $member = $this->plugin->getServer()->getPlayerExact($member);
+        }
+        if (!$clan->setRank($member, 'leader')) {
+            $sender->sendMessage($this->plugin->getMessage('command.leader.cancelled'));
+            $clan->setRank($player, 'member', true);
+            return;
+        }
         $clan->setLeader(implode(' ', $args));
-        $clan->setRank(implode(' ', $args), 'leader');
         $sender->sendMessage($this->plugin->getMessage('command.leader.success', ['{player}' => implode(' ', $args)]));
         if (!is_null($p = $this->plugin->getServer()->getPlayerExact($this->plugin->getPlayerName(strtolower(implode(' ', $args)))))) {
             $p->sendMessage($this->plugin->getMessage('clan.leader.newLeader'));

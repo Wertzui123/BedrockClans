@@ -4,6 +4,8 @@ namespace Wertzui123\BedrockClans\commands\subcommands;
 
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
+use Wertzui123\BedrockClans\events\player\OfflinePlayerClanLeaveEvent;
+use Wertzui123\BedrockClans\events\player\PlayerClanLeaveEvent;
 
 class KickSubcommand extends Subcommand
 {
@@ -39,6 +41,12 @@ class KickSubcommand extends Subcommand
             return;
         }
         if (!is_null($k = $this->plugin->getServer()->getPlayerExact($kicked))) {
+            $event = new PlayerClanLeaveEvent($k, $clan);
+            $event->call();
+            if ($event->isCancelled()) {
+                $sender->sendMessage($this->plugin->getMessage('command.kick.cancelled'));
+                return;
+            }
             $k = $this->plugin->getPlayer($k);
             $clan = $k->getClan();
             $k->setClan(null);
@@ -47,6 +55,12 @@ class KickSubcommand extends Subcommand
             $k->getPlayer()->sendMessage($this->plugin->getMessage('clan.kick.kicked', ['{player}' => $sender->getName()]));
         } else {
             $clan = $this->plugin->getClanByPlayer($kicked);
+            $event = new OfflinePlayerClanLeaveEvent($kicked, $clan);
+            $event->call();
+            if ($event->isCancelled()) {
+                $sender->sendMessage($this->plugin->getMessage('command.kick.cancelled'));
+                return;
+            }
             $this->plugin->setClan($kicked, null);
             $clan->removeMember($kicked);
             $sender->sendMessage($this->plugin->getMessage('command.kick.success', ['{player}' => $kicked]));
