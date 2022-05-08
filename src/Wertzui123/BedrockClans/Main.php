@@ -54,7 +54,9 @@ class Main extends PluginBase
         $this->loadClans();
         $this->prefix = (string)$this->getConfig()->get('prefix');
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
-        $this->getServer()->getPluginManager()->registerEvents(new ScoreHudListener($this), $this);
+        if ($this->getServer()->getPluginManager()->getPlugin('ScoreHud') !== null) {
+            $this->getServer()->getPluginManager()->registerEvents(new ScoreHudListener($this), $this);
+        }
         $data = ['command' => $this->getConfig()->getNested('command.clan.command'), 'description' => $this->getConfig()->getNested('command.clan.description'), 'usage' => $this->getConfig()->getNested('command.clan.usage'), 'aliases' => $this->getConfig()->getNested('command.clan.aliases')];
         $this->getServer()->getCommandMap()->register('BedrockClans', new ClanCommand($this, $data));
     }
