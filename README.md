@@ -50,6 +50,10 @@ JetBrains supports me in the development of BedrockClans.
 | bedrockclans.command.create     | Allows you to use `/clan create`             | op      |
 | bedrockclans.create.cost.bypass | Allows you to bypass the clan creation costs | false   |
 
+# Switching to BedrockClans
+If you want to switch from another clan/factions plugin to BedrockClans, you can use these scripts to convert your old database to a BedrockClans compatible one:
+* <a href="https://github.com/Wertzui123/FactionsPro2BedrockClans">FactionsPro</a>
+
 # PureChat integration
 PureChat integration is currently not possible anymore.
 <br>I may bring it back in the future.
