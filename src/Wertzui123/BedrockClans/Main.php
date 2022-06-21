@@ -370,6 +370,7 @@ class Main extends PluginBase
             rename($this->getDataFolder() . 'config.yml', $this->getDataFolder() . 'config-old.yml');
             $this->saveResource('config.yml', true);
             $this->saveResource('strings.yml', true);
+            $this->reloadConfig();
         } elseif ($this->getConfig()->get('config-version') !== self::CONFIG_VERSION) {
             $configVersion = $this->getConfig()->get('config-version');
             $this->getLogger()->info("§eYour config wasn't the latest. BedrockClans renamed your old config to §bconfig-" . $configVersion . ".yml §6and created a new config. Have fun!");
@@ -377,6 +378,7 @@ class Main extends PluginBase
             rename($this->getDataFolder() . 'strings.yml', $this->getDataFolder() . 'strings-' . $configVersion . '.yml');
             $this->saveResource('config.yml');
             $this->saveResource('strings.yml');
+            $this->reloadConfig();
         }
     }
 
