@@ -43,11 +43,11 @@ class Clan
      * @param Config|null $file
      * @param string|null $leader
      * @param string[]|null $members
-     * @param string $color
+     * @param string|null $color
      * @param int|null $bank
      * @param Location|null $home
      */
-    public function __construct(Main $plugin, string $name, ?Config $file = null, ?string $leader = null, ?array $members = null, string $color = null, ?int $bank = null, ?Location $home = null)
+    public function __construct(Main $plugin, string $name, ?Config $file = null, ?string $leader = null, ?array $members = null, ?string $color = null, ?int $bank = null, ?Location $home = null)
     {
         $this->plugin = $plugin;
         $this->name = $name;
