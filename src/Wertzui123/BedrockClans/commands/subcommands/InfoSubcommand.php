@@ -29,7 +29,7 @@ class InfoSubcommand extends Subcommand
             }
             $clan = $player->getClan();
         }
-        $sender->sendMessage($this->plugin->getMessage('command.info.success', ['{name}' => $clan->getDisplayName(), '{leader}' => $clan->getLeaderWithRealName(), '{members}' => implode(', ', $clan->getMembersWithRealName(true)), '{bank}' => $clan->getBank()]));
+        $sender->sendMessage($this->plugin->getMessage('command.info.success', ['{name}' => $clan->getDisplayName(), '{creation_date}' => $clan->getCreationDate() < 0 ? $this->plugin->getConfig()->get('date_unknown') : date($this->plugin->getConfig()->get('date_format'), $clan->getCreationDate()), '{leader}' => $clan->getLeaderWithRealName(), '{members}' => implode(', ', $clan->getMembersWithRealName(true)), '{bank}' => $clan->getBank()]));
     }
 
 }

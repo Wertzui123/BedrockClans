@@ -1,7 +1,7 @@
 ---
 # BedrockClans | Copyright 2019 - 2022 Wertzui123
 # Don't edit this if you don't know what you're doing
-config-version: 3.5
+config-version: 3.6
 # Banned clan names
 banned_clan_names: 
  - Hacker
@@ -28,6 +28,11 @@ command:
 create_costs: false
 # How much money it should cost to create a clan when create_costs is enabled
 clan_create_costs: 100
+# In which format dates (e.g. clan creation dates) should be displayed
+# See https://www.php.net/manual/de/datetime.format.php for possible characters
+date_format: "Y-m-d H:i:s"
+# Which word to use for unknown dates (e.g. if a clan has been created before clan creation dates were saved)
+date_unknown: "Unknown"
 # Settings for /clan chat
 chat:
  enabled: true # whether /clan chat should be enabled

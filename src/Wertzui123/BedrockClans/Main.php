@@ -29,7 +29,7 @@ class Main extends PluginBase
     private $withdrawCooldownsFile;
     private $players = [];
 
-    const CONFIG_VERSION = 3.5;
+    const CONFIG_VERSION = 3.6;
 
     public function onEnable(): void
     {
@@ -282,7 +282,7 @@ class Main extends PluginBase
         $file->set('leader', strtolower($leader->getPlayer()->getName()));
         $file->set('members', [strtolower($leader->getPlayer()->getName()) => 'leader']);
         $file->save();
-        $clan = new Clan($this, $name, $file, strtolower($leader->getPlayer()->getName()), [strtolower($leader->getPlayer()->getName()) => 'leader']);
+        $clan = new Clan($this, $name, $file, time(), strtolower($leader->getPlayer()->getName()), [strtolower($leader->getPlayer()->getName()) => 'leader']);
         $clan->setRank($leader, 'leader');
         $event = new ClanCreateEvent($clan, $leader->getPlayer());
         $event->call();

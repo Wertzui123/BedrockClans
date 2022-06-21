@@ -50,7 +50,7 @@ command:
   info:
     noClan: "§cYou need to be in a clan or pass a clanname!"
     invalidClan: "§cThere is no clan by that name!"
-    success: "§eInfo about {name}§e:\n§bLeader: §c{leader}\n§bMembers: §c{members}\n§bBank: §c{bank}$"
+    success: "§eInfo about {name}§e:\n§bCreated: §c{creation_date}\n§bLeader: §c{leader}\n§bMembers: §c{members}\n§bBank: §c{bank}$"
   invite:
     noClan: "§cYou need to be in a clan to use this feature!"
     noPermission: "§cYou are not allowed to invite people into your clan!"

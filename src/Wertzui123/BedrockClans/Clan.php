@@ -21,6 +21,8 @@ class Clan
     private $name;
     /** @var Config */
     private $file;
+    /** @var int */
+    private $creationDate;
     /** @var array */
     private $members;
     /** @var string */
@@ -47,7 +49,7 @@ class Clan
      * @param int|null $bank
      * @param Location|null $home
      */
-    public function __construct(Main $plugin, string $name, ?Config $file = null, ?string $leader = null, ?array $members = null, ?string $color = null, ?int $bank = null, ?Location $home = null)
+    public function __construct(Main $plugin, string $name, ?Config $file = null, ?int $creationDate = null, ?string $leader = null, ?array $members = null, ?string $color = null, ?int $bank = null, ?Location $home = null)
     {
         $this->plugin = $plugin;
         $this->name = $name;
@@ -55,6 +57,7 @@ class Clan
         if (file_exists($this->plugin->getDataFolder() . 'clans/' . $this->name . '.yml')) {
             $this->file->setAll((new Config($this->plugin->getDataFolder() . 'clans/' . $this->name . '.yml', Config::YAML))->getAll());
         }
+        $this->creationDate = $creationDate ?? $this->getFile()->get('creationDate', -1);
         $this->leader = $leader ?? $this->getFile()->get('leader', '');
         $this->members = $members ?? $this->getFile()->get('members', []);
         if (!empty($this->members) && is_int(array_keys($this->members)[0])) {
@@ -112,6 +115,15 @@ class Clan
     public function getDisplayName(string $color = null)
     {
         return '§' . ($color ?? $this->getColor()) . $this->name . '§f';
+    }
+
+    /**
+     * Returns the date this clan was created (unix timestamp)
+     * @return int
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
     }
 
     /**
@@ -369,6 +381,7 @@ class Clan
     {
         $file = $this->getFile();
         $file->set('name', $this->getName());
+        $file->set('creationDate', $this->getCreationDate());
         $file->set('members', $this->members); // not getMembers() because it doesn't return the ranks
         $file->set('leader', $this->getLeader());
         $file->set('color', $this->getColor());
