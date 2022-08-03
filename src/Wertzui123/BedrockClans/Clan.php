@@ -37,6 +37,8 @@ class Clan
     private $home = null;
     /** @var string */
     public $homeLevel = null;
+    /** @var bool */
+    public bool $deleted = false;
 
     /**
      * Clan constructor.
@@ -351,7 +353,7 @@ class Clan
     {
         $target->getPlayer()->sendMessage(Main::getInstance()->getMessage('command.invite.target', ['{clan}' => $this->getDisplayName(), '{player}' => $sender->getPlayer()->getName()]));
         $this->addInvite($target);
-        $task = new InviteTask(Main::getInstance(), $sender, $target, Main::getInstance()->getConfig()->get('invitation_expire_time') * 20);
+        $task = new InviteTask(Main::getInstance(), $sender, $target, $sender->getClan(), Main::getInstance()->getConfig()->get('invitation_expire_time') * 20);
         $handle = Main::getInstance()->getScheduler()->scheduleRepeatingTask($task, 1);
         $task->setHandler($handle);
     }

@@ -322,6 +322,7 @@ class Main extends PluginBase
             }
         }
         $clan->setBank(0); // just in case some code is repeated
+        $clan->deleted = true;
         unset($this->clans[$clan->getName()]);
         $file = $this->getDataFolder() . 'clans/' . $clan->getName() . '.json';
         unset($clan);
@@ -334,12 +335,13 @@ class Main extends PluginBase
      * Informs the sender and the target that an invitation has expired and removes the target from the invitation list
      * @param BCPlayer $sender
      * @param BCPlayer $target
+     * @param Clan $clan
      */
-    public function expire(BCPlayer $sender, BCPlayer $target)
+    public function expire(BCPlayer $sender, BCPlayer $target, Clan $clan)
     {
-        $sender->getClan()->removeInvite($target);
+        $clan->removeInvite($target);
         $sender->getPlayer()->sendMessage($this->getMessage('clan.invite.expired.sender', ['{target}' => $target->getPlayer()->getName()]));
-        $target->getPlayer()->sendMessage($this->getMessage('clan.invite.expired.target', ['{clan}' => $sender->getClan()->getName(), '{sender}' => $sender->getPlayer()->getName()])); // TODO: This will show an incorrect name if the sender has switched their clan
+        $target->getPlayer()->sendMessage($this->getMessage('clan.invite.expired.target', ['{clan}' => $clan->getName(), '{sender}' => $sender->getPlayer()->getName()]));
     }
 
     /**

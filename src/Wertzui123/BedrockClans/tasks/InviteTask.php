@@ -4,6 +4,7 @@ namespace Wertzui123\BedrockClans\tasks;
 
 use pocketmine\scheduler\Task;
 use Wertzui123\BedrockClans\BCPlayer;
+use Wertzui123\BedrockClans\Clan;
 use Wertzui123\BedrockClans\Main;
 
 class InviteTask extends Task
@@ -13,20 +14,23 @@ class InviteTask extends Task
     private $ticks;
     private $sender;
     private $target;
+    private $clan;
 
     /**
      * InviteTask constructor.
      * @param Main $plugin
      * @param BCPlayer $sender
      * @param BCPlayer $target
+     * @param Clan $clan
      * @param int $ticks
      */
-    public function __construct(Main $plugin, BCPlayer $sender, BCPlayer $target, int $ticks)
+    public function __construct(Main $plugin, BCPlayer $sender, BCPlayer $target, Clan $clan, int $ticks)
     {
         $this->plugin = $plugin;
-        $this->ticks = $ticks;
         $this->sender = $sender;
         $this->target = $target;
+        $this->clan = $clan;
+        $this->ticks = $ticks;
     }
 
     public function onRun(): void
@@ -34,9 +38,9 @@ class InviteTask extends Task
         if ($this->ticks > 0) {
             $this->ticks--;
         } else {
-            if (is_null($this->sender) || is_null($this->target) || is_null($this->sender->getClan())) return;
-            if ($this->sender->getClan()->isInvited($this->target)) {
-                $this->plugin->expire($this->sender, $this->target);
+            if (is_null($this->sender) || !$this->sender->getPlayer()->isOnline() || is_null($this->target) || !$this->target->getPlayer()->isOnline() || is_null($this->clan) || $this->clan->deleted) return;
+            if ($this->clan->isInvited($this->target)) {
+                $this->plugin->expire($this->sender, $this->target, $this->clan);
             }
         }
     }
