@@ -340,8 +340,12 @@ class Main extends PluginBase
     public function expire(BCPlayer $sender, BCPlayer $target, Clan $clan)
     {
         $clan->removeInvite($target);
-        $sender->getPlayer()->sendMessage($this->getMessage('clan.invite.expired.sender', ['{target}' => $target->getPlayer()->getName()]));
-        $target->getPlayer()->sendMessage($this->getMessage('clan.invite.expired.target', ['{clan}' => $clan->getName(), '{sender}' => $sender->getPlayer()->getName()]));
+        if ($sender->getPlayer()->isOnline()) {
+            $sender->getPlayer()->sendMessage($this->getMessage('clan.invite.expired.sender', ['{target}' => $target->getPlayer()->getName()]));
+        }
+        if ($target->getPlayer()->isOnline()) {
+            $target->getPlayer()->sendMessage($this->getMessage('clan.invite.expired.target', ['{clan}' => $clan->getName(), '{sender}' => $sender->getPlayer()->getName()]));
+        }
     }
 
     /**

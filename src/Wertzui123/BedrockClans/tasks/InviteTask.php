@@ -38,7 +38,7 @@ class InviteTask extends Task
         if ($this->ticks > 0) {
             $this->ticks--;
         } else {
-            if (is_null($this->sender) || !$this->sender->getPlayer()->isOnline() || is_null($this->target) || !$this->target->getPlayer()->isOnline() || is_null($this->clan) || $this->clan->deleted) return;
+            if ($this->clan->deleted) return;
             if ($this->clan->isInvited($this->target)) {
                 $this->plugin->expire($this->sender, $this->target, $this->clan);
             }
