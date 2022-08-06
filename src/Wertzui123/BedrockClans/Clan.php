@@ -353,8 +353,8 @@ class Clan
     {
         $target->getPlayer()->sendMessage(Main::getInstance()->getMessage('command.invite.target', ['{clan}' => $this->getDisplayName(), '{player}' => $sender->getPlayer()->getName()]));
         $this->addInvite($target);
-        $task = new InviteTask(Main::getInstance(), $sender, $target, $sender->getClan(), Main::getInstance()->getConfig()->get('invitation_expire_time') * 20);
-        $handle = Main::getInstance()->getScheduler()->scheduleRepeatingTask($task, 1);
+        $task = new InviteTask(Main::getInstance(), $sender, $target, $sender->getClan());
+        $handle = Main::getInstance()->getScheduler()->scheduleDelayedTask($task, Main::getInstance()->getConfig()->get('invitation_expire_time') * 20);
         $task->setHandler($handle);
     }
 
