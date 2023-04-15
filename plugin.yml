@@ -1,12 +1,15 @@
 name: BedrockClans
 main: Wertzui123\BedrockClans\Main
-version: 3.7
-api: 4.0.0
+version: 3.8
+api: 5.0.0
 load: POSTWORLD
 author: Wertzui123
 description: An advanced PocketMine-MP clan plugin with many creative features
 website: https://github.com/Wertzui123/BedrockClans
 permissions:
+  bedrockclans.command.clan:
+    default: true
+    description: Allows you to use /clan
   bedrockclans.command.join:
     default: op
     description: Allows you to use /clan join

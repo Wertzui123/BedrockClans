@@ -2,6 +2,7 @@
 command:
   clan:
     usage: "§cUsage: /clan <subcommand: string>"
+    noPermission: "§cYou cannot use this command!"
     cannotUseSubcommand: "§cYou cannot use this subcommand!"
   accept:
     alreadyInClan: "§cYou are already in a clan!"

@@ -46,6 +46,7 @@ JetBrains supports me in the development of BedrockClans.
 # Permissions
 | Permission                      | Description                                  | Default |
 |---------------------------------|----------------------------------------------|---------|
+| bedrockclans.command.clan       | Allows you to use `/clan`                    | true    |
 | bedrockclans.command.join       | Allows you to use `/clan join`               | op      |
 | bedrockclans.command.create     | Allows you to use `/clan create`             | op      |
 | bedrockclans.create.cost.bypass | Allows you to bypass the clan creation costs | false   |
