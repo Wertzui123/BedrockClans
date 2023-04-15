@@ -102,6 +102,7 @@ command:
   sethome:
     disabled: "§cThis feature is disabled!"
     noClan: "§cYou need to be in a clan to use this feature!"
+    notLeader: "§cYou must be the leader of your clan to update the clan home!"
     success: "§aYour clan home was successfully updated to your current position."
   withdraw:
     disabled: "§cThis feature is disabled!"
