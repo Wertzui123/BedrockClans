@@ -97,6 +97,7 @@ command:
     success: "§aYou successfully promoted §b{player} §ato {rank}§a."
   setcolor:
     noClan: "§cYou need to be in a clan to use this feature!"
+    notLeader: "§cYou must be the leader of your clan to update the clan color!"
     invalidColor: "§aThis color is invalid! Please use the default minecraft color codes or english words."
     cancelled: "§cYou cannot set the color of your clan!"
     success: "§aYour clan color was successfully updated."
