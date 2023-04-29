@@ -3,7 +3,7 @@
 # Don't edit this if you don't know what you're doing
 config-version: 3.8.1
 # Banned clan names
-banned_clan_names: 
+banned_clan_names:
  - Hacker
  - Owner
  - Admin
