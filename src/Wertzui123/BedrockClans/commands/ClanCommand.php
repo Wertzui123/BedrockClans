@@ -38,15 +38,12 @@ class ClanCommand extends Command
     {
         parent::__construct($data['command'], $data['description'], $data['usage'], $data['aliases']);
         $this->setPermissions(['bedrockclans.command.clan']);
+        $this->setPermissionMessage($plugin->getMessage('command.clan.noPermission'));
         $this->plugin = $plugin;
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args)
     {
-        if (!$sender->hasPermission($this->getPermissions()[0])) {
-            $sender->sendMessage($this->plugin->getMessage('command.clan.noPermission'));
-            return;
-        }
         if (!isset($args[0])) {
             $sender->sendMessage($this->plugin->getMessage('command.clan.usage'));
             return;
