@@ -22,7 +22,7 @@ class CreateSubcommand extends Subcommand
             return;
         }
         if (!isset($args[0])) {
-            $sender->sendMessage($this->plugin->getMessage('command.create.passClan'));
+            $sender->sendMessage($this->plugin->getMessage('command.create.passName'));
             return;
         }
         $name = implode(' ', $args);
@@ -31,7 +31,7 @@ class CreateSubcommand extends Subcommand
             return;
         }
         if (!Clan::isValidName($name)) {
-            $sender->sendMessage($this->plugin->getMessage('command.create.bannedName'));
+            $sender->sendMessage($this->plugin->getMessage('command.create.invalidName'));
             return;
         }
         if ($this->plugin->getConfig()->get('create_costs') && !is_null($this->plugin->getServer()->getPluginManager()->getPlugin('EconomyAPI'))) {

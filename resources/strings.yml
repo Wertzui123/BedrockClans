@@ -18,9 +18,9 @@ command:
     off: "§aYou are no longer in the clan chat mode."
   create:
     alreadyInClan: "§cYou are already in a clan!"
-    passClan: "§cPlease pass a clan!"
+    passName: "§cPlease pass a name for your new clan!"
     clanExists: "§cThere already is a clan by that name!"
-    bannedName: "§cThis name is banned!"
+    invalidName: "§cThis name is invalid/not allowed on this server!"
     notEnoughMoney: "§cYou don't have enough money (§6{price}§c) to create a clan!"
     success: "§aYou successfully created the clan {clan}§a."
   delete:

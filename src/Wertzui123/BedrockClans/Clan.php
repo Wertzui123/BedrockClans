@@ -461,7 +461,7 @@ class Clan
      */
     public static function isValidName(string $name): bool
     {
-        return !in_array($name, Main::getInstance()->getConfig()->get('banned_clan_names'));
+        return preg_match(Main::getInstance()->getConfig()->get('clan_name_regex'), $name) && !in_array($name, Main::getInstance()->getConfig()->get('banned_clan_names'));
     }
 
     /**

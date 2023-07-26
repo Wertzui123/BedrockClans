@@ -16,7 +16,7 @@ JetBrains supports me in the development of BedrockClans.
 * Clan creation costs (using EconomyAPI)
 * Clan chat
 * Clan homes
-* Blacklisted clan names
+* Clan name restrictions
 * ...
 
 # Commands
