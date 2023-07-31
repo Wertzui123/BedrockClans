@@ -1,6 +1,6 @@
 name: BedrockClans
 main: Wertzui123\BedrockClans\Main
-version: "3.9"
+version: "3.10"
 api: 5.0.0
 load: POSTWORLD
 author: Wertzui123

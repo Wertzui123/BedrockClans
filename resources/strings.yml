@@ -1,4 +1,5 @@
 ---
+prefix: "§l§sBedrock§qClans §r§7>> §r"
 command:
   clan:
     usage: "§cUsage: /clan <subcommand: string>"

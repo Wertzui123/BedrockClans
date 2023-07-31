@@ -29,7 +29,7 @@ class Main extends PluginBase
     private $withdrawCooldownsFile;
     private $players = [];
 
-    const CONFIG_VERSION = '3.9';
+    const CONFIG_VERSION = '3.10';
 
     public function onEnable(): void
     {
@@ -52,7 +52,7 @@ class Main extends PluginBase
         }
         $this->withdrawCooldownsFile = new Config($this->getDataFolder() . 'withdrawCooldowns.json', Config::JSON);
         $this->loadClans();
-        $this->prefix = (string)$this->getConfig()->get('prefix');
+        $this->prefix = $this->getString('prefix');
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         if ($this->getServer()->getPluginManager()->getPlugin('ScoreHud') !== null) {
             $this->getServer()->getPluginManager()->registerEvents(new ScoreHudListener($this), $this);
