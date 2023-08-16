@@ -6,7 +6,6 @@ namespace Wertzui123\BedrockClans\events\player;
 
 use pocketmine\event\Cancellable;
 use pocketmine\event\CancellableTrait;
-use pocketmine\player\Player;
 
 class OfflinePlayerRankChangeEvent extends OfflinePlayerEvent implements Cancellable
 {
@@ -19,7 +18,7 @@ class OfflinePlayerRankChangeEvent extends OfflinePlayerEvent implements Cancell
 
     /**
      * OfflinePlayerRankChangeEvent constructor.
-     * @param Player $player
+     * @param string $player
      * @param string $oldRank
      * @param string $newRank
      */
