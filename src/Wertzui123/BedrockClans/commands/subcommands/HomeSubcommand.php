@@ -34,7 +34,7 @@ class HomeSubcommand extends Subcommand
             $sender->sendMessage($this->plugin->getMessage('command.home.noHome'));
             return;
         }
-        if (is_null($clan->getHome()->getWorld())) {
+        if (is_null($clan->getHome()->world)) {
             $this->plugin->getServer()->getWorldManager()->loadWorld($clan->homeLevel);
             $home = $clan->getHome();
             $home = new Location($home->getX(), $home->getY(), $home->getZ(), $this->plugin->getServer()->getWorldManager()->getWorldByName($clan->homeLevel), $home->getYaw(), $home->getPitch());
