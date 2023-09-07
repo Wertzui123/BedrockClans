@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Wertzui123\BedrockClans\events\clan;
 
 use pocketmine\event\Event;
