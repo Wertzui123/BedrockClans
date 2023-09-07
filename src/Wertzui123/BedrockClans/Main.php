@@ -133,10 +133,10 @@ class Main extends PluginBase
     }
 
     /**
-     * Returns all clans found in the database
+     * Returns all the files for all clans found in the database
      * @return array|false
      */
-    public function allClans()
+    public function getAllClanFiles()
     {
         return array_merge(glob($this->getDataFolder() . 'clans/*.json'), glob($this->getDataFolder() . 'clans/*.yml'));
     }
@@ -146,7 +146,7 @@ class Main extends PluginBase
      */
     private function loadClans()
     {
-        foreach ($this->allClans() as $clan) {
+        foreach ($this->getAllClanFiles() as $clan) {
             $offset = strrpos($clan, '/') + 1;
             $endOfName = strrpos($clan, '.');
             $length = strlen($clan) - $offset - (strlen($clan) - $endOfName);
