@@ -56,8 +56,7 @@ If you want to switch from another clan/factions plugin to BedrockClans, you can
 * <a href="https://github.com/Wertzui123/FactionsPro2BedrockClans">FactionsPro</a>
 
 # PureChat integration
-PureChat integration is currently not possible anymore.
-<br>I may bring it back in the future.
+Check out https://github.com/fernanACM/PureChat if you want to use BedrockClans with PureChat.
 
 # ScoreHud integration
 BedrockClans has built-in support for <a href="https://github.com/Ifera/ScoreHud">ScoreHud</a>.
