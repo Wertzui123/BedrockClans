@@ -29,7 +29,7 @@ class Clan
     /** @var string */
     private $leader;
     /** @var string */
-    public $color = 'f';
+    public $color;
     /** @var BCPlayer[] */
     private $invites = [];
     /** @var string */
