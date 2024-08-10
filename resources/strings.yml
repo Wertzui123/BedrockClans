@@ -107,6 +107,13 @@ command:
     noClan: "§cYou need to be in a clan to use this feature!"
     notLeader: "§cYou must be the leader of your clan to update the clan home!"
     success: "§aYour clan home was successfully updated to your current position."
+  setminimuminviterank:
+    noClan: "§cYou need to be in a clan to use this feature!"
+    noPermission: "§cYou are not allowed to chang the minimum rank required to invite people into your clan!"
+    passNumber: "§cPlease pass a rank!"
+    notFound: "§cThere is no rank by this name!"
+    cancelled: "§cYou cannot change the minimum rank required to invite people into your clan!"
+    success: "§aThe minimum rank required to invite people into your clan was successfully updated to {rank}§a."
   withdraw:
     disabled: "§cThis feature is disabled!"
     noClan: "§cYou need to be in a clan to use this feature!"

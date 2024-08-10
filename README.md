@@ -22,26 +22,27 @@ JetBrains supports me in the development of BedrockClans.
 # Commands
 **Main command:** /clan
 
-| Subcommand | Usage                 | Description                                        |
-|------------|-----------------------|----------------------------------------------------|
-| help       | help                  | Displays a list of available commands              |
-| create     | create \<clanname>    | Creates a clan                                     |
-| demote     | demote \<playername>  | Demotes a player                                   |
-| deposit    | deposit \<amount>     | Deposits money to the clan bank                    |
-| info       | info \[clanname]      | Gives you information about your/a clan            |
-| invite     | invite \<playername>  | Invites a player to your clan                      |
-| accept     | accept \<clanname>    | Accepts a clan invitation                          |
-| join       | join \<clanname>      | Joins a clan (only for staff)                      |
-| leave      | leave                 | Leaves your clan clan                              |
-| leader     | leader \<playername>  | Promotes a player to the new clan leader           |
-| chat       | chat \<message>       | Sends a message to all online members of your clan |
-| kick       | kick \<playername>    | Kicks the given player from your clan              |
-| delete     | delete                | Deletes your clan                                  |
-| promote    | promote \<playername> | Promotes a player                                  |
-| home       | home                  | Teleports you to your clan's home                  |
-| sethome    | sethome               | Updates your clan's home                           |
-| withdraw   | withdraw \<amount>    | Withdraws money from the clan bank                 |
-| about      | about                 | Shows credits and the version of BedrockClans      |
+| Subcommand           | Usage                           | Description                                                        |
+|----------------------|---------------------------------|--------------------------------------------------------------------|
+| help                 | help                            | Displays a list of available commands                              |
+| create               | create <clanname>               | Creates a clan                                                     |
+| demote               | demote <playername>             | Demotes a player                                                   |
+| deposit              | deposit <amount>                | Deposits money to the clan bank                                    |
+| info                 | info [clanname]                 | Gives you information about your/a clan                            |
+| invite               | invite <playername>             | Invites a player to your clan                                      |
+| accept               | accept <clanname>               | Accepts a clan invitation                                          |
+| join                 | join <clanname>                 | Joins a clan (only for staff)                                      |
+| leave                | leave                           | Leaves your clan clan                                              |
+| leader               | leader <playername>             | Promotes a player to the new clan leader                           |
+| chat                 | chat <message>                  | Sends a message to all online members of your clan                 |
+| kick                 | kick <playername>               | Kicks the given player from your clan                              |
+| delete               | delete                          | Deletes your clan                                                  |
+| promote              | promote <playername>            | Promotes a player                                                  |
+| home                 | home                            | Teleports you to your clan's home                                  |
+| sethome              | sethome                         | Updates your clan's home                                           |
+| setminimuminviterank | setminimuminviterank <clanrank> | Specifies the minimum rank required to invite people into the clan |
+| withdraw             | withdraw <amount>               | Withdraws money from the clan bank                                 |
+| about                | about                           | Shows credits and the version of BedrockClans                      |
 
 # Permissions
 | Permission                      | Description                                  | Default |

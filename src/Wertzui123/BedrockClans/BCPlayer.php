@@ -107,7 +107,7 @@ class BCPlayer
      */
     public function canInvite(): bool
     {
-        return Clan::rankToNumber($this->getClan()->getRank($this)) >= Clan::rankToNumber($this->plugin->getConfig()->get('minimum_invitation_rank', 'member'));
+        return Clan::rankToNumber($this->getClan()->getRank($this)) >= Clan::rankToNumber($this->getClan()->getMinimumInviteRank());
     }
 
     /**

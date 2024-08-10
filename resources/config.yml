@@ -1,7 +1,7 @@
 ---
 # BedrockClans | Copyright 2019 - 2023 Wertzui123
 # Don't edit this if you don't know what you're doing
-config-version: "3.10"
+config-version: "3.11"
 # Regex for valid clan names; see https://regexr.com/ for help
 clan_name_regex: "/^[a-zA-Z0-9_]{3,16}$/"
 # Banned clan names
@@ -43,8 +43,9 @@ chat:
 # Whether /clan home should be enabled or disabled
 home:
  enabled: true
-# From which rank on players should be able to invite other people into their clan
-minimum_invitation_rank: member
+# From which rank on players should be able to invite other people into their clan by default
+# Note: Clan leaders can manually change this setting for their clan
+default_minimum_invite_rank: member
 # How many seconds an invitation is valid
 invitation_expire_time: 3000
 # The display-names and colors for the clan ranks

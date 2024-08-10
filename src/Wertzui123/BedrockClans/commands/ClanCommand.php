@@ -24,6 +24,7 @@ use Wertzui123\BedrockClans\commands\subcommands\LeaveSubcommand;
 use Wertzui123\BedrockClans\commands\subcommands\PromoteSubcommand;
 use Wertzui123\BedrockClans\commands\subcommands\SetColorSubcommand;
 use Wertzui123\BedrockClans\commands\subcommands\SetHomeSubcommand;
+use Wertzui123\BedrockClans\commands\subcommands\SetMinimumInviteRankSubcommand;
 use Wertzui123\BedrockClans\commands\subcommands\Subcommand;
 use Wertzui123\BedrockClans\commands\subcommands\WithdrawSubcommand;
 use Wertzui123\BedrockClans\Main;
@@ -100,6 +101,8 @@ class ClanCommand extends Command
                 return new SetColorSubcommand($this->plugin);
             case 'sethome':
                 return new SetHomeSubcommand($this->plugin);
+            case 'setminimuminviterank':
+                return new SetMinimumInviteRankSubcommand($this->plugin);
             case 'withdraw':
                 return new WithdrawSubcommand($this->plugin);
         }

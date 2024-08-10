@@ -8,6 +8,7 @@ use pocketmine\entity\Location;
 use pocketmine\player\Player;
 use pocketmine\utils\Config;
 use Wertzui123\BedrockClans\events\clan\ClanColorChangeEvent;
+use Wertzui123\BedrockClans\events\clan\ClanMinimumInviteRankChangeEvent;
 use Wertzui123\BedrockClans\events\player\OfflinePlayerRankChangeEvent;
 use Wertzui123\BedrockClans\events\player\PlayerRankChangeEvent;
 use Wertzui123\BedrockClans\tasks\InviteTask;
@@ -31,6 +32,8 @@ class Clan
     public $color = 'f';
     /** @var BCPlayer[] */
     private $invites = [];
+    /** @var string */
+    private $minimumInviteRank;
     /** @var int */
     private $bank;
     /** @var Location|null */
@@ -47,11 +50,12 @@ class Clan
      * @param Config|null $file
      * @param string|null $leader
      * @param string[]|null $members
+     * @param string|null $minimumInviteRank
      * @param string|null $color
      * @param int|null $bank
      * @param Location|null $home
      */
-    public function __construct(Main $plugin, string $name, ?Config $file = null, ?int $creationDate = null, ?string $leader = null, ?array $members = null, ?string $color = null, ?int $bank = null, ?Location $home = null)
+    public function __construct(Main $plugin, string $name, ?Config $file = null, ?int $creationDate = null, ?string $leader = null, ?array $members = null, ?string $minimumInviteRank = null, ?string $color = null, ?int $bank = null, ?Location $home = null)
     {
         $this->plugin = $plugin;
         $this->name = $name;
@@ -73,6 +77,7 @@ class Clan
             }
             $this->members = $members;
         }
+        $this->minimumInviteRank = $minimumInviteRank ?? $this->getFile()->get('minimumInviteRank', $plugin->getConfig()->get('default_minimum_invite_rank', 'member'));
         $this->color = $color ?? $this->getFile()->get('color', 'f');
         $this->bank = $bank ?? $this->getFile()->get('bank', 0);
         if ($this->plugin->getConfig()->getNested('home.enabled', true) === true) { // TODO: This will delete already existing homes when the config value is changed to false
@@ -321,6 +326,29 @@ class Clan
     }
 
     /**
+     * Returns the minimum rank required to invite players to the clan
+     * @return string
+     */
+    public function getMinimumInviteRank(): string
+    {
+        return $this->minimumInviteRank;
+    }
+
+    /**
+     * Changes the minimum rank required to invite players to the clan
+     * @param string $rank
+     * @return bool
+     */
+    public function setMinimumInviteRank(string $rank)
+    {
+        $event = new ClanMinimumInviteRankChangeEvent($this, $this->minimumInviteRank, $rank);
+        $event->call();
+        if ($event->isCancelled()) return false;
+        $this->minimumInviteRank = $rank;
+        return true;
+    }
+
+    /**
      * Returns how much money is stored on the clan bank
      * @return int
      */
@@ -380,6 +408,7 @@ class Clan
         $file->set('creationDate', $this->getCreationDate());
         $file->set('members', $this->members); // not getMembers() because it doesn't return the ranks
         $file->set('leader', $this->getLeader());
+        $file->set('minimumInviteRank', $this->getMinimumInviteRank());
         $file->set('color', $this->getColor());
         $file->set('bank', $this->getBank());
         if (!is_null($home = $this->getHome())) {
