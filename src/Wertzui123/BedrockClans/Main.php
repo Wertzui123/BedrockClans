@@ -18,8 +18,6 @@ use pocketmine\utils\ConfigLoadException;
 class Main extends PluginBase
 {
 
-    // TODO: UIs
-
     private static $instance;
     private $prefix;
     private $clans = [];
