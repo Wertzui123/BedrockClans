@@ -80,11 +80,11 @@ class Clan
         $this->minimumInviteRank = $minimumInviteRank ?? $this->getFile()->get('minimumInviteRank', $plugin->getConfig()->get('default_minimum_invite_rank', 'member'));
         $this->color = $color ?? $this->getFile()->get('color', 'f');
         $this->bank = $bank ?? $this->getFile()->get('bank', 0);
-            if (is_null($home) && $this->getFile()->exists('home')) {
-                $this->homeLevel = $this->getFile()->getNested('home.world', 'world');
-                $this->home = new Location($this->getFile()->getNested('home.x', 0), $this->getFile()->getNested('home.y', 0), $this->getFile()->getNested('home.z', 0), $this->plugin->getServer()->getWorldManager()->getWorldByName($this->homeLevel), $this->getFile()->getNested('home.yaw', 0), $this->getFile()->getNested('home.pitch', 0));
-            } else {
-                $this->home = $home;
+        if (is_null($home) && $this->getFile()->exists('home')) {
+            $this->homeLevel = $this->getFile()->getNested('home.world', 'world');
+            $this->home = new Location($this->getFile()->getNested('home.x', 0), $this->getFile()->getNested('home.y', 0), $this->getFile()->getNested('home.z', 0), $this->plugin->getServer()->getWorldManager()->getWorldByName($this->homeLevel), $this->getFile()->getNested('home.yaw', 0), $this->getFile()->getNested('home.pitch', 0));
+        } else {
+            $this->home = $home;
         }
     }
 
