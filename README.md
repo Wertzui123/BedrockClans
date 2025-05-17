@@ -1,7 +1,7 @@
 <h1 align="center">BedrockClans</h1>
 <p align="center">
 An advanced PocketMine-MP clan plugin with many creative features.
-<br>The .phar can be found on <a href="https://poggit.pmmp.io/ci/Wertzui123/BedrockClans/BedrockClans/">poggit</a>.
+<br>The .phar can be found on <a href="https://poggit.pmmp.io/ci/Wertzui123/BedrockClans/BedrockClans/">Poggit</a>.
 </p>
 
 # JetBrains PHPStorm
