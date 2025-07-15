@@ -263,7 +263,11 @@ class Main extends PluginBase
     public function getClanByPlayer($player)
     {
         $player = strtolower($player instanceof BCPlayer ? $player->getPlayer()->getName() : ($player instanceof Player ? $player->getName() : $player));
-        return $this->getClan($this->getPlayersFile()->get($player, null));
+        $clanName = $this->getPlayersFile()->get($player, null);
+        if ($clanName == null){
+            return null;
+        }
+        return $this->getClan($clanName);
     }
 
     /**
