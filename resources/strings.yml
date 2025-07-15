@@ -121,6 +121,7 @@ command:
     passNumber: "§cPlease pass a valid number!"
     tooMuch: "§cYou cannot withdraw this much!"
     success: "§aYou have successfully withdrawn §6{amount} §amoney from your clan's bank account."
+    failed: "§cThe withdrawal has somehow failed; you have not received any money and your clan's bank balance has not changed either."
 clan:
   join:
     members: "§b{player} §6joined your clan."

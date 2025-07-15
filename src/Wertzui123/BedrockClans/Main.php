@@ -6,6 +6,7 @@ namespace Wertzui123\BedrockClans;
 
 use pocketmine\player\OfflinePlayer;
 use pocketmine\player\Player;
+use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use Wertzui123\BedrockClans\commands\ClanCommand;
@@ -27,7 +28,7 @@ class Main extends PluginBase
     private $withdrawCooldownsFile;
     private $players = [];
 
-    const CONFIG_VERSION = '3.11';
+    const CONFIG_VERSION = '3.12';
 
     public function onEnable(): void
     {
@@ -137,6 +138,15 @@ class Main extends PluginBase
     public function getAllClanFiles()
     {
         return array_merge(glob($this->getDataFolder() . 'clans/*.json'), glob($this->getDataFolder() . 'clans/*.yml'));
+    }
+
+    /**
+     * Returns the plugin instance of the economy plugin defined in the config or null if not set/found
+     * @return Plugin|null
+     */
+    public function getEconomyPlugin(): ?Plugin
+    {
+        return $this->getServer()->getPluginManager()->getPlugin($this->getConfig()->get('economy_plugin'));
     }
 
     /**
@@ -314,12 +324,34 @@ class Main extends PluginBase
             }
         }
         if ($clan->getBank() > 0) {
+            $clanname = $clan->getName();
+            $leadername = $clan->getLeaderWithRealName();
+            $amount = $clan->getBank();
+            $warnMessage = "Clan " . $clanname . " was deleted, but remaining bank balance (" . $amount . ") could somehow not be transfered to " . $leadername;
             if (!is_null($this->getServer()->getPlayerExact($clan->getLeaderWithRealName()))) {
-                $this->getPlayer($this->getServer()->getPlayerExact($clan->getLeaderWithRealName()))->addMoney($clan->getBank());
-                $this->getServer()->getPlayerExact($clan->getLeaderWithRealName())->sendMessage($this->getMessage('clan.delete.money', ['{amount}' => $clan->getBank()]));
+                $this->getPlayer($this->getServer()->getPlayerExact($leadername))->tryAddMoney($amount, function (bool $success) use ($warnMessage) {
+                    if (!$success) {
+                        $this->getLogger()->warn($warnMessage);
+                    }
+                });
+                $this->getServer()->getPlayerExact($clan->getLeaderWithRealName())->sendMessage($this->getMessage('clan.delete.money', ['{amount}' => $amount]));
             } else {
-                if (!is_null($this->getServer()->getPluginManager()->getPlugin('EconomyAPI'))) {
-                    $this->getServer()->getPluginManager()->getPlugin('EconomyAPI')->addMoney($clan->getLeaderWithRealName(), $clan->getBank());
+                switch ($this->getEconomyPlugin()?->getName()) {
+                    case 'EconomyAPI':
+                        if ($this->getEconomyPlugin()->addMoney($leadername, $amount) !== $this->getEconomyPlugin()::RET_SUCCESS) {
+                            $this->getLogger()->warn($warnMessage);
+                        }
+                        break;
+                    case 'BedrockEconomy':
+                        \cooldogedev\BedrockEconomy\api\BedrockEconomyAPI::CLOSURE()->add(username: $leadername, xuid: $this->getServer()->getOfflinePlayerData($leadername)->getString(Player::TAG_LAST_KNOWN_XUID), amount: $amount, decimals: 0, onSuccess: function (): void {}, onError: function () use ($warnMessage): void {
+                            $this->getLogger()->warn($warnMessage);
+                        });
+                        break;
+                    default:
+                        $this->plugin->getEconomyPlugin()->addMoneyAsync($leadername, $amount, function (): void {}, function () use ($warnMessage): void {
+                            $this->getLogger()->warn($warnMessage);
+                        });
+                        break;
                 }
             }
         }

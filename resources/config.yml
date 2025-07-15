@@ -1,7 +1,7 @@
 ---
-# BedrockClans | Copyright 2019 - 2023 Wertzui123
+# BedrockClans | Copyright 2019 - 2025 Wertzui123
 # Don't edit this if you don't know what you're doing
-config-version: "3.11"
+config-version: "3.12"
 # Regex for valid clan names; see https://regexr.com/ for help
 clan_name_regex: "/^[a-zA-Z0-9_]{3,16}$/"
 # Banned clan names
@@ -26,7 +26,12 @@ command:
   description: Create, delete and manage clans
   usage: "/clan <subcommand: string>"
   aliases: ['clans']
-# Should /clan create cost money? (EconomyAPI)
+# The economy plugin used on your server; if you leave this blank, you must also disable create_costs
+# Currently supported economy plugins: EconomyAPI and BedrockEconomy
+# Furthermore, you can also use other (custom) economy plugins, as long as they export certain methods
+# See the following wiki entry for an explanation of this feature: https://github.com/Wertzui123/BedrockClans/wiki/Using-custom-economy-plugins
+economy_plugin: "EconomyAPI"
+# Should /clan create cost money?
 create_costs: false
 # How much money it should cost to create a clan when create_costs is enabled
 clan_create_costs: 100

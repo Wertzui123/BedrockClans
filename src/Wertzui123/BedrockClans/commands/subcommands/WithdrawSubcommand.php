@@ -37,17 +37,23 @@ class WithdrawSubcommand extends Subcommand
             return;
         }
         $clan = $player->getClan();
-        $amount = (int)$args[0];
+        $amount = (int) $args[0];
         if ($amount > ($clan->getBank() * (0.01 * Clan::getMaxWithdrawAmount($player->getClan()->getRank($player)))) || $amount > $clan->getBank()) {
             $sender->sendMessage($this->plugin->getMessage('command.withdraw.tooMuch'));
             return;
         }
         $clan->setBank($clan->getBank() - $amount);
-        $player->addMoney($amount);
-        if (!$player->isLeader()) {
-            $player->addWithdrawCooldown(Main::getInstance()->getConfig()->getNested('bank.withdraw.cooldown', 24) * 60 * 60);
-        }
-        $sender->sendMessage($this->plugin->getMessage('command.withdraw.success', ['{amount}' => $amount]));
+        $player->tryAddMoney($amount, function (bool $success) use ($sender, $player, $clan, $amount) {
+            if ($success) {
+                if (!$player->isLeader()) {
+                    $player->addWithdrawCooldown(Main::getInstance()->getConfig()->getNested('bank.withdraw.cooldown', 24) * 60 * 60);
+                }
+                $sender->sendMessage($this->plugin->getMessage('command.withdraw.success', ['{amount}' => $amount]));
+            } else {
+                $clan->setBank($clan->getBank() + $amount);
+                $sender->sendMessage($this->plugin->getMessage('command.withdraw.failed'));
+            }
+        });
     }
 
 }

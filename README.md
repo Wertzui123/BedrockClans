@@ -11,9 +11,11 @@ JetBrains supports me in the development of BedrockClans.
 # Features
 * Highly customizable
 * Multiple clan ranks
-* Clan bank (using EconomyAPI)
+* Advanced economy integration
+    * Support for different economy plugins
+    * Clan bank
+    * Clan creation costs
 * ScoreHud integration
-* Clan creation costs (using EconomyAPI)
 * Clan chat
 * Clan homes
 * Clan name restrictions
@@ -75,7 +77,7 @@ You can contact me in <a href="https://discord.gg/eGhZGtF">my discord server</a>
 # License
 BedrockClans is licensed under the GNU General Public License v3.0.
 <br>For more information: https://choosealicense.com/licenses/gpl-3.0
-<br><code>© 2019 - 2024 Wertzui123</code>
+<br><code>© 2019 - 2025 Wertzui123</code>
 
 # Credits
 BedrockClans was written by Wertzui123.

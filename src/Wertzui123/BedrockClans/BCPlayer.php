@@ -141,38 +141,67 @@ class BCPlayer
 
     /**
      * @internal
-     * Returns how much money is on the player's economy api account
-     * @return float
+     * Tries to add money to the given player's economy plugin account asynchronously
+     * @param int $amount
+     * @return void
      */
-    public function getMoney(): float
+    public function tryAddMoney(int $amount, callable $cb): void
     {
-        if (!is_null(Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI'))) {
-            return Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI')->myMoney($this->getPlayer());
+        switch ($this->plugin->getEconomyPlugin()?->getName()) {
+            case 'EconomyAPI':
+                if ($this->plugin->getEconomyPlugin()->addMoney($this->getPlayer(), $amount)) {
+                    $cb(true);
+                } else {
+                    $cb(false);
+                }
+                break;
+            case 'BedrockEconomy':
+                \cooldogedev\BedrockEconomy\api\BedrockEconomyAPI::CLOSURE()->add(username: $this->getPlayer()->getName(), xuid: $this->getPlayer()->getXuid(), amount: $amount, decimals: 0, onSuccess: function () use ($cb): void {
+                    $cb(true);
+                }, onError: function () use ($cb): void {
+                    $cb(false);
+                });
+                break;
+            default:
+                $this->plugin->getEconomyPlugin()->addMoneyAsync($this->getPlayer()->getName(), $amount, function () use ($cb): void {
+                    $cb(true);
+                }, function () use ($cb): void {
+                    $cb(false);
+                });
+                break;
         }
-        return 0;
     }
 
     /**
      * @internal
-     * Adds money to the given player's economy api account
-     * @param float $amount
+     * Tries to remove money from the given player's economy plugin account asynchronously
+     * @param int $amount
+     * @return void
      */
-    public function addMoney(float $amount)
+    public function tryRemoveMoney(int $amount, callable $cb): void
     {
-        if (!is_null(Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI'))) {
-            Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI')->addMoney($this->getPlayer(), $amount);
-        }
-    }
-
-    /**
-     * @internal
-     * Removes money from the given player's economy api account
-     * @param float $amount
-     */
-    public function removeMoney(float $amount)
-    {
-        if (!is_null(Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI'))) {
-            Server::getInstance()->getPluginManager()->getPlugin('EconomyAPI')->reduceMoney($this->getPlayer(), $amount);
+        switch ($this->plugin->getEconomyPlugin()?->getName()) {
+            case 'EconomyAPI':
+                if ($this->plugin->getEconomyPlugin()->myMoney($this->getPlayer()) >= $amount && $this->plugin->getEconomyPlugin()->reduceMoney($this->getPlayer(), $amount)) {
+                    $cb(true);
+                } else {
+                    $cb(false);
+                }
+                break;
+            case 'BedrockEconomy':
+                \cooldogedev\BedrockEconomy\api\BedrockEconomyAPI::CLOSURE()->subtract(username: $this->getPlayer()->getName(), xuid: $this->getPlayer()->getXuid(), amount: $amount, decimals: 0, onSuccess: function () use ($cb): void {
+                    $cb(true);
+                }, onError: function () use ($cb): void {
+                    $cb(false);
+                });
+                break;
+            default:
+                $this->plugin->getEconomyPlugin()->removeMoneyAsync($this->getPlayer()->getName(), $amount, function () use ($cb): void {
+                    $cb(true);
+                }, function () use ($cb): void {
+                    $cb(false);
+                });
+                break;
         }
     }
 

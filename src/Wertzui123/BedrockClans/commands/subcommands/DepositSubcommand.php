@@ -27,18 +27,20 @@ class DepositSubcommand extends Subcommand
             return;
         }
         $clan = $player->getClan();
-        if (!isset($args[0]) || !is_numeric($args[0]) || (int)$args[0] <= 0) {
+        if (!isset($args[0]) || !is_numeric($args[0]) || (int) $args[0] <= 0) {
             $sender->sendMessage($this->plugin->getMessage('command.deposit.passNumber'));
             return;
         }
-        $amount = (int)$args[0];
-        if ($player->getMoney() < $amount) {
-            $sender->sendMessage($this->plugin->getMessage('command.deposit.tooMuch'));
-            return;
-        }
-        $clan->setBank($clan->getBank() + $amount);
-        $player->removeMoney($amount);
-        $sender->sendMessage($this->plugin->getMessage('command.deposit.success', ['{amount}' => $amount]));
+        $amount = (int) $args[0];
+        $player->tryRemoveMoney($amount, function (bool $success) use ($sender, $clan, $amount) {
+            if ($success) {
+                $clan->setBank($clan->getBank() + $amount);
+                $sender->sendMessage($this->plugin->getMessage('command.deposit.success', ['{amount}' => $amount]));
+            } else {
+                $sender->sendMessage($this->plugin->getMessage('command.deposit.tooMuch'));
+                return;
+            }
+        });
     }
 
 }

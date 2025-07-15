@@ -6,6 +6,7 @@ namespace Wertzui123\BedrockClans\commands\subcommands;
 
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
+use Wertzui123\BedrockClans\BCPlayer;
 use Wertzui123\BedrockClans\Clan;
 
 class CreateSubcommand extends Subcommand
@@ -36,17 +37,23 @@ class CreateSubcommand extends Subcommand
             $sender->sendMessage($this->plugin->getMessage('command.create.invalidName'));
             return;
         }
-        if ($this->plugin->getConfig()->get('create_costs') && !is_null($this->plugin->getServer()->getPluginManager()->getPlugin('EconomyAPI'))) {
-            if (!$sender->hasPermission('bedrockclans.create.cost.bypass')) {
-                $price = (int)$this->plugin->getConfig()->get('clan_create_costs');
-                if ($player->getMoney() >= $price) {
-                    $player->removeMoney($price);
+        if ($this->plugin->getConfig()->get('create_costs') && !is_null($this->plugin->getEconomyPlugin()) && !$sender->hasPermission('bedrockclans.create.costs.bypass')) {
+            $price = (int) $this->plugin->getConfig()->get('clan_create_costs');
+            $player->tryRemoveMoney($price, function (bool $success) use ($sender, $player, $name, $price) {
+                if ($success) {
+                    $this->actuallyCreateClan($sender, $player, $name);
                 } else {
                     $sender->sendMessage($this->plugin->getMessage('command.create.notEnoughMoney', ['{price}' => $price]));
                     return;
                 }
-            }
+            });
+        } else {
+            $this->actuallyCreateClan($sender, $player, $name);
         }
+    }
+
+    private function actuallyCreateClan(CommandSender $sender, BCPlayer $player, string $name)
+    {
         $sender->sendMessage($this->plugin->getMessage('command.create.success', ['{clan}' => $name]));
         $clan = $this->plugin->createClan($name, $player);
         $player->setClan($clan);
