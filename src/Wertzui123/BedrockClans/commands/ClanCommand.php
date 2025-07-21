@@ -65,6 +65,8 @@ class ClanCommand extends Command
     public function getSubCommand($name): ?Subcommand
     {
         switch ($name) {
+            case 'ui':
+                return new UiSubcommand($this->plugin);
             case 'about':
                 return new AboutSubcommand($this->plugin);
             case 'accept':
