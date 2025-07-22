@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Wertzui123\BedrockClans\commands\subcommands;
 
 use Wertzui123\BedrockClans\Main;
-use jojoe77777\FormAPI\CustomForm;
-use jojoe77777\FormAPI\SimpleForm;
+use Wertzui123\BedrockClans\form\CustomForm;
+use Wertzui123\BedrockClans\form\SimpleForm;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\Server;
