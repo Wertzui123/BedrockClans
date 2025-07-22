@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Wertzui123\BedrockClans\commands\subcommands;
 
-use jojoe77777\FormAPI\SimpleForm;
+use Wertzui123\BedrockClans\form\SimpleForm;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 
