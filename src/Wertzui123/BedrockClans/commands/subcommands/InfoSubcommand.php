@@ -44,7 +44,6 @@ class InfoSubcommand extends Subcommand
             : date($this->plugin->getConfig()->get('date_format'), $clan->getCreationDate());
 
         $form = new SimpleForm(function (Player $player, ?int $data): void {
-            // Tidak ada aksi setelah menutup form
         });
 
         $form->setTitle("§l§9Clan Info");
