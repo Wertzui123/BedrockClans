@@ -27,6 +27,7 @@ use Wertzui123\BedrockClans\commands\subcommands\SetHomeSubcommand;
 use Wertzui123\BedrockClans\commands\subcommands\SetMinimumInviteRankSubcommand;
 use Wertzui123\BedrockClans\commands\subcommands\Subcommand;
 use Wertzui123\BedrockClans\commands\subcommands\WithdrawSubcommand;
+use Wertzui123\BedrockClans\commands\subcommands\UiSubcommand;
 use Wertzui123\BedrockClans\Main;
 
 class ClanCommand extends Command
