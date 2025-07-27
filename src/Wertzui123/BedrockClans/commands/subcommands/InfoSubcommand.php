@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Wertzui123\BedrockClans\commands\subcommands;
 
+use Wertzui123\BedrockClans\form\SimpleForm;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 
 class InfoSubcommand extends Subcommand
 {
-
     public function canUse(CommandSender $sender): bool
     {
         return $sender instanceof Player;
@@ -17,13 +17,20 @@ class InfoSubcommand extends Subcommand
 
     public function execute(CommandSender $sender, array $args)
     {
+        if (!$sender instanceof Player) {
+            $sender->sendMessage("§You have to run this command in the game.");
+            return;
+        }
+
         $player = $this->plugin->getPlayer($sender);
+
         if (isset($args[0])) {
-            if (!$this->plugin->clanExists(implode(' ', $args))) {
+            $clanName = implode(" ", $args);
+            if (!$this->plugin->clanExists($clanName)) {
                 $sender->sendMessage($this->plugin->getMessage('command.info.invalidClan'));
                 return;
             }
-            $clan = $this->plugin->getClan(implode(' ', $args));
+            $clan = $this->plugin->getClan($clanName);
         } else {
             if (!$player->isInClan()) {
                 $sender->sendMessage($this->plugin->getMessage('command.info.noClan'));
@@ -31,7 +38,23 @@ class InfoSubcommand extends Subcommand
             }
             $clan = $player->getClan();
         }
-        $sender->sendMessage($this->plugin->getMessage('command.info.success', ['{name}' => $clan->getDisplayName(), '{creation_date}' => $clan->getCreationDate() < 0 ? $this->plugin->getConfig()->get('date_unknown') : date($this->plugin->getConfig()->get('date_format'), $clan->getCreationDate()), '{leader}' => $clan->getLeaderWithRealName(), '{members}' => implode(', ', $clan->getMembersWithRealName(true)), '{bank}' => $clan->getBank()]));
-    }
 
+        $creationDate = $clan->getCreationDate() < 0
+            ? $this->plugin->getConfig()->get('date_unknown')
+            : date($this->plugin->getConfig()->get('date_format'), $clan->getCreationDate());
+
+        $form = new SimpleForm(function (Player $player, ?int $data): void {
+        });
+
+        $form->setTitle("§l§9Clan Info");
+        $form->setContent(
+            "§fName Clan: §b" . $clan->getDisplayName() . "\n" .
+            "§fDate Created: §a" . $creationDate . "\n" .
+            "§fLeader: §e" . $clan->getLeaderWithRealName() . "\n" .
+            "§fMember: §d" . implode(", ", $clan->getMembersWithRealName(true)) . "\n" .
+            "§fMoney Clan: §6" . $clan->getBank()
+        );
+        $form->addButton("§cClosed", 0, "textures/ui/cancel");
+        $sender->sendForm($form);
+    }
 }

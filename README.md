@@ -17,6 +17,7 @@ JetBrains supports me in the development of BedrockClans.
     * Clan creation costs
 * RankSystem integration
 * ScoreHud integration
+* Clan UI
 * Clan chat
 * Clan homes
 * Flexible restrictions on clan names
