@@ -10,15 +10,16 @@ JetBrains supports me in the development of BedrockClans.
 
 # Features
 * Highly customizable
-* Multiple clan ranks
+* Multiple different clan ranks
 * Advanced economy integration
     * Support for different economy plugins
     * Clan bank
     * Clan creation costs
+* RankSystem integration
 * ScoreHud integration
 * Clan chat
 * Clan homes
-* Clan name restrictions
+* Flexible restrictions on clan names
 * ...
 
 # Commands
@@ -57,6 +58,9 @@ JetBrains supports me in the development of BedrockClans.
 # Switching to BedrockClans
 If you want to switch from another clan/factions plugin to BedrockClans, you can use these scripts to convert your old database to a BedrockClans compatible one:
 * <a href="https://github.com/Wertzui123/FactionsPro2BedrockClans">FactionsPro</a>
+
+# RankSystem integration
+Check out https://github.com/Wertzui123/BedrockClansTags4RankSystem if you want to use BedrockClans with RankSystem.
 
 # PureChat integration
 Check out https://github.com/fernanACM/PureChat if you want to use BedrockClans with PureChat.
