@@ -76,7 +76,7 @@ BedrockClans has built-in support for <a href="https://github.com/Ifera/ScoreHud
 | bedrockclans.clan.members | The number of members in the player's clan      |
 
 # Ideas, Questions and Support
-You can contact me in <a href="https://discord.gg/eGhZGtF">my discord server</a> or <a href="https://github.com/Wertzui123/BedrockClans/issues/new">create an issue</a>/<a href="https://github.com/Wertzui123/BedrockClans/discussions/new">start a discussion</a>.
+You can contact me by <a href="https://discord.gg/azPt6eJ">joining my Discord server</a> or by <a href="https://github.com/Wertzui123/BedrockClans/issues/new">creating an issue</a>/<a href="https://github.com/Wertzui123/BedrockClans/discussions/new">starting a discussion</a> here on GitHub.
 
 # License
 BedrockClans is licensed under the GNU General Public License v3.0.
