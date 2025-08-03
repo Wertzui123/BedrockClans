@@ -27,6 +27,7 @@ use Wertzui123\BedrockClans\commands\subcommands\SetHomeSubcommand;
 use Wertzui123\BedrockClans\commands\subcommands\SetMinimumInviteRankSubcommand;
 use Wertzui123\BedrockClans\commands\subcommands\Subcommand;
 use Wertzui123\BedrockClans\commands\subcommands\WithdrawSubcommand;
+use Wertzui123\BedrockClans\commands\subcommands\UiSubcommand;
 use Wertzui123\BedrockClans\Main;
 
 class ClanCommand extends Command
@@ -65,6 +66,8 @@ class ClanCommand extends Command
     public function getSubCommand($name): ?Subcommand
     {
         switch ($name) {
+            case 'ui':
+                return new UiSubcommand($this->plugin);
             case 'about':
                 return new AboutSubcommand($this->plugin);
             case 'accept':
